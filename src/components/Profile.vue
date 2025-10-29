@@ -60,12 +60,71 @@
       </div>
     </div>
 
+    <!-- 单词列表页面 -->
+    <WordList
+      v-if="showWordList"
+      :list-type="wordListType"
+      @back="showWordList = false"
+      @word-removed="loadData"
+    />
+
     <!-- 标签页内容 -->
-    <div class="tab-content">
-      <!-- 错误单词 -->
-      <div v-if="activeTab === 'errors'" class="error-words">
-        <div v-if="errorWords.length === 0" class="empty-state text-center py-8">
-          <div class="text-5xl mb-4">🎉</div>
+    <div v-else class="tab-content">
+      <!-- 错误单词统计 -->
+      <div v-if="activeTab === 'errors'" class="word-stats">
+        <div class="stats-overview glass-effect rounded-xl p-6 card-shadow mb-6">
+          <div class="text-center mb-6">
+            <div class="text-6xl mb-4">📊</div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+              错误单词统计
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              需要重点复习的单词
+            </p>
+          </div>
+
+          <!-- 统计卡片 -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="stat-card bg-red-50 dark:bg-red-900/20 rounded-lg p-4 text-center">
+              <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-1">
+                {{ errorWords.length }}
+              </div>
+              <div class="text-sm text-red-600 dark:text-red-400">
+                错误单词
+              </div>
+            </div>
+            <div class="stat-card bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4 text-center">
+              <div class="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-1">
+                {{ getTodayErrorCount() }}
+              </div>
+              <div class="text-sm text-orange-600 dark:text-orange-400">
+                今日新增
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作按钮 -->
+          <div class="flex gap-3">
+            <button
+              v-if="errorWords.length > 0"
+              @click="showWordListType('errors')"
+              class="flex-1 py-3 px-4 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors"
+            >
+              查看详细列表
+            </button>
+            <button
+              v-if="errorWords.length > 0"
+              @click="clearErrorWords"
+              class="py-3 px-4 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-xl font-medium hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
+            >
+              清空全部
+            </button>
+          </div>
+        </div>
+
+        <!-- 空状态 -->
+        <div v-if="errorWords.length === 0" class="empty-state glass-effect rounded-xl p-8 card-shadow text-center">
+          <div class="text-6xl mb-4">🎉</div>
           <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
             太棒了！没有错误单词
           </h3>
@@ -73,103 +132,74 @@
             继续保持，你的学习效果很好
           </p>
         </div>
+      </div>
 
-        <div v-else class="error-words-list">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-              错误单词 ({{ errorWords.length }})
+      <!-- 已学单词统计 -->
+      <div v-else-if="activeTab === 'learned'" class="word-stats">
+        <div class="stats-overview glass-effect rounded-xl p-6 card-shadow mb-6">
+          <div class="text-center mb-6">
+            <div class="text-6xl mb-4">🏆</div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+              已学单词统计
             </h3>
-            <button
-              @click="clearErrorWords"
-              class="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
-            >
-              清空
-            </button>
+            <p class="text-gray-600 dark:text-gray-400">
+              你已经掌握的单词
+            </p>
           </div>
 
-          <div class="space-y-3">
-            <div
-              v-for="word in errorWords"
-              :key="word.word"
-              class="error-word-item glass-effect rounded-lg p-4 card-shadow"
-            >
-              <div class="flex justify-between items-start">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-2">
-                    <span class="font-bold text-gray-800 dark:text-gray-200">
-                      {{ word.word }}
-                    </span>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">
-                      {{ word.meaning }}
-                    </span>
-                  </div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400">
-                    错误 {{ word.errorCount }} 次 ·
-                    最后错误：{{ formatDate(word.lastErrorDate) }}
-                  </div>
-                  <div v-if="word.userAnswer" class="text-xs text-red-600 dark:text-red-400 mt-1">
-                    你的答案：{{ word.userAnswer }}
-                  </div>
-                </div>
-                <button
-                  @click="retryWord(word)"
-                  class="ml-3 px-3 py-1 bg-primary-500 text-white text-sm rounded-full hover:bg-primary-600 transition-colors"
-                >
-                  重试
-                </button>
+          <!-- 统计卡片 -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="stat-card bg-green-50 dark:bg-green-900/20 rounded-lg p-4 text-center">
+              <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+                {{ learnedWords.length }}
+              </div>
+              <div class="text-sm text-green-600 dark:text-green-400">
+                已学单词
+              </div>
+            </div>
+            <div class="stat-card bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                {{ Math.round((learnedWords.length / (learnedWords.length + errorWords.length)) * 100) }}%
+              </div>
+              <div class="text-sm text-blue-600 dark:text-blue-400">
+                掌握率
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- 已学单词 -->
-      <div v-else-if="activeTab === 'learned'" class="learned-words">
-        <div v-if="learnedWords.length === 0" class="empty-state text-center py-8">
-          <div class="text-5xl mb-4">📚</div>
+          <!-- 掌握率进度条 -->
+          <div class="mb-6">
+            <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+              <span>学习进度</span>
+              <span>{{ Math.round((learnedWords.length / (learnedWords.length + errorWords.length)) * 100) }}%</span>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+              <div
+                class="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all duration-500"
+                :style="{ width: `${Math.round((learnedWords.length / (learnedWords.length + errorWords.length)) * 100)}%` }"
+              ></div>
+            </div>
+          </div>
+
+          <!-- 操作按钮 -->
+          <button
+            v-if="learnedWords.length > 0"
+            @click="showWordListType('learned')"
+            class="w-full py-3 px-4 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors"
+          >
+            查看详细列表
+          </button>
+        </div>
+
+        <!-- 空状态 -->
+        <div v-if="learnedWords.length === 0" class="empty-state glass-effect rounded-xl p-8 card-shadow text-center">
+          <div class="text-6xl mb-4">📚</div>
           <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
             开始你的学习之旅
           </h3>
           <p class="text-gray-600 dark:text-gray-400 text-sm">
             完成第一次学习后，这里会显示你已掌握的单词
           </p>
-        </div>
-
-        <div v-else class="learned-words-list">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-              已学单词 ({{ learnedWords.length }})
-            </h3>
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-              掌握率：{{ Math.round((learnedWords.length / (learnedWords.length + errorWords.length)) * 100) }}%
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div
-              v-for="word in learnedWords.slice(0, 20)"
-              :key="word.word"
-              class="learned-word-item bg-white dark:bg-gray-800 rounded-lg p-3 card-shadow"
-            >
-              <div class="font-medium text-gray-800 dark:text-gray-200 mb-1">
-                {{ word.word }}
-              </div>
-              <div class="text-xs text-gray-600 dark:text-gray-400">
-                {{ word.meaning }}
-              </div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                复习 {{ word.reviewCount || 1 }} 次
-              </div>
-            </div>
-          </div>
-
-          <div v-if="learnedWords.length > 20" class="text-center mt-4">
-            <button
-              class="text-primary-600 dark:text-primary-400 text-sm hover:text-primary-700 dark:hover:text-primary-300"
-            >
-              查看更多 ({{ learnedWords.length - 20 }} 个单词)
-            </button>
-          </div>
         </div>
       </div>
 
@@ -295,41 +325,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 重试单词模态框 -->
-    <div v-if="showRetryModal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="modal-content bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-sm w-full">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-          单词重试
-        </h3>
-        <div class="mb-4">
-          <div class="text-xl font-bold text-primary-600 dark:text-primary-400 mb-2">
-            {{ retryWordData.meaning }}
-          </div>
-          <input
-            v-model="retryAnswer"
-            type="text"
-            placeholder="请输入英文单词"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-            @keyup.enter="checkRetryAnswer"
-          />
-        </div>
-        <div class="flex gap-3">
-          <button
-            @click="closeRetryModal"
-            class="flex-1 py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-          >
-            取消
-          </button>
-          <button
-            @click="checkRetryAnswer"
-            class="flex-1 py-2 px-4 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
-          >
-            提交
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -342,8 +337,10 @@ import {
   getLearnedWords,
   removeErrorWord,
   updateStudyProgress,
-  getStudyTime
+  getStudyTime,
+  clearAllErrorWords
 } from '../utils/studyData'
+import WordList from './WordList.vue'
 
 // 标签页配置
 const tabs = [
@@ -359,15 +356,15 @@ const errorWords = ref([])
 const learnedWords = ref([])
 const studyTime = ref(0)
 
+// 页面状态
+const showWordList = ref(false)
+const wordListType = ref('errors')
+
 // 设置相关
 const isDarkMode = ref(false)
 const notificationsEnabled = ref(false)
 const assistModeEnabled = ref(true) // 默认开启辅助模式
 
-// 重试模态框
-const showRetryModal = ref(false)
-const retryWordData = ref({})
-const retryAnswer = ref('')
 
 // 深色模式控制
 const isDark = useDark({
@@ -411,42 +408,26 @@ const loadSettings = () => {
 // 清空错误单词
 const clearErrorWords = () => {
   if (confirm('确定要清空所有错误单词吗？')) {
-    localStorage.removeItem('learn_word_error_words')
+    clearAllErrorWords()
     errorWords.value = []
     showNotification('错误单词已清空')
   }
 }
 
-// 重试单词
-const retryWord = (word) => {
-  retryWordData.value = word
-  retryAnswer.value = ''
-  showRetryModal.value = true
+// 显示单词列表页面
+const showWordListType = (type) => {
+  wordListType.value = type
+  showWordList.value = true
 }
 
-// 检查重试答案
-const checkRetryAnswer = () => {
-  if (!retryAnswer.value.trim()) return
-
-  const isCorrect = retryAnswer.value.trim().toLowerCase() === retryWordData.value.word.toLowerCase()
-
-  if (isCorrect) {
-    removeErrorWord(retryWordData.value.word)
-    updateStudyProgress(true)
-    loadData()
-    closeRetryModal()
-    showNotification('回答正确！单词已从错误列表中移除', 'success')
-  } else {
-    showNotification('回答错误，请再试试', 'error')
-  }
+// 获取今日错误数量
+const getTodayErrorCount = () => {
+  const today = new Date().toDateString()
+  return errorWords.value.filter(word =>
+    new Date(word.lastErrorDate).toDateString() === today
+  ).length
 }
 
-// 关闭重试模态框
-const closeRetryModal = () => {
-  showRetryModal.value = false
-  retryWordData.value = {}
-  retryAnswer.value = ''
-}
 
 // 切换深色模式
 const toggleDarkMode = () => {

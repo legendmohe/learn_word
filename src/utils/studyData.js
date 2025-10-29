@@ -115,6 +115,13 @@ export function removeErrorWord(word) {
 }
 
 /**
+ * 清空所有错误单词
+ */
+export function clearAllErrorWords() {
+  localStorage.removeItem(STORAGE_KEYS.ERROR_WORDS)
+}
+
+/**
  * 获取已学单词列表
  * @returns {Array} 已学单词列表
  */
