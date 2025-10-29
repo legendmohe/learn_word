@@ -48,8 +48,8 @@
       />
     </transition>
 
-    <!-- 标签页内容 -->
-    <div>
+    <!-- 标签页内容（仅在未显示WordList时显示） -->
+    <div v-if="!showWordList">
       <!-- 标签页导航 -->
       <div class="tab-navigation mb-6">
         <div class="flex bg-white dark:bg-gray-800 rounded-lg p-1 card-shadow">
