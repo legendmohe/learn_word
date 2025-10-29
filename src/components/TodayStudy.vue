@@ -65,14 +65,72 @@
             </div>
 
             <!-- 结果显示 -->
-            <div v-else class="result-display flex-1 flex flex-col justify-center">
-              <div v-if="isCorrect" class="success-animation">
-                <div class="text-4xl mb-4">🎉</div>
-                <div class="text-xl font-semibold text-green-600 dark:text-green-400 mb-2">
-                  回答正确！
+            <div v-else class="result-display flex-1 flex flex-col justify-center items-center px-4">
+              <div v-if="isCorrect" class="success-animation text-center">
+                <!-- 成功动画和图标 -->
+                <div class="success-icon-container mb-6">
+                  <div class="success-icon">
+                    🎯
+                  </div>
+                  <div class="success-particles">
+                    <span class="particle particle-1">✨</span>
+                    <span class="particle particle-2">⭐</span>
+                    <span class="particle particle-3">💫</span>
+                    <span class="particle particle-4">🌟</span>
+                    <span class="particle particle-5">✨</span>
+                  </div>
                 </div>
-                <div class="text-gray-700 dark:text-gray-300">
-                  {{ currentWord.word }}
+
+                <!-- 随机鼓励文案 -->
+                <div class="success-message mb-4">
+                  <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-2">
+                    {{ getSuccessMessage() }}
+                  </h3>
+                  <p class="text-lg text-gray-600 dark:text-gray-300">
+                    太棒了！继续保持这个势头
+                  </p>
+                </div>
+
+                <!-- 进度指示器 -->
+                <div class="progress-indicator mb-6">
+                  <div class="flex items-center justify-center mb-2">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      当前进度
+                    </div>
+                    <div class="mx-3 text-gray-300 dark:text-gray-600">•</div>
+                    <div class="text-sm font-medium text-primary-600 dark:text-primary-400">
+                      {{ currentWordIndex + 1 }} / {{ studyWords.length }}
+                    </div>
+                  </div>
+                  <div class="w-48 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+                    <div
+                      class="bg-gradient-to-r from-green-400 to-emerald-500 h-2 rounded-full transition-all duration-500"
+                      :style="{ width: `${((currentWordIndex + 1) / studyWords.length) * 100}%` }"
+                    ></div>
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    已完成 {{ Math.round(((currentWordIndex + 1) / studyWords.length) * 100) }}%
+                  </div>
+                </div>
+
+                <!-- 单词显示 -->
+                <div class="word-display">
+                  <div class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-1">
+                    {{ currentWord.word }}
+                  </div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">
+                    {{ currentWord.meaning }}
+                  </div>
+                </div>
+
+                <!-- 连续正确计数 -->
+                <div v-if="consecutiveCorrect > 1" class="streak-indicator mt-4">
+                  <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 dark:bg-orange-900/20 rounded-full">
+                    <span class="text-orange-500">🔥</span>
+                    <span class="text-sm font-medium text-orange-700 dark:text-orange-400">
+                      连续正确 {{ consecutiveCorrect }} 次！
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -220,6 +278,7 @@ const currentWordIndex = ref(0)
 const userAnswer = ref('')
 const showResult = ref(false)
 const isCorrect = ref(false)
+const consecutiveCorrect = ref(0)
 
 // 学习时间记录
 const studyStartTime = ref(null)
@@ -309,10 +368,12 @@ const checkAnswer = () => {
   // 更新学习统计
   if (isCorrect.value) {
     studyStats.value.correct++
+    consecutiveCorrect.value++ // 增加连续正确计数
     addLearnedWord(currentWord.value)
     removeErrorWord(currentWord.value.word)
   } else {
     studyStats.value.wrong++
+    consecutiveCorrect.value = 0 // 重置连续正确计数
     addErrorWord({
       word: currentWord.value.word,
       meaning: currentWord.value.meaning,
@@ -370,6 +431,39 @@ const nextWord = () => {
     // 发送学习完成事件
     window.dispatchEvent(new CustomEvent('studyCompleted'))
   }
+}
+
+// 获取随机鼓励文案
+const getSuccessMessage = () => {
+  const messages = [
+    '完美！',
+    '太棒了！',
+    '好极了！',
+    '真厉害！',
+    '超赞！',
+    '继续保持！',
+    '你真行！',
+    '很优秀！',
+    '做得好！',
+    '太强了！',
+    '完美无缺！',
+    '出类拔萃！',
+    '无可挑剔！'
+  ]
+
+  // 根据连续正确次数选择更强烈的鼓励
+  if (consecutiveCorrect.value >= 5) {
+    const fireMessages = [
+      '火力全开！',
+      '势不可挡！',
+      '无人能挡！',
+      '王者风范！',
+      '如日中天！'
+    ]
+    return fireMessages[Math.floor(Math.random() * fireMessages.length)]
+  }
+
+  return messages[Math.floor(Math.random() * messages.length)]
 }
 
 // 停止学习（丢弃本次学习数据）
@@ -696,6 +790,175 @@ onUnmounted(() => {
   .px-3.py-1 {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
+  }
+}
+
+/* 成功动画样式 */
+.success-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.success-icon {
+  font-size: 4rem;
+  animation: successZoom 0.6s ease-out;
+  display: inline-block;
+}
+
+.success-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: particleFloat 2s ease-out forwards;
+  opacity: 0;
+}
+
+.particle-1 {
+  top: 20%;
+  left: -20%;
+  animation-delay: 0.1s;
+}
+
+.particle-2 {
+  top: 10%;
+  right: -20%;
+  animation-delay: 0.3s;
+}
+
+.particle-3 {
+  bottom: 10%;
+  left: -15%;
+  animation-delay: 0.5s;
+}
+
+.particle-4 {
+  bottom: 20%;
+  right: -15%;
+  animation-delay: 0.7s;
+}
+
+.particle-5 {
+  top: 50%;
+  left: -25%;
+  animation-delay: 0.9s;
+}
+
+@keyframes successZoom {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(var(--x), var(--y)) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--x) * 3), calc(var(--y) * 3)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.particle-1 { --x: -20px; --y: -30px; }
+.particle-2 { --x: 20px; --y: -30px; }
+.particle-3 { --x: -20px; --y: 30px; }
+.particle-4 { --x: 20px; --y: 30px; }
+.particle-5 { --x: -30px; --y: 0px; }
+
+.success-message {
+  animation: slideInUp 0.8s ease-out 0.2s both;
+}
+
+.progress-indicator {
+  animation: slideInUp 0.8s ease-out 0.4s both;
+}
+
+.word-display {
+  animation: slideInUp 0.8s ease-out 0.6s both;
+}
+
+.streak-indicator {
+  animation: slideInUp 0.8s ease-out 0.8s both, pulse 2s ease-in-out infinite 1s;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* 渐变文字效果 */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+  .success-icon {
+    font-size: 3rem;
+  }
+
+  .success-message h3 {
+    font-size: 2rem;
+  }
+
+  .progress-indicator {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .success-icon {
+    font-size: 2.5rem;
+  }
+
+  .success-message h3 {
+    font-size: 1.5rem;
+  }
+
+  .success-message p {
+    font-size: 1rem;
+  }
+
+  .progress-indicator .w-48 {
+    width: 10rem;
   }
 }
 </style>
