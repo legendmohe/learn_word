@@ -3,7 +3,7 @@
     <!-- 动态内容区域 -->
     <div class="current-view">
       <!-- 今日学习页面 -->
-      <div v-if="currentTab === 'today'" class="fade-in">
+      <div v-if="currentTab === 'today'" class="fade-in h-full flex flex-col">
         <!-- 页面标题和进度卡片（仅在非学习状态时显示） -->
         <div v-if="!isStudying">
           <!-- 页面标题 -->
@@ -142,6 +142,15 @@ defineExpose({
 <style scoped>
 .home-page {
   position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.current-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 动画效果 */

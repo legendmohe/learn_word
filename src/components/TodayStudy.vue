@@ -602,17 +602,18 @@ onUnmounted(() => {
 
 <style scoped>
 .today-study {
-  height: calc(100vh - 32px); /* 减去App.vue的上下padding */
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  min-height: 0; /* 允许flex收缩 */
 }
 
 .ready-container,
 .study-container {
   flex: 1;
   display: flex;
-  min-height: 100%;
+  min-height: 0; /* 允许flex收缩 */
 }
 
 .ready-container {
