@@ -17,13 +17,21 @@
 
     <!-- 学习进行中 -->
     <div v-else-if="studyStatus === 'studying'" class="study-container">
-      <!-- 进度指示器 -->
+      <!-- 进度指示器和停止按钮 -->
       <div class="mb-6">
         <div class="flex justify-between items-center mb-2">
           <span class="text-sm text-gray-600 dark:text-gray-400">学习进度</span>
-          <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
-            {{ currentWordIndex + 1 }} / {{ studyWords.length }}
-          </span>
+          <div class="flex items-center gap-3">
+            <button
+              @click="showStopConfirmDialog = true"
+              class="px-3 py-1 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
+            >
+              停止学习
+            </button>
+            <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+              {{ currentWordIndex + 1 }} / {{ studyWords.length }}
+            </span>
+          </div>
         </div>
         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
           <div
@@ -160,6 +168,35 @@
       @start-learning="handleGuideStartLearning"
       @go-settings="handleGuideGoToSettings"
     />
+
+    <!-- 停止学习确认对话框 -->
+    <div v-if="showStopConfirmDialog" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="modal-content bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-sm w-full">
+        <div class="text-center mb-4">
+          <div class="text-4xl mb-3">⚠️</div>
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+            确定要停止学习吗？
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            停止后，本次学习的所有进度和统计数据都将被清除，需要重新开始学习
+          </p>
+        </div>
+        <div class="flex gap-3">
+          <button
+            @click="showStopConfirmDialog = false"
+            class="flex-1 py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          >
+            继续学习
+          </button>
+          <button
+            @click="stopStudy"
+            class="flex-1 py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+          >
+            确认停止
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -179,6 +216,9 @@ const studyStatus = ref('ready') // ready, studying, completed
 
 // 引导弹窗状态
 const showWelcomeGuide = ref(false)
+
+// 停止学习确认对话框状态
+const showStopConfirmDialog = ref(false)
 
 // 学习数据
 const dailyGoal = ref(10)
@@ -337,6 +377,40 @@ const nextWord = () => {
     // 发送学习完成事件
     window.dispatchEvent(new CustomEvent('studyCompleted'))
   }
+}
+
+// 停止学习（丢弃本次学习数据）
+const stopStudy = () => {
+  // 保存本次学习的时长（即使停止了也要记录学习时间）
+  if (studyStartTime.value) {
+    const currentTime = Date.now()
+    const studyDurationMs = currentTime - studyStartTime.value
+    const studyDurationMinutes = Math.max(1, Math.round(studyDurationMs / (1000 * 60)))
+    updateStudyTime(studyDurationMinutes)
+    console.log('学习停止 - 记录时长:', studyDurationMinutes, '分钟')
+  }
+
+  // 清除所有本次学习相关的数据
+  // 注意：这里不更新学习进度统计，因为用户要放弃本次学习
+  // 不调用 updateStudyProgress, addErrorWord, addLearnedWord 等
+
+  // 重置学习状态
+  studyStatus.value = 'ready'
+  studyWords.value = []
+  currentWordIndex.value = 0
+  userAnswer.value = ''
+  showResult.value = false
+  isCorrect.value = false
+  studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
+  studyStartTime.value = null
+
+  // 清除保存的学习会话数据
+  localStorage.removeItem('learn_word_study_session')
+
+  // 关闭确认对话框
+  showStopConfirmDialog.value = false
+
+  console.log('学习已停止，本次学习数据已清除')
 }
 
 // 重置学习
@@ -578,6 +652,19 @@ onUnmounted(() => {
 
   .text-2xl {
     font-size: 1.25rem;
+  }
+
+  .flex.items-center.gap-3 {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .px-3.py-1 {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
   }
 }
 </style>
