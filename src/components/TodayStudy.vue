@@ -134,16 +134,69 @@
                 </div>
               </div>
 
-              <div v-else class="error-animation">
-                <div class="text-4xl mb-4">😔</div>
-                <div class="text-xl font-semibold text-red-600 dark:text-red-400 mb-2">
-                  回答错误
+              <div v-else class="error-animation text-center">
+                <!-- 错误动画和图标 -->
+                <div class="error-icon-container mb-6">
+                  <div class="error-icon">
+                    💡
+                  </div>
+                  <div class="error-hint">
+                    <span class="hint-particle hint-1">💭</span>
+                    <span class="hint-particle hint-2">📚</span>
+                    <span class="hint-particle hint-3">🎯</span>
+                  </div>
                 </div>
-                <div class="text-lg text-gray-700 dark:text-gray-300">
-                  正确答案：<span class="font-bold">{{ currentWord.word }}</span>
+
+                <!-- 建设性反馈 -->
+                <div class="error-message mb-4">
+                  <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-2">
+                    {{ getEncouragementMessage() }}
+                  </h3>
+                  <p class="text-lg text-gray-600 dark:text-gray-300">
+                    {{ getLearningHint() }}
+                  </p>
                 </div>
-                <div v-if="userAnswer.trim()" class="text-base text-gray-500 dark:text-gray-400 mt-1">
-                  你的答案：{{ userAnswer.trim() }}
+
+                <!-- 正确答案展示 -->
+                <div class="correct-answer mb-6">
+                  <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-full">
+                    <span class="text-blue-500">✓</span>
+                    <span class="text-sm font-medium text-blue-700 dark:text-blue-400">
+                      正确答案：{{ currentWord.word }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 学习机会 -->
+                <div class="learning-opportunity mb-4">
+                  <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 dark:bg-orange-900/20 rounded-full">
+                    <span class="text-orange-500">🌱</span>
+                    <span class="text-sm font-medium text-orange-700 dark:text-orange-400">
+                      学习机会
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 单词含义 -->
+                <div class="word-meaning mb-4">
+                  <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                    含义
+                  </div>
+                  <div class="text-base font-medium text-gray-800 dark:text-gray-200">
+                    {{ currentWord.meaning }}
+                  </div>
+                </div>
+
+                <!-- 你的答案对比 -->
+                <div v-if="userAnswer.trim()" class="answer-comparison">
+                  <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    你的答案
+                  </div>
+                  <div class="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                    <span class="text-gray-700 dark:text-gray-300 font-medium">
+                      {{ userAnswer.trim() }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -466,6 +519,45 @@ const getSuccessMessage = () => {
   return messages[Math.floor(Math.random() * messages.length)]
 }
 
+// 获取鼓励性反馈信息（回答错误时使用）
+const getEncouragementMessage = () => {
+  const messages = [
+    '继续努力！',
+    '再接再厉！',
+    '没关系！',
+    '下次会更好！',
+    '学习就是成长！',
+    '每次尝试都是进步！',
+    '错误是学习的机会！',
+    '不要放弃！',
+    '相信自己！',
+    '你在进步！',
+    '错误让你更强大！',
+    '这是学习过程！',
+    '坚持下去！'
+  ]
+
+  return messages[Math.floor(Math.random() * messages.length)]
+}
+
+// 获取学习提示
+const getLearningHint = () => {
+  const hints = [
+    '错误是通向成功的必经之路',
+    '每个错误都是进步的机会',
+    '保持积极的心态，继续前进',
+    '学习需要耐心和坚持',
+    '你正在变得越来越好',
+    '把错误当作学习的朋友',
+    '坚持不懈，终会成功',
+    '失败是成功之母',
+    '每一次尝试都让你更接近答案',
+    '保持学习的热情和好奇心'
+  ]
+
+  return hints[Math.floor(Math.random() * hints.length)]
+}
+
 // 停止学习（丢弃本次学习数据）
 const stopStudy = () => {
   // 保存本次学习的时长（即使停止了也要记录学习时间）
@@ -745,7 +837,7 @@ onUnmounted(() => {
 }
 
 .error-animation {
-  animation: errorShake 0.6s ease-out;
+  /* 移除抖动动画，使用新的建设性动画 */
 }
 
 @keyframes successPulse {
@@ -754,11 +846,7 @@ onUnmounted(() => {
   100% { transform: scale(1); }
 }
 
-@keyframes errorShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-10px); }
-  75% { transform: translateX(10px); }
-}
+/* errorShake动画已移除，不再使用 */
 
 .animate-bounce {
   animation: bounce 1s infinite;
@@ -959,6 +1047,121 @@ onUnmounted(() => {
 
   .progress-indicator .w-48 {
     width: 10rem;
+  }
+}
+
+/* 错误页面动画样式 */
+.error-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.error-icon {
+  font-size: 3.5rem;
+  animation: errorPulse 0.8s ease-out;
+  display: inline-block;
+}
+
+.error-hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hint-particle {
+  position: absolute;
+  font-size: 1rem;
+  animation: hintFloat 3s ease-out forwards;
+  opacity: 0;
+}
+
+.hint-1 {
+  top: 10%;
+  left: -25%;
+  animation-delay: 0.2s;
+}
+
+.hint-2 {
+  top: 15%;
+  right: -20%;
+  animation-delay: 0.5s;
+}
+
+.hint-3 {
+  bottom: 20%;
+  left: 50%;
+  animation-delay: 0.8s;
+}
+
+@keyframes errorPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes hintFloat {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(var(--hx), var(--hy)) rotate(10deg);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(calc(var(--hx) * 2), calc(var(--hy) * 2)) rotate(-5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--hx) * 3), calc(var(--hy) * 3)) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.hint-1 { --hx: -25px; --hy: -20px; }
+.hint-2 { --hx: 20px; --hy: -25px; }
+.hint-3 { --hx: 0px; --hy: 25px; }
+
+.error-message {
+  animation: slideInUp 0.8s ease-out 0.3s both;
+}
+
+.correct-answer {
+  animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+.learning-opportunity {
+  animation: slideInUp 0.8s ease-out 0.7s both, gentle-pulse 3s ease-in-out infinite 1.5s;
+}
+
+.word-meaning {
+  animation: slideInUp 0.8s ease-out 0.9s both;
+}
+
+.answer-comparison {
+  animation: slideInUp 0.8s ease-out 1.1s both;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
   }
 }
 </style>
