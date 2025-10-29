@@ -4,8 +4,8 @@
     <div v-if="studyStatus === 'ready'" class="ready-container flex items-center justify-center h-full">
       <div class="text-center">
         <div class="text-6xl mb-4">📚</div>
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">开始今日学习</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">开始今日学习</h2>
+        <p class="text-base text-gray-600 dark:text-gray-400 mb-6">
           今日需要学习 {{ dailyGoal }} 个单词，包含复习和新单词
         </p>
         <button
@@ -22,7 +22,7 @@
       <!-- 进度指示器和停止按钮 -->
       <div class="mb-6">
         <div class="flex justify-between items-center mb-2">
-          <span class="text-sm text-gray-600 dark:text-gray-400">学习进度</span>
+          <span class="text-base text-gray-600 dark:text-gray-400">学习进度</span>
           <div class="flex items-center gap-3">
             <button
               @click="showStopConfirmDialog = true"
@@ -30,7 +30,7 @@
             >
               停止学习
             </button>
-            <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+            <span class="text-base font-medium text-gray-800 dark:text-gray-200">
               {{ currentWordIndex + 1 }} / {{ studyWords.length }}
             </span>
           </div>
@@ -49,7 +49,7 @@
         <div class="text-center flex-1 flex flex-col justify-center">
           <!-- 填空题 -->
           <div class="mb-6">
-            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-4">
+            <div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-4">
               {{ currentWord.meaning }}
             </div>
 
@@ -68,7 +68,7 @@
             <div v-else class="result-display flex-1 flex flex-col justify-center">
               <div v-if="isCorrect" class="success-animation">
                 <div class="text-4xl mb-4">🎉</div>
-                <div class="text-lg font-semibold text-green-600 dark:text-green-400 mb-2">
+                <div class="text-xl font-semibold text-green-600 dark:text-green-400 mb-2">
                   回答正确！
                 </div>
                 <div class="text-gray-700 dark:text-gray-300">
@@ -78,13 +78,13 @@
 
               <div v-else class="error-animation">
                 <div class="text-4xl mb-4">😔</div>
-                <div class="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">
+                <div class="text-xl font-semibold text-red-600 dark:text-red-400 mb-2">
                   回答错误
                 </div>
-                <div class="text-gray-700 dark:text-gray-300">
+                <div class="text-lg text-gray-700 dark:text-gray-300">
                   正确答案：<span class="font-bold">{{ currentWord.word }}</span>
                 </div>
-                <div v-if="userAnswer.trim()" class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <div v-if="userAnswer.trim()" class="text-base text-gray-500 dark:text-gray-400 mt-1">
                   你的答案：{{ userAnswer.trim() }}
                 </div>
               </div>
@@ -105,7 +105,7 @@
       </div>
 
       <!-- 提示信息 -->
-      <div class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+      <div class="text-center text-base text-gray-500 dark:text-gray-400 mt-4">
         <div v-if="!showResult">
           💡 提示：{{ getStudyHint() }}
         </div>
@@ -115,19 +115,19 @@
     <!-- 学习完成 -->
     <div v-else-if="studyStatus === 'completed'" class="completed-view text-center py-8">
       <div class="text-6xl mb-4">🏆</div>
-      <h2 class="text-2xl font-bold gradient-text mb-4">今日学习完成！</h2>
+      <h2 class="text-3xl font-bold gradient-text mb-4">今日学习完成！</h2>
 
       <!-- 学习统计 -->
       <div class="glass-effect rounded-2xl p-6 mb-6 card-shadow">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">学习统计</h3>
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">学习统计</h3>
         <div class="grid grid-cols-2 gap-4">
           <div class="text-center">
             <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ studyStats.correct }}</div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">正确</div>
+            <div class="text-base text-gray-600 dark:text-gray-400">正确</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold text-red-600 dark:text-red-400">{{ studyStats.wrong }}</div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">错误</div>
+            <div class="text-base text-gray-600 dark:text-gray-400">错误</div>
           </div>
         </div>
         <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -167,10 +167,10 @@
       <div class="modal-content bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-sm w-full">
         <div class="text-center mb-4">
           <div class="text-4xl mb-3">⚠️</div>
-          <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
             确定要停止学习吗？
           </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400">
+          <p class="text-base text-gray-600 dark:text-gray-400">
             停止后，本次学习的所有进度和统计数据都将被清除，需要重新开始学习
           </p>
         </div>
@@ -466,6 +466,14 @@ watch(studyStatus, (newStatus) => {
   emit('study-status-changed', newStatus)
 }, { immediate: true })
 
+// 监听键盘事件用于下一个单词
+const handleKeydown = (event) => {
+  if (showResult.value && event.key === 'Enter') {
+    event.preventDefault()
+    nextWord()
+  }
+}
+
 // 保存当前学习时长
 const saveCurrentStudyTime = () => {
   if (studyStartTime.value && studyStatus.value === 'studying') {
@@ -591,12 +599,17 @@ onMounted(() => {
       }
     })
   }
+
+  // 添加键盘事件监听
+  document.addEventListener('keydown', handleKeydown)
 })
 
 // 组件卸载时保存学习时长和当前学习状态
 onUnmounted(() => {
   saveCurrentStudyTime()
   saveStudySession()
+  // 移除键盘事件监听
+  document.removeEventListener('keydown', handleKeydown)
 })
 </script>
 
