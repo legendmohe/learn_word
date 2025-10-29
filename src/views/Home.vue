@@ -52,7 +52,7 @@
             </div>
 
             <!-- 当前学习课程 -->
-            <div class="text-center pt-3 border-t border-gray-100 dark:border-gray-700">
+            <div class="text-center pt-3">
               <div class="text-sm text-gray-500 dark:text-gray-400">
                 当前课程：<span class="font-medium text-gray-700 dark:text-gray-300">{{ selectedCourse || '未选择课程' }}</span>
               </div>
