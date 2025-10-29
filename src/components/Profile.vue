@@ -38,38 +38,41 @@
       </div>
     </div>
 
-    <!-- 标签页导航 -->
-    <div class="tab-navigation mb-6">
-      <div class="flex bg-white dark:bg-gray-800 rounded-lg p-1 card-shadow">
-        <button
-          v-for="tab in tabs"
-          :key="tab.key"
-          @click="activeTab = tab.key"
-          :class="[
-            'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200',
-            activeTab === tab.key
-              ? 'bg-primary-500 text-white shadow-md'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-          ]"
-        >
-          <span class="flex items-center justify-center gap-1">
-            <span>{{ tab.icon }}</span>
-            <span>{{ tab.label }}</span>
-          </span>
-        </button>
-      </div>
-    </div>
-
-    <!-- 单词列表页面 -->
-    <WordList
-      v-if="showWordList"
-      :list-type="wordListType"
-      @back="showWordList = false"
-      @word-removed="loadData"
-    />
+    <!-- 单词列表页面（三级页面） -->
+    <transition name="slide-left" mode="out-in">
+      <WordList
+        v-if="showWordList"
+        :list-type="wordListType"
+        @back="showWordList = false"
+        @word-removed="loadData"
+      />
+    </transition>
 
     <!-- 标签页内容 -->
-    <div v-else class="tab-content">
+    <div v-else>
+      <!-- 标签页导航 -->
+      <div class="tab-navigation mb-6">
+        <div class="flex bg-white dark:bg-gray-800 rounded-lg p-1 card-shadow">
+          <button
+            v-for="tab in tabs"
+            :key="tab.key"
+            @click="activeTab = tab.key"
+            :class="[
+              'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200',
+              activeTab === tab.key
+                ? 'bg-primary-500 text-white shadow-md'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            ]"
+          >
+            <span class="flex items-center justify-center gap-1">
+              <span>{{ tab.icon }}</span>
+              <span>{{ tab.label }}</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-content">
       <!-- 错误单词统计 -->
       <div v-if="activeTab === 'errors'" class="word-stats">
         <div class="stats-overview glass-effect rounded-xl p-6 card-shadow mb-6">
@@ -324,6 +327,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -588,6 +592,22 @@ const showNotification = (message, type = 'info') => {
 /* 空状态样式 */
 .empty-state {
   animation: fadeIn 0.5s ease-out;
+}
+
+/* 页面切换动画 */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
 }
 
 /* 响应式设计 */
