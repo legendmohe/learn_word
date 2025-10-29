@@ -176,19 +176,31 @@ const generateNormalModeKeyboard = () => {
   // 获取额外的字母（不在单词中但常用的字母）
   const extraLetters = commonLetters.filter(letter => !wordLettersSet.has(letter))
 
-  // 合并字母：单词字母在前，额外字母在后
-  const allLetters = [...wordLettersArray, ...extraLetters]
-
-  // 根据单词长度决定添加多少额外字母
+  // 根据单词长度决定添加多少额外字母（单词字母数量的一半）
   const extraCount = Math.min(
-    Math.max(8, Math.ceil(wordLettersArray.length * 0.8)), // 至少添加8个，或单词字母数的80%
+    Math.max(2, Math.ceil(wordLettersArray.length * 0.5)), // 至少添加2个，或单词字母数的50%
     extraLetters.length // 不超过可用的额外字母数
   )
 
-  const finalLetters = allLetters.slice(0, wordLettersArray.length + extraCount)
+  // 选取需要添加的干扰字母
+  const selectedExtraLetters = extraLetters.slice(0, extraCount)
 
-  // 分行显示，每行7-8个字母
-  const lettersPerRow = finalLetters.length <= 14 ? 7 : 8
+  // 合并字母：单词字母 + 干扰字母
+  const allLetters = [...wordLettersArray, ...selectedExtraLetters]
+
+  // 打乱所有字母的顺序（包括单词字母和干扰字母）
+  const finalLetters = shuffleArray([...allLetters])
+
+  // 分行显示，根据字母总数动态调整每行数量，防止溢出
+  const getLettersPerRow = (totalLetters) => {
+    if (totalLetters <= 6) return 6      // 6个或更少：每行6个
+    if (totalLetters <= 10) return 5    // 7-10个：每行5个
+    if (totalLetters <= 15) return 6    // 11-15个：每行6个
+    if (totalLetters <= 21) return 7    // 16-21个：每行7个
+    return 8                           // 21个以上：每行8个
+  }
+
+  const lettersPerRow = getLettersPerRow(finalLetters.length)
   const rows = []
 
   for (let i = 0; i < finalLetters.length; i += lettersPerRow) {
@@ -506,6 +518,20 @@ defineExpose({
 }
 
 .assist-mode .letter-key {
+  flex: none; /* 不拉伸，保持统一大小 */
+  width: 48px; /* 固定宽度，等于高度 */
+  min-width: 48px;
+  max-width: 48px;
+}
+
+/* 非辅助模式样式 - 增加间距和统一尺寸 */
+.letter-keyboard:not(.assist-mode) .keyboard-row {
+  gap: 8px; /* 非辅助模式增加间距 */
+  margin-bottom: 10px; /* 增加行间距 */
+  justify-content: center; /* 居中对齐，不顶满整行 */
+}
+
+.letter-keyboard:not(.assist-mode) .letter-key {
   flex: none; /* 不拉伸，保持统一大小 */
   width: 48px; /* 固定宽度，等于高度 */
   min-width: 48px;
