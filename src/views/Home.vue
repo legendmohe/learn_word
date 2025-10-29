@@ -50,6 +50,13 @@
                 </div>
               </div>
             </div>
+
+            <!-- 当前学习课程 -->
+            <div class="text-center pt-3 border-t border-gray-100 dark:border-gray-700">
+              <div class="text-sm text-gray-500 dark:text-gray-400">
+                当前课程：<span class="font-medium text-gray-700 dark:text-gray-300">{{ selectedCourse || '未选择课程' }}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -126,11 +133,19 @@ const handleDataReset = () => {
   loadProgressData()
 }
 
+// 监听课程变更事件
+const handleCourseChange = () => {
+  // 强制重新计算 selectedCourse
+  // 由于是计算属性，Vue 会自动处理更新
+}
+
 window.addEventListener('dataReset', handleDataReset)
+window.addEventListener('courseChanged', handleCourseChange)
 
 // 组件卸载时清理事件监听器
 onUnmounted(() => {
   window.removeEventListener('dataReset', handleDataReset)
+  window.removeEventListener('courseChanged', handleCourseChange)
 })
 
 // 暴露方法给子组件调用

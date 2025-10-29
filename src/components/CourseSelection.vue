@@ -259,6 +259,11 @@ const selectCourse = (course) => {
   // 触发课程选择事件
   emit('course-selected', course.name)
 
+  // 触发全局课程变更事件
+  window.dispatchEvent(new CustomEvent('courseChanged', {
+    detail: { courseName: course.name }
+  }))
+
   // 延迟返回，让用户看到选择效果
   setTimeout(() => {
     goBack()

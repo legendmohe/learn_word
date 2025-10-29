@@ -1,5 +1,5 @@
 <template>
-  <div class="today-study">
+  <div class="today-study mt-6">
     <!-- 学习状态卡片 -->
     <div v-if="studyStatus === 'ready'" class="ready-container flex items-center justify-center h-full">
       <div class="text-center">
