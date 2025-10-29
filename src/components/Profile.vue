@@ -162,7 +162,7 @@
             </div>
             <div class="stat-card bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
               <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
-                {{ Math.round((learnedWords.length / (learnedWords.length + errorWords.length)) * 100) }}%
+                {{ getMasteryRate() }}%
               </div>
               <div class="text-sm text-blue-600 dark:text-blue-400">
                 掌握率
@@ -174,12 +174,12 @@
           <div class="mb-6">
             <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
               <span>学习进度</span>
-              <span>{{ Math.round((learnedWords.length / (learnedWords.length + errorWords.length)) * 100) }}%</span>
+              <span>{{ getMasteryRate() }}%</span>
             </div>
             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
               <div
                 class="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all duration-500"
-                :style="{ width: `${Math.round((learnedWords.length / (learnedWords.length + errorWords.length)) * 100)}%` }"
+                :style="{ width: `${getMasteryRate()}%` }"
               ></div>
             </div>
           </div>
@@ -431,6 +431,13 @@ const getTodayErrorCount = () => {
   return errorWords.value.filter(word =>
     new Date(word.lastErrorDate).toDateString() === today
   ).length
+}
+
+// 计算掌握率
+const getMasteryRate = () => {
+  const total = learnedWords.value.length + errorWords.value.length
+  if (total === 0) return 0
+  return Math.round((learnedWords.value.length / total) * 100)
 }
 
 
