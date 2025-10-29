@@ -20,6 +20,42 @@
           </p>
         </div>
       </div>
+
+      <!-- 搜索框 -->
+      <div class="search-container">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <input
+            v-model="searchQuery"
+            type="text"
+            :placeholder="listType === 'errors' ? '搜索单词或含义...' : '搜索已掌握的单词...'"
+            class="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+          />
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center gap-2">
+            <!-- 搜索加载状态 -->
+            <div v-if="searchLoading" class="search-loading">
+              <svg class="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
+            <!-- 清除按钮 -->
+            <button
+              v-if="searchQuery"
+              @click="clearSearch"
+              class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </header>
 
     <!-- 错误单词列表 -->
@@ -64,25 +100,49 @@
           </button>
         </div>
 
-        <!-- 单词列表 -->
-        <div class="space-y-3">
-          <div
-            v-for="word in errorWords"
-            :key="word.word"
-            class="error-word-item glass-effect rounded-lg p-4 card-shadow transform transition-all duration-200 hover:scale-102"
-          >
+        <!-- 搜索结果统计 -->
+      <div v-if="searchQuery" class="search-result-info mb-4 text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          找到 {{ filteredErrorWords.length }} 个相关单词
+        </p>
+      </div>
+
+      <!-- 无搜索结果提示 -->
+      <div v-if="searchQuery && filteredErrorWords.length === 0" class="no-results glass-effect rounded-xl p-8 card-shadow text-center mb-6">
+        <div class="text-4xl mb-4">🔍</div>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          未找到相关单词
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          尝试使用其他关键词搜索
+        </p>
+        <button
+          @click="clearSearch"
+          class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+        >
+          清除搜索
+        </button>
+      </div>
+
+      <!-- 单词列表 -->
+      <div class="space-y-3">
+        <div
+          v-for="word in filteredErrorWords"
+          :key="word.word"
+          class="error-word-item glass-effect rounded-lg p-4 card-shadow transform transition-all duration-200 hover:scale-102"
+        >
             <div class="flex justify-between items-start">
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
                   <span class="font-bold text-gray-800 dark:text-gray-200 text-lg">
-                    {{ word.word }}
+                    <span v-html="highlightText(word.word, searchQuery)"></span>
                   </span>
                   <span class="px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs rounded-full">
                     错误 {{ word.errorCount }} 次
                   </span>
                 </div>
                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  {{ word.meaning }}
+                  <span v-html="highlightText(word.meaning, searchQuery)"></span>
                 </div>
                 <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mb-1">
                   <span>最后错误：{{ formatDate(word.lastErrorDate) }}</span>
@@ -159,25 +219,49 @@
           </div>
         </div>
 
-        <!-- 单词列表 -->
-        <div class="space-y-3">
-          <div
-            v-for="word in learnedWords.slice(0, 50)"
-            :key="word.word"
-            class="learned-word-item glass-effect rounded-lg p-4 card-shadow transform transition-all duration-200 hover:scale-102"
-          >
+        <!-- 搜索结果统计 -->
+      <div v-if="searchQuery" class="search-result-info mb-4 text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          找到 {{ filteredLearnedWords.length }} 个相关单词
+        </p>
+      </div>
+
+      <!-- 无搜索结果提示 -->
+      <div v-if="searchQuery && filteredLearnedWords.length === 0" class="no-results glass-effect rounded-xl p-8 card-shadow text-center mb-6">
+        <div class="text-4xl mb-4">🔍</div>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          未找到相关单词
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          尝试使用其他关键词搜索
+        </p>
+        <button
+          @click="clearSearch"
+          class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+        >
+          清除搜索
+        </button>
+      </div>
+
+      <!-- 单词列表 -->
+      <div class="space-y-3">
+        <div
+          v-for="word in filteredLearnedWords.slice(0, 50)"
+          :key="word.word"
+          class="learned-word-item glass-effect rounded-lg p-4 card-shadow transform transition-all duration-200 hover:scale-102"
+        >
             <div class="flex justify-between items-start">
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
                   <span class="font-bold text-gray-800 dark:text-gray-200 text-lg">
-                    {{ word.word }}
+                    <span v-html="highlightText(word.word, searchQuery)"></span>
                   </span>
                   <span class="px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-xs rounded-full">
                     已掌握
                   </span>
                 </div>
                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  {{ word.meaning }}
+                  <span v-html="highlightText(word.meaning, searchQuery)"></span>
                 </div>
                 <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
                   <span>复习 {{ word.reviewCount || 1 }} 次</span>
@@ -209,7 +293,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import {
   getErrorWords,
   getLearnedWords,
@@ -218,6 +302,19 @@ import {
   addErrorWord,
   addLearnedWord
 } from '../utils/studyData'
+
+// 防抖函数
+const debounce = (func, wait) => {
+  let timeout
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
 
 // 定义事件
 const emit = defineEmits(['back'])
@@ -234,6 +331,46 @@ const props = defineProps({
 // 响应式数据
 const errorWords = ref([])
 const learnedWords = ref([])
+
+// 搜索功能
+const searchQuery = ref('')
+const searchLoading = ref(false)
+const debouncedSearch = ref('')
+
+// 计算属性：过滤后的单词列表
+const filteredErrorWords = computed(() => {
+  if (!debouncedSearch.value.trim()) {
+    return errorWords.value
+  }
+
+  const query = debouncedSearch.value.toLowerCase().trim()
+  return errorWords.value.filter(word => {
+    // 搜索单词
+    const wordMatch = word.word.toLowerCase().includes(query)
+    // 搜索含义
+    const meaningMatch = word.meaning.toLowerCase().includes(query)
+    // 搜索错误答案
+    const answerMatch = word.userAnswer && word.userAnswer.toLowerCase().includes(query)
+
+    return wordMatch || meaningMatch || answerMatch
+  })
+})
+
+const filteredLearnedWords = computed(() => {
+  if (!debouncedSearch.value.trim()) {
+    return learnedWords.value
+  }
+
+  const query = debouncedSearch.value.toLowerCase().trim()
+  return learnedWords.value.filter(word => {
+    // 搜索单词
+    const wordMatch = word.word.toLowerCase().includes(query)
+    // 搜索含义
+    const meaningMatch = word.meaning.toLowerCase().includes(query)
+
+    return wordMatch || meaningMatch
+  })
+})
 
 // 组件挂载时加载数据
 onMounted(() => {
@@ -292,6 +429,37 @@ const markAsError = (word) => {
     loadData()
     showNotification('单词已标记为需要复习', 'info')
   }
+}
+
+// 清除搜索
+const clearSearch = () => {
+  searchQuery.value = ''
+  debouncedSearch.value = ''
+  searchLoading.value = false
+}
+
+// 防抖搜索处理
+const handleSearch = debounce((query) => {
+  debouncedSearch.value = query
+  searchLoading.value = false
+}, 300)
+
+// 监听搜索输入变化
+watch(searchQuery, (newValue) => {
+  if (newValue.trim()) {
+    searchLoading.value = true
+  }
+  handleSearch(newValue)
+})
+
+// 高亮搜索关键词
+const highlightText = (text, query) => {
+  if (!query || !query.trim()) {
+    return text
+  }
+
+  const regex = new RegExp(`(${query.trim()})`, 'gi')
+  return text.replace(regex, '<mark class="search-highlight">$1</mark>')
 }
 
 
@@ -436,6 +604,38 @@ const showNotification = (message, type = 'info') => {
 /* 空状态样式 */
 .empty-state {
   animation: fadeIn 0.5s ease-out;
+}
+
+/* 搜索相关样式 */
+.search-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.search-highlight {
+  background-color: #fef08a;
+  color: #713f12;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.dark .search-highlight {
+  background-color: #713f12;
+  color: #fef08a;
+}
+
+.search-result-info {
+  animation: slideDown 0.3s ease-out;
+}
+
+.no-results {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.search-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes slideDown {
