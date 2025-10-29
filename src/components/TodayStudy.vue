@@ -92,16 +92,7 @@
           <!-- 操作按钮 -->
           <div class="flex gap-3 justify-center">
             <button
-              v-if="!showResult"
-              @click="checkAnswer"
-              :disabled="!userAnswer.trim()"
-              class="px-6 py-2 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-            >
-              提交答案
-            </button>
-
-            <button
-              v-else
+              v-if="showResult"
               @click="nextWord"
               class="px-6 py-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
             >

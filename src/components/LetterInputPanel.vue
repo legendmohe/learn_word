@@ -96,13 +96,6 @@
         </button>
       </div>
     </div>
-
-    <!-- 提示信息 -->
-    <div v-if="!showResult" class="text-center mt-4">
-      <p class="text-sm text-gray-500 dark:text-gray-400">
-        💡 点击字母输入答案，或使用键盘输入
-      </p>
-    </div>
   </div>
 </template>
 
@@ -329,14 +322,15 @@ defineExpose({
 /* 键盘样式 */
 .letter-keyboard {
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
-  padding: 16px 12px;
+  padding: 16px 8px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .dark .letter-keyboard {
@@ -346,18 +340,18 @@ defineExpose({
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 4px;
+  margin-bottom: 10px;
 }
 
 .letter-key {
-  min-width: 40px;
-  height: 50px;
+  min-width: 32px;
+  height: 48px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
   color: #374151;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -365,6 +359,7 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
 }
 
 .dark .letter-key {
@@ -469,31 +464,62 @@ defineExpose({
 
 /* 响应式设计 */
 @media (max-width: 480px) {
-  .letter-slot {
-    width: 40px;
-    height: 50px;
-    margin: 1px;
-  }
-
-  .letter-text {
-    font-size: 1.5rem;
-  }
-
-  .letter-key {
-    min-width: 32px;
-    height: 42px;
-    font-size: 1rem;
+  .letter-keyboard {
+    padding: 12px 6px;
   }
 
   .keyboard-row {
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 3px;
+    margin-bottom: 8px;
+  }
+
+  .letter-key {
+    min-width: 28px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .action-row {
+    gap: 8px;
   }
 
   .action-key {
-    min-width: 50px;
-    height: 40px;
+    min-width: 45px;
+    height: 36px;
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .letter-keyboard {
+    padding: 10px 4px;
+  }
+
+  .keyboard-row {
+    gap: 2px;
+    margin-bottom: 6px;
+  }
+
+  .letter-key {
+    min-width: 26px;
+    height: 36px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  .letter-slot {
+    width: 32px;
+    height: 42px;
+  }
+
+  .letter-text {
+    font-size: 1.2rem;
+  }
+
+  .action-key {
+    min-width: 40px;
+    height: 32px;
+    font-size: 0.75rem;
   }
 }
 
