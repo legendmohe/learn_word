@@ -209,7 +209,7 @@ import LetterInputPanel from './LetterInputPanel.vue'
 import WelcomeGuide from './WelcomeGuide.vue'
 
 // 定义事件
-const emit = defineEmits(['completed'])
+const emit = defineEmits(['completed', 'study-status-changed'])
 
 // 学习状态
 const studyStatus = ref('ready') // ready, studying, completed
@@ -467,6 +467,11 @@ watch(currentWord, () => {
   showResult.value = false
   isCorrect.value = false
 })
+
+// 监听学习状态变化
+watch(studyStatus, (newStatus) => {
+  emit('study-status-changed', newStatus)
+}, { immediate: true })
 
 // 保存当前学习时长
 const saveCurrentStudyTime = () => {

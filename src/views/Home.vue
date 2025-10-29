@@ -4,47 +4,59 @@
     <div class="current-view">
       <!-- 今日学习页面 -->
       <div v-if="currentTab === 'today'" class="fade-in">
-        <!-- 今日进度卡片 -->
-        <div class="glass-effect rounded-2xl p-5 mb-5 card-shadow fade-in">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">今日学习进度</h2>
-            <span class="text-2xl">🎯</span>
-          </div>
+        <!-- 页面标题和进度卡片（仅在非学习状态时显示） -->
+        <div v-if="!isStudying">
+          <!-- 页面标题 -->
+          <header class="mb-6 text-center">
+            <h1 class="text-2xl font-bold gradient-text mb-1">Learn Word</h1>
+            <p class="text-sm text-gray-600 dark:text-gray-400">简单有趣的英语单词学习</p>
+          </header>
 
-          <div class="space-y-3">
-            <!-- 进度条 -->
-            <div class="relative">
-              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                <div
-                  class="bg-gradient-to-r from-primary-500 to-accent-500 h-3 rounded-full transition-all duration-500 ease-out"
-                  :style="{ width: `${todayProgress.progress}%` }"
-                ></div>
-              </div>
-              <div class="flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <span>{{ todayProgress.todayCount }} / {{ todayProgress.dailyGoal }}</span>
-                <span>{{ Math.round(todayProgress.progress) }}%</span>
-              </div>
+          <!-- 今日进度卡片 -->
+          <div class="glass-effect rounded-2xl p-5 mb-5 card-shadow fade-in">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">今日学习进度</h2>
+              <span class="text-2xl">🎯</span>
             </div>
 
-            <!-- 学习统计 -->
-            <div class="grid grid-cols-3 gap-2 text-center">
-              <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
-                <div class="text-xl font-bold text-primary-600 dark:text-primary-400">{{ studyProgress.totalLearned }}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">已学单词</div>
+            <div class="space-y-3">
+              <!-- 进度条 -->
+              <div class="relative">
+                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                  <div
+                    class="bg-gradient-to-r from-primary-500 to-accent-500 h-3 rounded-full transition-all duration-500 ease-out"
+                    :style="{ width: `${todayProgress.progress}%` }"
+                  ></div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-400">
+                  <span>{{ todayProgress.todayCount }} / {{ todayProgress.dailyGoal }}</span>
+                  <span>{{ Math.round(todayProgress.progress) }}%</span>
+                </div>
               </div>
-              <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
-                <div class="text-xl font-bold text-green-600 dark:text-green-400">{{ studyProgress.correctCount }}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">正确次数</div>
-              </div>
-              <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
-                <div class="text-xl font-bold text-red-600 dark:text-red-400">{{ studyProgress.wrongCount }}</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">错误次数</div>
+
+              <!-- 学习统计 -->
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
+                  <div class="text-xl font-bold text-primary-600 dark:text-primary-400">{{ studyProgress.totalLearned }}</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">已学单词</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
+                  <div class="text-xl font-bold text-green-600 dark:text-green-400">{{ studyProgress.correctCount }}</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">正确次数</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
+                  <div class="text-xl font-bold text-red-600 dark:text-red-400">{{ studyProgress.wrongCount }}</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">错误次数</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <TodayStudy @completed="handleStudyCompleted" />
+        <TodayStudy
+          @completed="handleStudyCompleted"
+          @study-status-changed="handleStudyStatusChanged"
+        />
       </div>
 
       <!-- 课程页面 -->
@@ -74,6 +86,9 @@ const currentTab = ref('today')
 const studyProgress = ref({})
 const todayProgress = ref({})
 
+// 学习状态
+const isStudying = ref(false)
+
 // 计算属性
 const selectedCourse = computed(() => {
   return getSelectedCourse()
@@ -92,7 +107,13 @@ const loadProgressData = () => {
 
 // 处理学习完成
 const handleStudyCompleted = () => {
+  isStudying.value = false
   loadProgressData()
+}
+
+// 处理学习状态变化
+const handleStudyStatusChanged = (status) => {
+  isStudying.value = status === 'studying'
 }
 
 // 监听标签页切换
