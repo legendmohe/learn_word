@@ -49,7 +49,7 @@
     </transition>
 
     <!-- 标签页内容 -->
-    <div v-else>
+    <div>
       <!-- 标签页导航 -->
       <div class="tab-navigation mb-6">
         <div class="flex bg-white dark:bg-gray-800 rounded-lg p-1 card-shadow">
