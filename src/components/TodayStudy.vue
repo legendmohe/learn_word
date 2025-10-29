@@ -1,18 +1,20 @@
 <template>
   <div class="today-study">
     <!-- 学习状态卡片 -->
-    <div v-if="studyStatus === 'ready'" class="text-center py-8">
-      <div class="text-6xl mb-4">📚</div>
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">开始今日学习</h2>
-      <p class="text-gray-600 dark:text-gray-400 mb-6">
-        今日需要学习 {{ dailyGoal }} 个单词，包含复习和新单词
-      </p>
-      <button
-        @click="startStudy"
-        class="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-      >
-        开始学习
-      </button>
+    <div v-if="studyStatus === 'ready'" class="ready-container flex items-center justify-center h-full">
+      <div class="text-center">
+        <div class="text-6xl mb-4">📚</div>
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">开始今日学习</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          今日需要学习 {{ dailyGoal }} 个单词，包含复习和新单词
+        </p>
+        <button
+          @click="startStudy"
+          class="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+        >
+          开始学习
+        </button>
+      </div>
     </div>
 
     <!-- 学习进行中 -->
@@ -606,12 +608,21 @@ onUnmounted(() => {
   justify-content: flex-start;
 }
 
+.ready-container,
 .study-container {
   flex: 1;
   display: flex;
+  min-height: 100%;
+}
+
+.ready-container {
+  align-items: center;
+  justify-content: center;
+}
+
+.study-container {
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100%;
 }
 
 .word-card {
