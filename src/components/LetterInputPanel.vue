@@ -1,7 +1,7 @@
 <template>
   <div class="letter-input-panel">
     <!-- 单词下划线显示 -->
-    <div class="word-display mb-6">
+    <div class="word-display">
       <div
         class="letter-slots-container"
         :class="{ 'long-word': isLongWord }"
@@ -70,14 +70,14 @@
         </button>
       </div>
 
-      <!-- 操作按钮 - 垂直排列 -->
-      <div class="action-column">
+      <!-- 操作按钮 - 删除和清空在同一行 -->
+      <div class="action-row">
         <button
           @click="clearLastLetter"
           :disabled="currentInput.length === 0 || showResult"
           class="action-key backspace"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"></path>
           </svg>
           删除
@@ -90,7 +90,10 @@
         >
           清空
         </button>
+      </div>
 
+      <!-- 提交按钮单独一行 -->
+      <div class="action-row submit-row">
         <button
           @click="submitAnswer"
           :disabled="currentInput.length !== wordLetters.length || showResult"
@@ -419,29 +422,32 @@ defineExpose({
   cursor: not-allowed;
 }
 
-/* 操作按钮列 - 垂直布局 */
-.action-column {
+/* 操作按钮行 - 水平布局 */
+.action-row {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   gap: 12px;
   margin-top: 16px;
 }
 
+.action-row.submit-row {
+  margin-top: 8px; /* 提交按钮与上方按钮组的间距稍小 */
+}
+
 .action-key {
-  width: 100%; /* 相同宽度 */
-  height: 52px; /* 更大的高度 */
+  flex: 1; /* 均匀分配宽度 */
+  height: 52px; /* 保持相同高度 */
   min-height: 52px;
   border: none;
   border-radius: 12px;
-  font-size: 1rem; /* 更大的字体 */
+  font-size: 1rem; /* 保持字体大小 */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* 增加图标和文字间距 */
+  gap: 6px; /* 稍微减少间距适应水平布局 */
 }
 
 .action-key:disabled {

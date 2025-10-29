@@ -48,8 +48,8 @@
            :class="{ 'animate-bounce': showResult }">
         <div class="text-center flex-1 flex flex-col justify-center">
           <!-- 填空题 -->
-          <div class="mb-6">
-            <div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-4">
+          <div>
+            <div class="text-3xl font-bold text-primary-600 dark:text-primary-400">
               {{ currentWord.meaning }}
             </div>
 
