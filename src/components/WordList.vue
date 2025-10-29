@@ -64,7 +64,7 @@
           </button>
         </div>
 
-        <!-- 单词卡片列表 -->
+        <!-- 单词列表 -->
         <div class="space-y-3">
           <div
             v-for="word in errorWords"
@@ -84,19 +84,26 @@
                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
                   {{ word.meaning }}
                 </div>
-                <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                  最后错误：{{ formatDate(word.lastErrorDate) }}
+                <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  <span>最后错误：{{ formatDate(word.lastErrorDate) }}</span>
                 </div>
-                <div v-if="word.userAnswer" class="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 p-2 rounded">
-                  你的答案：{{ word.userAnswer }}
+                <div v-if="word.userAnswer" class="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 p-2 rounded mt-2">
+                  <div class="font-medium mb-1">你的答案：</div>
+                  <div>{{ word.userAnswer }}</div>
                 </div>
               </div>
               <div class="flex flex-col gap-2 ml-3">
                 <button
                   @click="removeWord(word.word)"
-                  class="px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                  class="word-action-btn px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200"
                 >
                   移除
+                </button>
+                <button
+                  @click="markAsLearned(word)"
+                  class="word-action-btn px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-sm rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-all duration-200"
+                >
+                  标记已掌握
                 </button>
               </div>
             </div>
@@ -152,22 +159,39 @@
           </div>
         </div>
 
-        <!-- 单词网格 -->
-        <div class="grid grid-cols-2 gap-3">
+        <!-- 单词列表 -->
+        <div class="space-y-3">
           <div
             v-for="word in learnedWords.slice(0, 50)"
             :key="word.word"
-            class="learned-word-item bg-white dark:bg-gray-800 rounded-lg p-4 card-shadow transform transition-all duration-200 hover:scale-102"
+            class="learned-word-item glass-effect rounded-lg p-4 card-shadow transform transition-all duration-200 hover:scale-102"
           >
-            <div class="font-medium text-gray-800 dark:text-gray-200 mb-2 text-lg">
-              {{ word.word }}
-            </div>
-            <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-              {{ word.meaning }}
-            </div>
-            <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-              <span>复习 {{ word.reviewCount || 1 }} 次</span>
-              <span>{{ formatDate(word.learnedDate) }}</span>
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="font-bold text-gray-800 dark:text-gray-200 text-lg">
+                    {{ word.word }}
+                  </span>
+                  <span class="px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-xs rounded-full">
+                    已掌握
+                  </span>
+                </div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  {{ word.meaning }}
+                </div>
+                <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                  <span>复习 {{ word.reviewCount || 1 }} 次</span>
+                  <span>学习于 {{ formatDate(word.learnedDate) }}</span>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2 ml-3">
+                <button
+                  @click="markAsError(word)"
+                  class="word-action-btn px-3 py-2 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-all duration-200"
+                >
+                  标记错误
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -190,7 +214,9 @@ import {
   getErrorWords,
   getLearnedWords,
   removeErrorWord,
-  clearAllErrorWords
+  clearAllErrorWords,
+  addErrorWord,
+  addLearnedWord
 } from '../utils/studyData'
 
 // 定义事件
@@ -240,6 +266,31 @@ const removeWord = (word) => {
     removeErrorWord(word)
     loadData()
     showNotification('单词已移除', 'success')
+  }
+}
+
+// 标记错误单词为已掌握
+const markAsLearned = (word) => {
+  if (confirm(`确定要将单词 "${word}" 标记为已掌握吗？`)) {
+    addLearnedWord({ word: word.word, meaning: word.meaning })
+    removeErrorWord(word.word)
+    loadData()
+    showNotification('单词已标记为已掌握', 'success')
+  }
+}
+
+// 标记已学单词为错误
+const markAsError = (word) => {
+  if (confirm(`确定要将单词 "${word}" 标记为需要复习吗？`)) {
+    addErrorWord({
+      word: word.word,
+      meaning: word.meaning,
+      userAnswer: '',
+      errorCount: 1,
+      lastErrorDate: new Date().toISOString()
+    })
+    loadData()
+    showNotification('单词已标记为需要复习', 'info')
   }
 }
 
@@ -315,14 +366,62 @@ const showNotification = (message, type = 'info') => {
   animation: slideUp 0.5s ease-out;
 }
 
+/* 统一的列表项样式 */
 .error-word-item,
 .learned-word-item {
+  position: relative;
+  overflow: hidden;
   animation: fadeInUp 0.6s ease-out;
+  transition: all 0.3s ease;
 }
 
 .error-word-item:hover,
 .learned-word-item:hover {
   box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* 列表项悬停动画 */
+.error-word-item::before,
+.learned-word-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+}
+
+.error-word-item:hover::before,
+.learned-word-item:hover::before {
+  left: 100%;
+}
+
+/* 按钮统一样式 */
+.word-action-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.word-action-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.word-action-btn:active::after {
+  width: 200px;
+  height: 200px;
 }
 
 /* 模态框样式 */
@@ -382,6 +481,18 @@ const showNotification = (message, type = 'info') => {
 }
 
 /* 响应式设计 */
+@media (max-width: 480px) {
+  .error-word-item,
+  .learned-word-item {
+    padding: 1rem;
+  }
+
+  .word-action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
 @media (max-width: 380px) {
   .page-header {
     padding: 0.5rem;
@@ -394,6 +505,21 @@ const showNotification = (message, type = 'info') => {
   .error-word-item,
   .learned-word-item {
     padding: 0.75rem;
+  }
+
+  .word-action-btn {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.8rem;
+  }
+
+  .flex.items-center.gap-2 {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .flex.items-center.gap-4 {
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 }
 </style>
