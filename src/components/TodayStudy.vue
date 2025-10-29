@@ -9,7 +9,7 @@
           今日需要学习 {{ dailyGoal }} 个单词，包含复习和新单词
         </p>
         <button
-          @click="startStudy"
+          @click="showStartConfirmDialog = true"
           class="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
         >
           开始学习
@@ -301,6 +301,44 @@
         </div>
       </div>
     </div>
+
+    <!-- 开始学习确认对话框 -->
+    <div v-if="showStartConfirmDialog" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="modal-content bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-sm w-full">
+        <div class="text-center mb-4">
+          <div class="text-5xl mb-4 animate-bounce">🚀</div>
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
+            准备好开始学习了吗？
+          </h3>
+          <p class="text-base text-gray-600 dark:text-gray-400 mb-4">
+            今天的努力是明天成功的基础！<br>
+            让我们一起坚持，每一个单词都是进步！
+          </p>
+
+          <!-- 激励语句 -->
+          <div class="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 rounded-lg p-3 mb-4">
+            <div class="text-sm font-medium text-primary-700 dark:text-primary-300">
+              💪 {{ getMotivationalQuote() }}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <button
+            @click="showStartConfirmDialog = false"
+            class="flex-1 py-3 px-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200 font-medium"
+          >
+            再想想
+          </button>
+          <button
+            @click="confirmStartStudy"
+            class="flex-1 py-3 px-4 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-lg hover:from-primary-600 hover:to-accent-600 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+          >
+            开始学习！
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -323,6 +361,8 @@ const showWelcomeGuide = ref(false)
 
 // 停止学习确认对话框状态
 const showStopConfirmDialog = ref(false)
+// 开始学习确认对话框状态
+const showStartConfirmDialog = ref(false)
 
 // 学习数据
 const dailyGoal = ref(10)
@@ -357,6 +397,14 @@ const progressPercentage = computed(() => {
 
 // 开始学习
 const startStudy = async () => {
+  // 显示确认对话框
+  showStartConfirmDialog.value = true
+}
+
+// 确认开始学习
+const confirmStartStudy = async () => {
+  showStartConfirmDialog.value = false
+
   // 检查是否首次使用
   const isFirstTime = !localStorage.getItem('learn_word_welcome_shown')
   if (isFirstTime) {
@@ -365,6 +413,23 @@ const startStudy = async () => {
   }
 
   proceedToStudy()
+}
+
+// 获取激励语句
+const getMotivationalQuote = () => {
+  const quotes = [
+    "学习是通向成功的阶梯！",
+    "每一个单词都让你更接近目标！",
+    "坚持就是胜利，加油！",
+    "今天的努力，明天的收获！",
+    "相信自己，你一定能做到！",
+    "知识改变命运，学习成就未来！",
+    "积累的力量是无穷的！",
+    "每学一个单词，世界就大一点！",
+    "学习让生活更精彩！",
+    "你的努力终将绽放光芒！"
+  ]
+  return quotes[Math.floor(Math.random() * quotes.length)]
 }
 
 // 实际开始学习的逻辑

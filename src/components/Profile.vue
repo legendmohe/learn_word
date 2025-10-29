@@ -12,7 +12,6 @@
 
       <!-- 学习连续天数 -->
       <div class="flex justify-center items-center gap-2 mb-4">
-        <span class="text-3xl">🔥</span>
         <div class="text-center">
           <div class="text-2xl font-bold text-primary-600 dark:text-primary-400">
             {{ studyProgress.streak }}
