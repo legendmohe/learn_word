@@ -118,11 +118,26 @@ onMounted(() => {
 
   // 监听学习完成事件，更新进度
   window.addEventListener('studyCompleted', loadTodayProgress)
+
+  // 监听来自其他组件的标签页切换事件
+  const handleTabChange = (event) => {
+    currentTab.value = event.detail.tab
+  }
+  window.addEventListener('tabChange', handleTabChange)
+
+  // 保存事件监听器引用，以便后续清理
+  window._bottomNavigationTabChangeHandler = handleTabChange
 })
 
 // 清理事件监听器
 onUnmounted(() => {
   window.removeEventListener('studyCompleted', loadTodayProgress)
+
+  // 清理标签页切换事件监听器
+  if (window._bottomNavigationTabChangeHandler) {
+    window.removeEventListener('tabChange', window._bottomNavigationTabChangeHandler)
+    delete window._bottomNavigationTabChangeHandler
+  }
 })
 </script>
 
