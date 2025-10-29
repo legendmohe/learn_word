@@ -93,12 +93,6 @@
               </div>
               <div class="flex flex-col gap-2 ml-3">
                 <button
-                  @click="retryWord(word)"
-                  class="px-3 py-2 bg-primary-500 text-white text-sm rounded-lg hover:bg-primary-600 transition-colors"
-                >
-                  重试
-                </button>
-                <button
                   @click="removeWord(word.word)"
                   class="px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                 >
@@ -187,52 +181,16 @@
       </div>
     </div>
 
-    <!-- 重试单词模态框 -->
-    <div v-if="showRetryModal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="modal-content bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-sm w-full">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-          单词重试
-        </h3>
-        <div class="mb-4">
-          <div class="text-xl font-bold text-primary-600 dark:text-primary-400 mb-2">
-            {{ retryWordData.meaning }}
-          </div>
-          <input
-            v-model="retryAnswer"
-            type="text"
-            placeholder="请输入英文单词"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-            @keyup.enter="checkRetryAnswer"
-            ref="retryInput"
-          />
-        </div>
-        <div class="flex gap-3">
-          <button
-            @click="closeRetryModal"
-            class="flex-1 py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-          >
-            取消
-          </button>
-          <button
-            @click="checkRetryAnswer"
-            class="flex-1 py-2 px-4 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
-          >
-            提交
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted } from 'vue'
 import {
   getErrorWords,
   getLearnedWords,
   removeErrorWord,
-  clearAllErrorWords,
-  updateStudyProgress
+  clearAllErrorWords
 } from '../utils/studyData'
 
 // 定义事件
@@ -250,12 +208,6 @@ const props = defineProps({
 // 响应式数据
 const errorWords = ref([])
 const learnedWords = ref([])
-
-// 重试模态框
-const showRetryModal = ref(false)
-const retryWordData = ref({})
-const retryAnswer = ref('')
-const retryInput = ref(null)
 
 // 组件挂载时加载数据
 onMounted(() => {
@@ -291,43 +243,6 @@ const removeWord = (word) => {
   }
 }
 
-// 重试单词
-const retryWord = (word) => {
-  retryWordData.value = word
-  retryAnswer.value = ''
-  showRetryModal.value = true
-
-  // 自动聚焦输入框
-  nextTick(() => {
-    retryInput.value?.focus()
-  })
-}
-
-// 检查重试答案
-const checkRetryAnswer = () => {
-  if (!retryAnswer.value.trim()) return
-
-  const isCorrect = retryAnswer.value.trim().toLowerCase() === retryWordData.value.word.toLowerCase()
-
-  if (isCorrect) {
-    removeErrorWord(retryWordData.value.word)
-    updateStudyProgress(true)
-    loadData()
-    closeRetryModal()
-    showNotification('回答正确！单词已从错误列表中移除', 'success')
-  } else {
-    showNotification('回答错误，请再试试', 'error')
-    retryAnswer.value = ''
-    retryInput.value?.focus()
-  }
-}
-
-// 关闭重试模态框
-const closeRetryModal = () => {
-  showRetryModal.value = false
-  retryWordData.value = {}
-  retryAnswer.value = ''
-}
 
 // 获取今日错误数量
 const getTodayErrorCount = () => {
