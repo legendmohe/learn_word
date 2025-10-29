@@ -600,11 +600,10 @@ onUnmounted(() => {
 
 <style scoped>
 .today-study {
-  min-height: 100vh;
+  height: calc(100vh - 32px); /* 减去App.vue的上下padding */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-bottom: 80px; /* 为底部导航留出空间 */
 }
 
 .study-container {
@@ -617,7 +616,8 @@ onUnmounted(() => {
 
 .word-card {
   transition: transform 0.3s ease;
-  min-height: 60vh;
+  flex: 1;
+  margin-bottom: 16px;
 }
 
 

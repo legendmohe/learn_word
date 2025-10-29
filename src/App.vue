@@ -5,7 +5,7 @@
 
       <!-- 主内容区域 -->
       <main class="flex-1 relative z-10 pb-20">
-        <div class="px-4 py-6">
+        <div class="px-4 pt-2 pb-2 h-full">
           <router-view />
         </div>
       </main>

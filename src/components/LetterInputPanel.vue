@@ -326,11 +326,10 @@ defineExpose({
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
-  padding: 16px 8px;
+  padding: 12px 6px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   box-sizing: border-box;
-  overflow: hidden;
 }
 
 .dark .letter-keyboard {
@@ -340,12 +339,12 @@ defineExpose({
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 4px;
-  margin-bottom: 10px;
+  gap: 3px;
+  margin-bottom: 8px;
 }
 
 .letter-key {
-  min-width: 32px;
+  min-width: 28px;
   height: 48px;
   border: none;
   border-radius: 10px;
@@ -411,7 +410,7 @@ defineExpose({
 
 .action-key {
   min-width: 60px;
-  height: 45px;
+  height: 44px;
   border: none;
   border-radius: 10px;
   font-size: 0.9rem;
@@ -465,7 +464,7 @@ defineExpose({
 /* 响应式设计 */
 @media (max-width: 480px) {
   .letter-keyboard {
-    padding: 12px 6px;
+    padding: 14px 8px;
   }
 
   .keyboard-row {
@@ -474,9 +473,9 @@ defineExpose({
   }
 
   .letter-key {
-    min-width: 28px;
-    height: 40px;
-    font-size: 0.9rem;
+    min-width: 32px;
+    height: 48px;
+    font-size: 1rem;
   }
 
   .action-row {
@@ -484,15 +483,15 @@ defineExpose({
   }
 
   .action-key {
-    min-width: 45px;
-    height: 36px;
-    font-size: 0.8rem;
+    min-width: 60px;
+    height: 44px;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 380px) {
   .letter-keyboard {
-    padding: 10px 4px;
+    padding: 12px 6px;
   }
 
   .keyboard-row {
@@ -501,10 +500,10 @@ defineExpose({
   }
 
   .letter-key {
-    min-width: 26px;
-    height: 36px;
-    font-size: 0.85rem;
-    border-radius: 8px;
+    min-width: 30px;
+    height: 44px;
+    font-size: 0.95rem;
+    border-radius: 10px;
   }
 
   .letter-slot {
@@ -517,9 +516,9 @@ defineExpose({
   }
 
   .action-key {
-    min-width: 40px;
-    height: 32px;
-    font-size: 0.75rem;
+    min-width: 55px;
+    height: 40px;
+    font-size: 0.85rem;
   }
 }
 
