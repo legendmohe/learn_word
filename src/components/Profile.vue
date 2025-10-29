@@ -22,15 +22,15 @@
 
       <!-- 快速统计 -->
       <div class="grid grid-cols-3 gap-2">
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-3 flex flex-col items-center justify-center text-center min-h-[60px]">
           <div class="text-lg font-bold text-primary-600 dark:text-primary-400">{{ studyProgress.totalLearned }}</div>
           <div class="text-xs text-gray-500 dark:text-gray-400">总学习</div>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-3 flex flex-col items-center justify-center text-center min-h-[60px]">
           <div class="text-lg font-bold text-green-600 dark:text-green-400">{{ accuracyRate }}%</div>
           <div class="text-xs text-gray-500 dark:text-gray-400">正确率</div>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-3">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-3 flex flex-col items-center justify-center text-center min-h-[60px]">
           <div class="text-lg font-bold text-accent-600 dark:text-accent-400">{{ formatTime(studyTime) }}</div>
           <div class="text-xs text-gray-500 dark:text-gray-400">学习时长</div>
         </div>
@@ -562,11 +562,15 @@ const resetAllData = () => {
 // 格式化时间
 const formatTime = (minutes) => {
   if (minutes < 60) {
-    return `${minutes}分钟`
+    return `${minutes}分`
   } else {
     const hours = Math.floor(minutes / 60)
     const remainingMinutes = minutes % 60
-    return `${hours}小时${remainingMinutes}分钟`
+    if (remainingMinutes === 0) {
+      return `${hours}时`
+    } else {
+      return `${hours}时${remainingMinutes}分`
+    }
   }
 }
 
