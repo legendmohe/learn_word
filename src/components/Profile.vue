@@ -301,15 +301,27 @@
             <div class="space-y-2">
               <button
                 @click="exportData"
-                class="w-full py-2 px-4 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-left"
+                class="w-full py-2 px-4 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors text-left flex items-center gap-2"
               >
-                导出学习数据
+                <span>📤</span>
+                <span>导出学习数据</span>
               </button>
+              <label class="block w-full py-2 px-4 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-left cursor-pointer flex items-center gap-2">
+                <span>📥</span>
+                <span>导入学习数据</span>
+                <input
+                  type="file"
+                  accept=".json"
+                  @change="importDataFile"
+                  class="hidden"
+                />
+              </label>
               <button
                 @click="resetAllData"
-                class="w-full py-2 px-4 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-left"
+                class="w-full py-2 px-4 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-left flex items-center gap-2"
               >
-                重置所有数据
+                <span>🗑️</span>
+                <span>重置所有数据</span>
               </button>
             </div>
           </div>
@@ -342,7 +354,10 @@ import {
   removeErrorWord,
   updateStudyProgress,
   getStudyTime,
-  clearAllErrorWords
+  clearAllErrorWords,
+  exportAllData,
+  importData,
+  clearAllData
 } from '../utils/studyData'
 import WordList from './WordList.vue'
 
@@ -469,44 +484,79 @@ const toggleAssistMode = () => {
 
 // 导出数据
 const exportData = () => {
-  const data = {
-    studyProgress: studyProgress.value,
-    errorWords: errorWords.value,
-    learnedWords: learnedWords.value,
-    exportDate: new Date().toISOString()
+  try {
+    const data = exportAllData()
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `learn_word_data_${new Date().toISOString().split('T')[0]}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+
+    showNotification('数据已导出', 'success')
+  } catch (error) {
+    console.error('导出数据失败:', error)
+    showNotification('导出数据失败', 'error')
+  }
+}
+
+// 导入数据文件
+const importDataFile = (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result)
+      const result = importData(data)
+
+      if (result.success) {
+        loadData()
+        // 发送数据更新事件，通知其他组件
+        window.dispatchEvent(new CustomEvent('dataImported'))
+
+        const message = `导入成功：${result.imported.join('、')}`
+        showNotification(message, 'success')
+      } else {
+        const errorMessage = result.errors.join('；')
+        showNotification(`导入失败：${errorMessage}`, 'error')
+      }
+    } catch (error) {
+      console.error('导入数据失败:', error)
+      showNotification('导入失败：文件格式错误', 'error')
+    }
   }
 
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `learn_word_data_${new Date().toISOString().split('T')[0]}.json`
-  a.click()
-  URL.revokeObjectURL(url)
+  reader.onerror = () => {
+    showNotification('导入失败：文件读取错误', 'error')
+  }
 
-  showNotification('数据已导出')
+  reader.readAsText(file)
+
+  // 清空文件选择，允许重复选择同一文件
+  event.target.value = ''
 }
 
 // 重置所有数据
 const resetAllData = () => {
   if (confirm('确定要重置所有学习数据吗？此操作不可恢复！')) {
-    const keys = [
-      'learn_word_study_progress',
-      'learn_word_error_words',
-      'learn_word_learned_words',
-      'learn_word_daily_goal',
-      'learn_word_selected_course',
-      'learn_word_study_time'
-    ]
+    if (confirm('再次确认：这将删除所有学习进度、错误单词、已学单词等数据！')) {
+      const success = clearAllData()
 
-    keys.forEach(key => localStorage.removeItem(key))
+      if (success) {
+        loadData()
 
-    loadData()
+        // 发送数据重置事件，通知其他组件更新数据
+        window.dispatchEvent(new CustomEvent('dataReset'))
 
-    // 发送数据重置事件，通知其他组件更新数据
-    window.dispatchEvent(new CustomEvent('dataReset'))
-
-    showNotification('所有数据已重置')
+        showNotification('所有数据已重置', 'success')
+      } else {
+        showNotification('重置数据失败', 'error')
+      }
+    }
   }
 }
 

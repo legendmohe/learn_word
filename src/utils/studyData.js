@@ -286,3 +286,114 @@ export function getTodayWords(count) {
 
   return words.slice(0, count)
 }
+
+/**
+ * 导出所有学习数据为JSON格式
+ * @returns {Object} 包含所有学习数据的对象
+ */
+export function exportAllData() {
+  const data = {
+    version: '1.0.0',
+    exportDate: new Date().toISOString(),
+    studyProgress: getStudyProgress(),
+    errorWords: getErrorWords(),
+    learnedWords: getLearnedWords(),
+    dailyGoal: getDailyGoal(),
+    selectedCourse: getSelectedCourse(),
+    studyTime: getStudyTime(),
+    darkMode: localStorage.getItem(STORAGE_KEYS.DARK_MODE) === 'true'
+  }
+  return data
+}
+
+/**
+ * 导入学习数据
+ * @param {Object} data 要导入的数据
+ * @returns {Object} 导入结果
+ */
+export function importData(data) {
+  try {
+    // 验证数据格式
+    if (!data || typeof data !== 'object') {
+      throw new Error('无效的数据格式')
+    }
+
+    const result = {
+      success: true,
+      imported: [],
+      errors: []
+    }
+
+    // 导入学习进度
+    if (data.studyProgress && typeof data.studyProgress === 'object') {
+      localStorage.setItem(STORAGE_KEYS.STUDY_PROGRESS, JSON.stringify(data.studyProgress))
+      result.imported.push('学习进度')
+    }
+
+    // 导入错误单词
+    if (data.errorWords && Array.isArray(data.errorWords)) {
+      localStorage.setItem(STORAGE_KEYS.ERROR_WORDS, JSON.stringify(data.errorWords))
+      result.imported.push('错误单词')
+    }
+
+    // 导入已学单词
+    if (data.learnedWords && Array.isArray(data.learnedWords)) {
+      localStorage.setItem(STORAGE_KEYS.LEARNED_WORDS, JSON.stringify(data.learnedWords))
+      result.imported.push('已学单词')
+    }
+
+    // 导入每日目标
+    if (data.dailyGoal && typeof data.dailyGoal === 'number') {
+      localStorage.setItem(STORAGE_KEYS.DAILY_GOAL, data.dailyGoal.toString())
+      result.imported.push('每日目标')
+    }
+
+    // 导入选中课程
+    if (data.selectedCourse && typeof data.selectedCourse === 'string' && isValidCourse(data.selectedCourse)) {
+      localStorage.setItem(STORAGE_KEYS.SELECTED_COURSE, data.selectedCourse)
+      result.imported.push('选中课程')
+    }
+
+    // 导入学习时长
+    if (data.studyTime && typeof data.studyTime === 'number') {
+      localStorage.setItem(STORAGE_KEYS.STUDY_TIME, data.studyTime.toString())
+      result.imported.push('学习时长')
+    }
+
+    // 导入深色模式设置
+    if (data.darkMode !== undefined) {
+      localStorage.setItem(STORAGE_KEYS.DARK_MODE, data.darkMode.toString())
+      result.imported.push('主题设置')
+    }
+
+    if (result.imported.length === 0) {
+      result.success = false
+      result.errors.push('没有可导入的数据')
+    }
+
+    return result
+
+  } catch (error) {
+    return {
+      success: false,
+      imported: [],
+      errors: [error.message]
+    }
+  }
+}
+
+/**
+ * 清空所有学习数据
+ * @returns {boolean} 是否成功清空
+ */
+export function clearAllData() {
+  try {
+    Object.values(STORAGE_KEYS).forEach(key => {
+      localStorage.removeItem(key)
+    })
+    return true
+  } catch (error) {
+    console.error('清空数据失败:', error)
+    return false
+  }
+}
