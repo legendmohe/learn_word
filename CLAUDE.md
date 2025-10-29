@@ -4,26 +4,136 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This appears to be a new "learn_word" project for vocabulary/word learning functionality. The repository is currently empty and ready for initial development.
+**Learn Word** is a modern, mobile-first English vocabulary learning application built with Vue 3. The app provides an intuitive and engaging way to learn English words through spaced repetition, progress tracking, and interactive exercises.
+
+## Technology Stack
+
+- **Frontend**: Vue 3 with Composition API
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Dark Mode**: VueUse/useDark
+- **Icons**: SVG icons embedded in components
+- **Storage**: LocalStorage for data persistence
+- **Deployment**: Static web hosting ready
 
 ## Development Setup
 
-Since this is a new project, you'll need to:
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-1. Initialize the project structure based on the intended technology stack
-2. Set up package management (npm, pip, etc.) as appropriate
-3. Create initial project files and directories
+2. **Development server**:
+   ```bash
+   npm run dev
+   ```
 
-## Common Commands
+3. **Build for production**:
+   ```bash
+   npm run build
+   ```
 
-Commands will be added here once the project structure and technology stack are established.
+4. **Preview production build**:
+   ```bash
+   npm run preview
+   ```
 
-## Architecture
+## Project Structure
 
-Project architecture details will be added as the codebase develops.
+```
+src/
+├── components/           # Vue components
+│   ├── BottomNavigation.vue    # Main navigation
+│   ├── Courses.vue             # Course management
+│   ├── CourseSelection.vue     # Course picker
+│   ├── LetterInputPanel.vue    # Keyboard input for spelling
+│   ├── Profile.vue             # User profile and settings
+│   ├── TodayStudy.vue          # Main learning interface
+│   ├── WelcomeGuide.vue        # First-time user guide
+│   └── WordList.vue            # Error/Learned words lists
+├── utils/               # Utility functions
+│   └── studyData.js           # Data management and persistence
+├── views/               # Page components
+│   └── Home.vue                # Main application container
+├── App.vue              # Root component with layout
+├── style.css            # Global styles and Tailwind imports
+└── main.js              # Application entry point
+```
 
-## Notes
+## Key Features
 
-- This is a fresh repository with no existing code
-- Focus on establishing proper project structure first
-- Consider what type of word learning functionality is intended (flashcards, quizzes, vocabulary tracking, etc.)
+### Learning System
+- **Daily Goals**: Configurable daily word targets
+- **Spaced Repetition**: Intelligent review scheduling
+- **Progress Tracking**: Visual progress indicators and statistics
+- **Interactive Spelling**: Touch-friendly keyboard interface
+
+### Data Management
+- **JSON-based Storage**: All data stored in localStorage as JSON
+- **Session Persistence**: Resume learning sessions seamlessly
+- **Progress Statistics**: Track learning time, accuracy, and streaks
+- **Error Tracking**: Separate lists for learned and error words
+
+### User Experience
+- **Responsive Design**: Optimized for mobile devices
+- **Dark Mode**: System-aware dark/light theme
+- **Gesture Support**: Touch-optimized interactions
+- **Smooth Animations**: Polished transitions and micro-interactions
+
+## Architecture Notes
+
+### Component Hierarchy
+- **App.vue**: Main layout with navigation and content area
+- **Home.vue**: Tab-based content management (today/courses/profile)
+- **TodayStudy.vue**: Learning interface with multiple states (ready/studying/completed)
+- **Profile.vue**: User settings with sub-navigation and modal flows
+
+### State Management
+- **Local State**: Vue 3 Composition API for component state
+- **Global Events**: Custom events for cross-component communication
+- **Persistent Storage**: localStorage utilities in `studyData.js`
+
+### Styling Strategy
+- **Tailwind CSS**: Utility-first CSS framework
+- **Glass Morphism**: Modern UI with backdrop filters
+- **Responsive Breakpoints**: Mobile-first approach with key breakpoints at 480px and 380px
+- **Custom Animations**: CSS keyframes for smooth interactions
+
+## Recent Development Focus
+
+### UI/UX Improvements
+- Optimized letter input panel for better touch experience
+- Fixed layout issues with proper flex height management
+- Improved responsive design for small screens
+- Enhanced visual hierarchy and spacing
+
+### Layout Optimizations
+- Resolved scroll issues in learning interfaces
+- Proper height distribution between header, content, and navigation
+- Adaptive layouts for different screen states (ready/studying/completed)
+
+### Data Structure Enhancements
+- JSON-based data format for better maintainability
+- Decoupled data logic from UI components
+- Session management for interrupted learning flows
+
+## Development Guidelines
+
+### When Working on This Project:
+1. **Mobile-First**: Always test on small screens first
+2. **Touch-Friendly**: Ensure all interactive elements meet minimum touch targets (44px)
+3. **Performance**: Use flex layout and avoid unnecessary reflows
+4. **Accessibility**: Maintain semantic HTML and proper ARIA labels
+5. **Data Safety**: Always validate and handle localStorage gracefully
+
+### Common Issues and Solutions:
+- **Button Sizing**: Use flex layout with `flex: 1` for keyboard buttons
+- **Height Management**: Use `min-height: 0` with flex containers to prevent overflow
+- **Responsive Design**: Test thoroughly at 380px, 480px, and larger breakpoints
+- **State Management**: Use custom events for parent-child communication
+
+## Deployment Notes
+
+- **Static Hosting**: Suitable for GitHub Pages, Netlify, Vercel, etc.
+- **Build Output**: Dist folder contains optimized static assets
+- **PWA Ready**: Can be enhanced with service worker for offline usage
