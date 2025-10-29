@@ -49,8 +49,27 @@
         <div class="text-center flex-1 flex flex-col justify-center">
           <!-- 填空题 -->
           <div>
-            <div class="text-3xl font-bold text-primary-600 dark:text-primary-400">
-              {{ currentWord.meaning }}
+            <div class="flex items-center justify-center gap-3">
+              <div class="text-3xl font-bold text-primary-600 dark:text-primary-400">
+                {{ currentWord.meaning }}
+              </div>
+              <!-- 语音播放按钮 -->
+              <button
+                @click="playWordAudio"
+                :disabled="isPlayingAudio"
+                class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 group"
+                title="播放发音"
+              >
+                <svg
+                  class="w-6 h-6 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
+                  :class="{ 'animate-pulse': isPlayingAudio }"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                </svg>
+              </button>
             </div>
 
             <!-- 字母输入面板 -->
@@ -386,6 +405,9 @@ const studyStats = ref({
 // 字母输入面板引用
 const letterInputPanel = ref(null)
 
+// 语音播放相关状态
+const isPlayingAudio = ref(false)
+
 // 计算属性
 const currentWord = computed(() => {
   return studyWords.value[currentWordIndex.value] || {}
@@ -430,6 +452,55 @@ const getMotivationalQuote = () => {
     "你的努力终将绽放光芒！"
   ]
   return quotes[Math.floor(Math.random() * quotes.length)]
+}
+
+// 播放单词语音
+const playWordAudio = () => {
+  if (!currentWord.value.word) return
+
+  // 检查浏览器是否支持语音合成
+  if (!('speechSynthesis' in window)) {
+    console.warn('浏览器不支持语音合成功能')
+    return
+  }
+
+  // 如果正在播放，先停止
+  if (isPlayingAudio.value) {
+    window.speechSynthesis.cancel()
+    isPlayingAudio.value = false
+    return
+  }
+
+  // 创建语音合成实例
+  const utterance = new SpeechSynthesisUtterance(currentWord.value.word)
+
+  // 设置语音参数
+  utterance.lang = 'en-US'  // 美式英语
+  utterance.rate = 0.8      // 语速稍慢，便于学习
+  utterance.pitch = 1.0      // 正常音调
+  utterance.volume = 1.0     // 最大音量
+
+  // 事件监听
+  utterance.onstart = () => {
+    isPlayingAudio.value = true
+  }
+
+  utterance.onend = () => {
+    isPlayingAudio.value = false
+  }
+
+  utterance.onerror = (event) => {
+    console.error('语音播放错误:', event.error)
+    isPlayingAudio.value = false
+  }
+
+  // 开始播放
+  try {
+    window.speechSynthesis.speak(utterance)
+  } catch (error) {
+    console.error('语音播放失败:', error)
+    isPlayingAudio.value = false
+  }
 }
 
 // 实际开始学习的逻辑
