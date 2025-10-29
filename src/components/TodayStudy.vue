@@ -46,20 +46,15 @@
               {{ currentWord.meaning }}
             </div>
 
-            <!-- 填空输入区域 -->
-            <div v-if="!showResult" class="relative">
-              <input
-                v-model="userAnswer"
-                @keyup.enter="checkAnswer"
-                type="text"
-                placeholder="请输入英文单词"
-                class="w-full px-4 py-3 text-lg text-center border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 transition-colors"
-                :class="{ 'border-red-500': userAnswer && userAnswer.trim() !== '' }"
-                ref="answerInput"
+            <!-- 字母输入面板 -->
+            <div v-if="!showResult">
+              <LetterInputPanel
+                :word="currentWord.word"
+                :show-result="showResult"
+                @answer="handleAnswer"
+                @input-change="handleInputChange"
+                ref="letterInputPanel"
               />
-              <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                按回车键提交答案
-              </div>
             </div>
 
             <!-- 结果显示 -->
@@ -167,6 +162,7 @@ import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, addLearnedWord, removeErrorWord } from '../utils/studyData'
 import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
+import LetterInputPanel from './LetterInputPanel.vue'
 
 // 定义事件
 const emit = defineEmits(['completed'])
@@ -189,8 +185,8 @@ const studyStats = ref({
   accuracy: 0
 })
 
-// 输入框引用
-const answerInput = ref(null)
+// 字母输入面板引用
+const letterInputPanel = ref(null)
 
 // 计算属性
 const currentWord = computed(() => {
@@ -217,10 +213,6 @@ const startStudy = async () => {
     currentWordIndex.value = 0
     studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
     studyStatus.value = 'studying'
-
-    // 自动聚焦输入框
-    await nextTick()
-    answerInput.value?.focus()
   } catch (error) {
     console.error('开始学习失败:', error)
     // 如果获取错误单词失败，使用新单词
@@ -232,11 +224,22 @@ const startStudy = async () => {
   }
 }
 
+// 处理字母输入面板的答案
+const handleAnswer = (answer) => {
+  userAnswer.value = answer
+  checkAnswer()
+}
+
+// 处理字母输入变化
+const handleInputChange = (input) => {
+  userAnswer.value = input
+}
+
 // 检查答案
 const checkAnswer = () => {
-  if (!userAnswer.value.trim()) return
+  if (!userAnswer.value) return
 
-  const answer = userAnswer.value.trim().toLowerCase()
+  const answer = userAnswer.value.toLowerCase()
   const correctAnswer = currentWord.value.word.toLowerCase()
 
   isCorrect.value = answer === correctAnswer
@@ -277,9 +280,9 @@ const nextWord = () => {
     showResult.value = false
     isCorrect.value = false
 
-    // 自动聚焦输入框
+    // 清空字母输入面板
     nextTick(() => {
-      answerInput.value?.focus()
+      letterInputPanel.value?.clear()
     })
   } else {
     // 学习完成

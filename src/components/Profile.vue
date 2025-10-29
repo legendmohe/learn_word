@@ -232,6 +232,34 @@
             </div>
           </div>
 
+          <!-- 辅助模式 -->
+          <div class="setting-item glass-effect rounded-lg p-4 card-shadow">
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="font-medium text-gray-800 dark:text-gray-200">
+                  辅助模式
+                </div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                  关闭后所有字母按钮都可用（适合高级用户）
+                </div>
+              </div>
+              <button
+                @click="toggleAssistMode"
+                :class="[
+                  'w-12 h-6 rounded-full transition-colors duration-200',
+                  assistModeEnabled ? 'bg-primary-500' : 'bg-gray-300 dark:bg-gray-600'
+                ]"
+              >
+                <div
+                  :class="[
+                    'w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200',
+                    assistModeEnabled ? 'translate-x-6' : 'translate-x-0.5'
+                  ]"
+                ></div>
+              </button>
+            </div>
+          </div>
+
           <!-- 数据管理 -->
           <div class="setting-item glass-effect rounded-lg p-4 card-shadow">
             <div class="font-medium text-gray-800 dark:text-gray-200 mb-3">
@@ -334,6 +362,7 @@ const studyTime = ref(0)
 // 设置相关
 const isDarkMode = ref(false)
 const notificationsEnabled = ref(false)
+const assistModeEnabled = ref(true) // 默认开启辅助模式
 
 // 重试模态框
 const showRetryModal = ref(false)
@@ -376,6 +405,7 @@ const loadData = () => {
 const loadSettings = () => {
   isDarkMode.value = isDark.value
   notificationsEnabled.value = localStorage.getItem('learn_word_notifications') !== 'false'
+  assistModeEnabled.value = localStorage.getItem('learn_word_assist_mode') !== 'false'
 }
 
 // 清空错误单词
@@ -432,6 +462,16 @@ const toggleNotification = () => {
   if (notificationsEnabled.value && 'Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission()
   }
+}
+
+// 切换辅助模式
+const toggleAssistMode = () => {
+  assistModeEnabled.value = !assistModeEnabled.value
+  localStorage.setItem('learn_word_assist_mode', assistModeEnabled.value.toString())
+
+  // 显示提示信息
+  const message = assistModeEnabled.value ? '辅助模式已开启' : '辅助模式已关闭'
+  showNotification(message)
 }
 
 // 导出数据
