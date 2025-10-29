@@ -3,9 +3,6 @@
     <!-- 主容器 -->
     <div class="max-w-md mx-auto min-h-screen flex flex-col relative">
 
-      <!-- 顶部渐变装饰 -->
-      <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-r from-primary-400 to-accent-400 opacity-20 dark:opacity-10"></div>
-
       <!-- 主内容区域 -->
       <main class="flex-1 relative z-10 pb-20">
         <div class="px-4 py-6">
