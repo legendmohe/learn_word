@@ -63,10 +63,22 @@ src/
 ## Key Features
 
 ### Learning System
-- **Daily Goals**: Configurable daily word targets
-- **Spaced Repetition**: Intelligent review scheduling
-- **Progress Tracking**: Visual progress indicators and statistics
-- **Interactive Spelling**: Touch-friendly keyboard interface
+- **Daily Goals**: Configurable daily word targets with progress tracking
+- **Smart Keyboard Layout**: Adaptive letter input based on assist mode setting
+  - Assist mode: Shows only word letters in random positions
+  - Normal mode: Word letters + extra干扰 letters, fully randomized
+- **Audio Pronunciation**: Built-in speech synthesis for English word pronunciation
+- **Interactive Spelling**: Touch-friendly keyboard with visual feedback
+- **Motivational Design**: Encouraging confirmation dialogs with random motivational quotes
+- **Course Management**: Dynamic course selection with search and progress tracking
+
+### User Interface
+- **Mobile-First Design**: Optimized for touch devices with proper spacing
+- **Dark/Light Mode**: System-aware theme switching
+- **Glass Morphism UI**: Modern, translucent design elements
+- **Smooth Animations**: Polished transitions and micro-interactions
+- **Search Functionality**: Quick access to courses and word lists
+- **Responsive Layout**: Adaptive design for different screen sizes
 
 ### Data Management
 - **JSON-based Storage**: All data stored in localStorage as JSON
@@ -102,20 +114,31 @@ src/
 ## Recent Development Focus
 
 ### UI/UX Improvements
-- Optimized letter input panel for better touch experience
-- Fixed layout issues with proper flex height management
-- Improved responsive design for small screens
-- Enhanced visual hierarchy and spacing
+- **Optimized letter input panel**: Smart keyboard layout based on assist mode
+  - Assist mode: Only shows word letters with random positions
+  - Normal mode: Word letters + 50% extra干扰 letters, fully randomized
+- **Fixed layout issues**: Proper flex height management and responsive design
+- **Enhanced visual hierarchy**: Improved spacing and alignment across components
+- **Course selection UI**: Changed from cards to list view with search functionality
+- **Word list enhancements**: Added search for both error and learned words lists
+- **Profile improvements**: Fixed user card statistics layout and centering
 
 ### Layout Optimizations
-- Resolved scroll issues in learning interfaces
-- Proper height distribution between header, content, and navigation
-- Adaptive layouts for different screen states (ready/studying/completed)
+- **Dynamic keyboard layouts**: Context-aware letter input based on learning mode
+- **Responsive design**: Optimized for mobile devices with proper touch targets
+- **Navigation synchronization**: Fixed tab switching state management
+- **Centered content**: Proper alignment for Chinese text and UI elements
+
+### Learning Experience Enhancements
+- **Speech synthesis**: Added audio pronunciation for English words using Web Speech API
+- **Start study confirmation**: Encouraging confirmation dialog with motivational quotes
+- **Progress tracking**: Enhanced today's progress card with current course display
+- **Button layout improvements**: Better organization of action buttons in learning interface
 
 ### Data Structure Enhancements
-- JSON-based data format for better maintainability
-- Decoupled data logic from UI components
-- Session management for interrupted learning flows
+- **Session management**: Robust handling of interrupted learning flows
+- **Search functionality**: Implemented search across course selection and word lists
+- **State synchronization**: Better communication between components using custom events
 
 ## Development Guidelines
 
@@ -127,10 +150,13 @@ src/
 5. **Data Safety**: Always validate and handle localStorage gracefully
 
 ### Common Issues and Solutions:
-- **Button Sizing**: Use flex layout with `flex: 1` for keyboard buttons
+- **Button Sizing**: Use flex layout with `flex: 1` for keyboard buttons, or fixed sizes for uniformity
 - **Height Management**: Use `min-height: 0` with flex containers to prevent overflow
 - **Responsive Design**: Test thoroughly at 380px, 480px, and larger breakpoints
 - **State Management**: Use custom events for parent-child communication
+- **Keyboard Layout**: Dynamic keyboard generation based on assist mode and word length
+- **Audio Features**: Web Speech API integration with proper browser compatibility checks
+- **Centering Issues**: Use grid layout (`grid place-items-center`) for perfect content centering
 
 ## Deployment Notes
 
