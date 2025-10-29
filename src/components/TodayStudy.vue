@@ -164,8 +164,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick, watch } from 'vue'
-import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, addLearnedWord, removeErrorWord } from '../utils/studyData'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, addLearnedWord, removeErrorWord, updateStudyTime } from '../utils/studyData'
 import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
 import LetterInputPanel from './LetterInputPanel.vue'
@@ -187,6 +187,9 @@ const currentWordIndex = ref(0)
 const userAnswer = ref('')
 const showResult = ref(false)
 const isCorrect = ref(false)
+
+// 学习时间记录
+const studyStartTime = ref(null)
 
 // 学习统计
 const studyStats = ref({
@@ -222,6 +225,9 @@ const startStudy = async () => {
 // 实际开始学习的逻辑
 const proceedToStudy = async () => {
   try {
+    // 记录学习开始时间
+    studyStartTime.value = Date.now()
+
     // 获取今日学习单词
     const todayWords = getTodayWords(dailyGoal.value)
     if (todayWords.length === 0) {
@@ -309,6 +315,17 @@ const nextWord = () => {
   } else {
     // 学习完成
     studyStatus.value = 'completed'
+
+    // 计算并保存学习时长
+    if (studyStartTime.value) {
+      const studyEndTime = Date.now()
+      const studyDurationMs = studyEndTime - studyStartTime.value
+      const studyDurationMinutes = Math.max(1, Math.round(studyDurationMs / (1000 * 60)))
+      console.log('学习完成 - 原始时长(ms):', studyDurationMs, '计算后时长:', studyDurationMinutes, '分钟')
+      updateStudyTime(studyDurationMinutes)
+      console.log('学习时长已保存到localStorage')
+    }
+
     emit('completed')
 
     // 发送学习完成事件
@@ -368,9 +385,26 @@ watch(currentWord, () => {
   isCorrect.value = false
 })
 
+// 保存当前学习时长
+const saveCurrentStudyTime = () => {
+  if (studyStartTime.value && studyStatus.value === 'studying') {
+    const currentTime = Date.now()
+    const studyDurationMs = currentTime - studyStartTime.value
+    const studyDurationMinutes = Math.max(1, Math.round(studyDurationMs / (1000 * 60)))
+    console.log('组件卸载 - 原始时长(ms):', studyDurationMs, '计算后时长:', studyDurationMinutes, '分钟')
+    updateStudyTime(studyDurationMinutes)
+    console.log('组件卸载 - 学习时长已保存')
+  }
+}
+
 // 组件挂载时初始化
 onMounted(() => {
   dailyGoal.value = getDailyGoal()
+})
+
+// 组件卸载时保存学习时长
+onUnmounted(() => {
+  saveCurrentStudyTime()
 })
 </script>
 

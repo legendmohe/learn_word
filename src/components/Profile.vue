@@ -396,6 +396,7 @@ const loadData = () => {
   errorWords.value = getErrorWords()
   learnedWords.value = getLearnedWords()
   studyTime.value = getStudyTime()
+  console.log('Profile.loadData - 学习时长:', studyTime.value, '分钟')
 }
 
 // 加载设置

@@ -225,7 +225,9 @@ export function getStudyTime() {
  */
 export function updateStudyTime(minutes) {
   const currentTime = getStudyTime()
-  localStorage.setItem(STORAGE_KEYS.STUDY_TIME, (currentTime + minutes).toString())
+  const newTime = currentTime + minutes
+  localStorage.setItem(STORAGE_KEYS.STUDY_TIME, newTime.toString())
+  console.log('updateStudyTime - 原时长:', currentTime, '分钟, 新增:', minutes, '分钟, 总时长:', newTime, '分钟')
 }
 
 /**
