@@ -491,6 +491,10 @@ const resetAllData = () => {
     keys.forEach(key => localStorage.removeItem(key))
 
     loadData()
+
+    // 发送数据重置事件，通知其他组件更新数据
+    window.dispatchEvent(new CustomEvent('dataReset'))
+
     showNotification('所有数据已重置')
   }
 }

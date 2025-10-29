@@ -3,6 +3,8 @@
  * 使用localStorage存储学习进度、错误记录等数据
  */
 
+import { getDefaultSettings, isValidCourse } from './coursesParser.js'
+
 const STORAGE_KEYS = {
   STUDY_PROGRESS: 'learn_word_study_progress',
   ERROR_WORDS: 'learn_word_error_words',
@@ -13,8 +15,10 @@ const STORAGE_KEYS = {
   DARK_MODE: 'learn_word_dark_mode'
 }
 
-// 默认每日学习目标
-const DEFAULT_DAILY_GOAL = 10
+// 获取默认设置
+const DEFAULT_SETTINGS = getDefaultSettings()
+const DEFAULT_DAILY_GOAL = DEFAULT_SETTINGS.defaultDailyGoal
+const DEFAULT_COURSE = DEFAULT_SETTINGS.defaultCourse
 
 /**
  * 获取学习进度
@@ -199,7 +203,15 @@ export function getTodayProgress() {
  * @returns {string} 课程名
  */
 export function getSelectedCourse() {
-  return localStorage.getItem(STORAGE_KEYS.SELECTED_COURSE) || '基础词汇'
+  const savedCourse = localStorage.getItem(STORAGE_KEYS.SELECTED_COURSE)
+
+  // 如果保存的课程存在且有效，则返回
+  if (savedCourse && isValidCourse(savedCourse)) {
+    return savedCourse
+  }
+
+  // 否则返回默认课程
+  return DEFAULT_COURSE
 }
 
 /**

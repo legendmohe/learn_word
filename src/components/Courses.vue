@@ -101,14 +101,14 @@
             <input
               v-model.number="dailyGoal"
               type="range"
-              min="5"
-              max="50"
-              step="5"
+              :min="minDailyGoal"
+              :max="maxDailyGoal"
+              :step="dailyGoalStep"
               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
             <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-              <span>5</span>
-              <span>50</span>
+              <span>{{ minDailyGoal }}</span>
+              <span>{{ maxDailyGoal }}</span>
             </div>
           </div>
 
@@ -143,7 +143,7 @@
 
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue'
-import { getAllCourses } from '../utils/coursesParser'
+import { getAllCourses, getCourseByName, getDefaultSettings } from '../utils/coursesParser'
 import { getSelectedCourse, setSelectedCourse, getDailyGoal, setDailyGoal, getLearnedWords } from '../utils/studyData'
 import CourseSelection from './CourseSelection.vue'
 
@@ -154,9 +154,17 @@ const showCourseSelection = ref(false)
 const courses = ref([])
 const selectedCourse = ref('')
 
+// 获取默认设置
+const defaultSettings = getDefaultSettings()
+
 // 学习设置
 const dailyGoal = ref(10)
 const smartReviewEnabled = ref(true)
+
+// 设置相关的计算属性
+const minDailyGoal = computed(() => defaultSettings.minDailyGoal)
+const maxDailyGoal = computed(() => defaultSettings.maxDailyGoal)
+const dailyGoalStep = computed(() => defaultSettings.dailyGoalStep)
 
 // 计算属性
 const totalCourses = computed(() => courses.value.length)
@@ -190,20 +198,8 @@ const handleCourseSelected = (courseName) => {
 
 // 获取课程图标
 const getCourseEmoji = (courseName) => {
-  const emojiMap = {
-    '基础词汇': '🔤',
-    '日常用语': '💬',
-    '食物词汇': '🍔',
-    '动物词汇': '🐾',
-    '颜色词汇': '🎨',
-    '学习用品': '✏️',
-    '数字词汇': '🔢',
-    '家庭成员': '👨‍👩‍👧‍👦',
-    '身体部位': '🤚',
-    '交通工具': '🚗',
-    '天气词汇': '🌤️'
-  }
-  return emojiMap[courseName] || '📚'
+  const course = getCourseByName(courseName)
+  return course ? course.emoji : '📚'
 }
 
 // 获取课程单词数量
@@ -236,7 +232,7 @@ const toggleSmartReview = () => {
 
 // 监听每日学习目标变化
 watch(dailyGoal, (newValue) => {
-  if (newValue >= 5 && newValue <= 50) {
+  if (newValue >= minDailyGoal.value && newValue <= maxDailyGoal.value) {
     setDailyGoal(newValue)
   }
 })

@@ -67,8 +67,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { getStudyProgress, getTodayProgress } from '../utils/studyData'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { getStudyProgress, getTodayProgress, getSelectedCourse } from '../utils/studyData'
 import TodayStudy from '../components/TodayStudy.vue'
 import Courses from '../components/Courses.vue'
 import Profile from '../components/Profile.vue'
@@ -82,7 +82,7 @@ const todayProgress = ref({})
 
 // 计算属性
 const selectedCourse = computed(() => {
-  return localStorage.getItem('learn_word_selected_course') || '基础词汇'
+  return getSelectedCourse()
 })
 
 // 组件挂载时加载数据
@@ -105,6 +105,13 @@ const handleStudyCompleted = () => {
 window.addEventListener('tabChange', (event) => {
   currentTab.value = event.detail.tab
 })
+
+// 监听数据重置事件
+const handleDataReset = () => {
+  loadProgressData()
+}
+
+window.addEventListener('dataReset', handleDataReset)
 
 // 暴露方法给子组件调用
 defineExpose({

@@ -146,7 +146,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { getAllCourses } from '../utils/coursesParser'
+import { getAllCourses, getCourseByName } from '../utils/coursesParser'
 import { getSelectedCourse, setSelectedCourse, getDailyGoal, setDailyGoal, getLearnedWords } from '../utils/studyData'
 
 // 定义事件
@@ -207,38 +207,14 @@ const selectCourse = (course) => {
 
 // 获取课程图标
 const getCourseEmoji = (courseName) => {
-  const emojiMap = {
-    '基础词汇': '🔤',
-    '日常用语': '💬',
-    '食物词汇': '🍔',
-    '动物词汇': '🐾',
-    '颜色词汇': '🎨',
-    '学习用品': '✏️',
-    '数字词汇': '🔢',
-    '家庭成员': '👨‍👩‍👧‍👦',
-    '身体部位': '🤚',
-    '交通工具': '🚗',
-    '天气词汇': '🌤️'
-  }
-  return emojiMap[courseName] || '📚'
+  const course = getCourseByName(courseName)
+  return course ? course.emoji : '📚'
 }
 
 // 获取课程描述
 const getCourseDescription = (courseName) => {
-  const descriptions = {
-    '基础词汇': '适合初学者的基础英语单词',
-    '日常用语': '日常生活中常用的词汇表达',
-    '食物词汇': '各种食物和餐饮相关词汇',
-    '动物词汇': '常见动物的英文名称',
-    '颜色词汇': '基本和常用颜色词汇',
-    '学习用品': '学习和办公用品相关词汇',
-    '数字词汇': '基础数字和计数相关词汇',
-    '家庭成员': '家庭关系和亲属称谓词汇',
-    '身体部位': '人体各个部位的英文名称',
-    '交通工具': '各种交通出行工具词汇',
-    '天气词汇': '天气现象和气候相关词汇'
-  }
-  return descriptions[courseName] || '精选词汇课程'
+  const course = getCourseByName(courseName)
+  return course ? course.description : '精选词汇课程'
 }
 
 // 获取课程学习进度
