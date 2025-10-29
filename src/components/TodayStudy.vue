@@ -39,9 +39,6 @@
         <div class="text-center">
           <!-- 填空题 -->
           <div class="mb-8">
-            <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">
-              根据中文意思填入正确的英文单词：
-            </p>
             <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-6">
               {{ currentWord.meaning }}
             </div>
@@ -154,6 +151,15 @@
         </button>
       </div>
     </div>
+
+    <!-- 首次使用引导弹窗 -->
+    <WelcomeGuide
+      v-if="showWelcomeGuide"
+      @close="showWelcomeGuide = false"
+      @skip="handleGuideSkip"
+      @start-learning="handleGuideStartLearning"
+      @go-settings="handleGuideGoToSettings"
+    />
   </div>
 </template>
 
@@ -163,12 +169,16 @@ import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, add
 import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
 import LetterInputPanel from './LetterInputPanel.vue'
+import WelcomeGuide from './WelcomeGuide.vue'
 
 // 定义事件
 const emit = defineEmits(['completed'])
 
 // 学习状态
 const studyStatus = ref('ready') // ready, studying, completed
+
+// 引导弹窗状态
+const showWelcomeGuide = ref(false)
 
 // 学习数据
 const dailyGoal = ref(10)
@@ -199,6 +209,18 @@ const progressPercentage = computed(() => {
 
 // 开始学习
 const startStudy = async () => {
+  // 检查是否首次使用
+  const isFirstTime = !localStorage.getItem('learn_word_welcome_shown')
+  if (isFirstTime) {
+    showWelcomeGuide.value = true
+    return
+  }
+
+  proceedToStudy()
+}
+
+// 实际开始学习的逻辑
+const proceedToStudy = async () => {
   try {
     // 获取今日学习单词
     const todayWords = getTodayWords(dailyGoal.value)
@@ -310,6 +332,22 @@ const switchTab = (tab) => {
   window.dispatchEvent(new CustomEvent('tabChange', {
     detail: { tab }
   }))
+}
+
+// 处理引导弹窗事件
+const handleGuideStartLearning = () => {
+  showWelcomeGuide.value = false
+  proceedToStudy()
+}
+
+const handleGuideGoToSettings = () => {
+  showWelcomeGuide.value = false
+  switchTab('profile')
+}
+
+const handleGuideSkip = () => {
+  showWelcomeGuide.value = false
+  proceedToStudy()
 }
 
 // 获取学习提示
