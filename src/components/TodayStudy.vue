@@ -42,17 +42,17 @@
       </div>
 
       <!-- 单词卡片 -->
-      <div class="word-card glass-effect rounded-2xl p-8 mb-6 card-shadow transform transition-all duration-300"
+      <div class="word-card glass-effect rounded-2xl p-6 card-shadow transform transition-all duration-300 flex-1 flex flex-col justify-between"
            :class="{ 'animate-bounce': showResult }">
-        <div class="text-center">
+        <div class="text-center flex-1 flex flex-col justify-center">
           <!-- 填空题 -->
-          <div class="mb-8">
-            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-6">
+          <div class="mb-6">
+            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-4">
               {{ currentWord.meaning }}
             </div>
 
             <!-- 字母输入面板 -->
-            <div v-if="!showResult">
+            <div v-if="!showResult" class="flex-1 flex flex-col justify-center">
               <LetterInputPanel
                 :word="currentWord.word"
                 :show-result="showResult"
@@ -63,7 +63,7 @@
             </div>
 
             <!-- 结果显示 -->
-            <div v-else class="result-display">
+            <div v-else class="result-display flex-1 flex flex-col justify-center">
               <div v-if="isCorrect" class="success-animation">
                 <div class="text-4xl mb-4">🎉</div>
                 <div class="text-lg font-semibold text-green-600 dark:text-green-400 mb-2">
@@ -90,7 +90,7 @@
           </div>
 
           <!-- 操作按钮 -->
-          <div class="flex gap-3 justify-center">
+          <div class="flex gap-3 justify-center mt-4">
             <button
               v-if="showResult"
               @click="nextWord"
@@ -103,7 +103,7 @@
       </div>
 
       <!-- 提示信息 -->
-      <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+      <div class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
         <div v-if="!showResult">
           💡 提示：{{ getStudyHint() }}
         </div>
@@ -600,16 +600,26 @@ onUnmounted(() => {
 
 <style scoped>
 .today-study {
-  min-height: 400px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-bottom: 80px; /* 为底部导航留出空间 */
+}
+
+.study-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
 }
 
 .word-card {
   transition: transform 0.3s ease;
+  min-height: 60vh;
 }
 
-.word-card:hover {
-  transform: translateY(-2px);
-}
 
 .success-animation {
   animation: successPulse 0.6s ease-out;
