@@ -408,7 +408,7 @@ const removeWord = (word) => {
 
 // 标记错误单词为已掌握
 const markAsLearned = (word) => {
-  if (confirm(`确定要将单词 "${word}" 标记为已掌握吗？`)) {
+  if (confirm(`确定要将单词 "${word.word}" 标记为已掌握吗？`)) {
     addLearnedWord({ word: word.word, meaning: word.meaning })
     removeErrorWord(word.word)
     loadData()
@@ -418,7 +418,7 @@ const markAsLearned = (word) => {
 
 // 标记已学单词为错误
 const markAsError = (word) => {
-  if (confirm(`确定要将单词 "${word}" 标记为需要复习吗？`)) {
+  if (confirm(`确定要将单词 "${word.word}" 标记为需要复习吗？`)) {
     addErrorWord({
       word: word.word,
       meaning: word.meaning,
