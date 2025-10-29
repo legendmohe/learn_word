@@ -312,6 +312,9 @@ const nextWord = () => {
     nextTick(() => {
       letterInputPanel.value?.clear()
     })
+
+    // 保存当前学习会话状态
+    saveStudySession()
   } else {
     // 学习完成
     studyStatus.value = 'completed'
@@ -325,6 +328,9 @@ const nextWord = () => {
       updateStudyTime(studyDurationMinutes)
       console.log('学习时长已保存到localStorage')
     }
+
+    // 清除学习会话数据（学习已完成）
+    localStorage.removeItem('learn_word_study_session')
 
     emit('completed')
 
@@ -342,6 +348,9 @@ const resetStudy = () => {
   showResult.value = false
   isCorrect.value = false
   studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
+
+  // 清除保存的学习会话数据
+  localStorage.removeItem('learn_word_study_session')
 }
 
 // 切换标签页
@@ -397,14 +406,125 @@ const saveCurrentStudyTime = () => {
   }
 }
 
+// 保存学习会话状态
+const saveStudySession = () => {
+  if (studyStatus.value === 'studying') {
+    // 如果已经显示结果（回答正确/错误），则直接进入下一个单词
+    let sessionCurrentWordIndex = currentWordIndex.value
+    let sessionUserAnswer = ''
+    let sessionShowResult = false
+    let sessionIsCorrect = false
+
+    // 如果还没显示结果，保存当前状态
+    if (!showResult.value) {
+      sessionCurrentWordIndex = currentWordIndex.value
+      sessionUserAnswer = userAnswer.value
+      sessionShowResult = false
+      sessionIsCorrect = false
+    } else {
+      // 如果已经显示结果了，说明这个单词已经学完，下次恢复时应该直接到下一个单词
+      // 但这里我们不推进index，因为推进index的逻辑在nextWord()中
+      // 我们只标记当前单词已完成
+      sessionCurrentWordIndex = currentWordIndex.value
+      sessionUserAnswer = ''
+      sessionShowResult = false
+      sessionIsCorrect = false
+    }
+
+    const sessionData = {
+      studyWords: studyWords.value,
+      currentWordIndex: sessionCurrentWordIndex,
+      userAnswer: sessionUserAnswer,
+      showResult: sessionShowResult,
+      isCorrect: sessionIsCorrect,
+      studyStats: studyStats.value,
+      studyStartTime: studyStartTime.value,
+      timestamp: Date.now(),
+      wordCompleted: showResult.value // 标记当前单词是否已完成
+    }
+    localStorage.setItem('learn_word_study_session', JSON.stringify(sessionData))
+    console.log('学习会话状态已保存, wordCompleted:', showResult.value)
+  }
+}
+
+// 恢复学习会话状态
+const restoreStudySession = () => {
+  const sessionData = localStorage.getItem('learn_word_study_session')
+  if (sessionData) {
+    try {
+      const session = JSON.parse(sessionData)
+      const sessionAge = Date.now() - session.timestamp
+
+      // 如果会话超过2小时，则不恢复（避免过期的会话）
+      if (sessionAge > 2 * 60 * 60 * 1000) {
+        localStorage.removeItem('learn_word_study_session')
+        console.log('学习会话已过期，不恢复')
+        return false
+      }
+
+      studyWords.value = session.studyWords || []
+      studyStats.value = session.studyStats || { correct: 0, wrong: 0, accuracy: 0 }
+      studyStartTime.value = session.studyStartTime || Date.now()
+
+      // 如果当前单词已完成（已显示结果），则直接进入下一个单词
+      if (session.wordCompleted) {
+        if (session.currentWordIndex < studyWords.value.length - 1) {
+          currentWordIndex.value = session.currentWordIndex + 1
+          userAnswer.value = ''
+          showResult.value = false
+          isCorrect.value = false
+          console.log('当前单词已完成，直接进入下一个单词')
+        } else {
+          // 如果已经是最后一个单词，则完成学习
+          studyStatus.value = 'completed'
+          localStorage.removeItem('learn_word_study_session')
+          console.log('所有单词已完成')
+          return true
+        }
+      } else {
+        // 如果当前单词未完成，恢复到原来状态
+        currentWordIndex.value = session.currentWordIndex || 0
+        userAnswer.value = session.userAnswer || ''
+        showResult.value = session.showResult || false
+        isCorrect.value = session.isCorrect || false
+      }
+
+      studyStatus.value = 'studying'
+
+      // 清除会话数据
+      localStorage.removeItem('learn_word_study_session')
+
+      console.log('学习会话状态已恢复')
+      return true
+    } catch (error) {
+      console.error('恢复学习会话失败:', error)
+      localStorage.removeItem('learn_word_study_session')
+      return false
+    }
+  }
+  return false
+}
+
 // 组件挂载时初始化
 onMounted(() => {
   dailyGoal.value = getDailyGoal()
+
+  // 尝试恢复之前的学习会话
+  const hasRestoredSession = restoreStudySession()
+  if (hasRestoredSession) {
+    // 如果恢复了会话，需要重新初始化字母输入面板
+    nextTick(() => {
+      if (letterInputPanel.value && !showResult.value) {
+        letterInputPanel.value.clear()
+      }
+    })
+  }
 })
 
-// 组件卸载时保存学习时长
+// 组件卸载时保存学习时长和当前学习状态
 onUnmounted(() => {
   saveCurrentStudyTime()
+  saveStudySession()
 })
 </script>
 
