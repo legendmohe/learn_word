@@ -1,13 +1,13 @@
 <template>
   <div class="home-page">
     <!-- 顶部标题区域 -->
-    <header class="mb-6 text-center slide-up">
-      <h1 class="text-2xl font-bold gradient-text mb-1">Learn Word</h1>
-      <p class="text-sm text-gray-500 dark:text-gray-400">简单有趣的英语单词学习</p>
+    <header class="mb-4 text-center">
+      <h1 class="text-xl font-bold gradient-text mb-1">Learn Word</h1>
+      <p class="text-xs text-gray-500 dark:text-gray-400">简单有趣的英语单词学习</p>
     </header>
 
     <!-- 今日进度卡片 -->
-    <div class="glass-effect rounded-2xl p-5 mb-6 card-shadow fade-in">
+    <div class="glass-effect rounded-2xl p-5 mb-5 card-shadow fade-in">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">今日学习进度</h2>
         <span class="text-2xl">🎯</span>
