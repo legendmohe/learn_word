@@ -354,8 +354,8 @@ const showNotification = (message, type = 'info') => {
 
 <style scoped>
 .word-list-page {
-  min-height: 100vh;
-  padding-bottom: 80px; /* 为底部导航留出空间 */
+  min-height: auto; /* 让内容自然撑开高度 */
+  padding-bottom: 20px; /* 减少底部间距 */
 }
 
 .page-header {
