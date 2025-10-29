@@ -473,11 +473,7 @@ defineExpose({
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
   padding: 12px 6px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
   box-sizing: border-box;
 }
 

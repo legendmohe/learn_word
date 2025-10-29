@@ -7,7 +7,7 @@
         <!-- 页面标题和进度卡片（仅在非学习状态时显示） -->
         <div v-if="!isStudying">
           <!-- 页面标题 -->
-          <header class="mb-6 text-center">
+          <header class="mb-6 mt-4 text-center">
             <h1 class="text-2xl font-bold gradient-text mb-1">Learn Word</h1>
             <p class="text-sm text-gray-600 dark:text-gray-400">简单有趣的英语单词学习</p>
           </header>
