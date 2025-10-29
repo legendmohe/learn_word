@@ -146,67 +146,14 @@
       </div>
     </div>
 
-    <!-- 学习设置 -->
-    <div class="study-settings mt-8">
-      <div class="glass-effect rounded-xl p-6 card-shadow">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-          学习设置
-        </h3>
-
-        <!-- 每日学习目标 -->
-        <div class="setting-item mb-4">
-          <div class="flex justify-between items-center mb-2">
-            <label class="text-gray-700 dark:text-gray-300">每日学习目标</label>
-            <span class="text-primary-600 dark:text-primary-400 font-medium">
-              {{ dailyGoal }} 个单词
-            </span>
-          </div>
-          <input
-            v-model.number="dailyGoal"
-            type="range"
-            min="5"
-            max="50"
-            step="5"
-            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-          />
-          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-            <span>5</span>
-            <span>50</span>
-          </div>
-        </div>
-
-        <!-- 学习模式 -->
-        <div class="setting-item">
-          <div class="flex justify-between items-center">
-            <label class="text-gray-700 dark:text-gray-300">智能复习</label>
-            <button
-              @click="toggleSmartReview"
-              :class="[
-                'w-12 h-6 rounded-full transition-colors duration-200',
-                smartReviewEnabled ? 'bg-primary-500' : 'bg-gray-300 dark:bg-gray-600'
-              ]"
-            >
-              <div
-                :class="[
-                  'w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200',
-                  smartReviewEnabled ? 'translate-x-6' : 'translate-x-0.5'
-                ]"
-              ></div>
-            </button>
-          </div>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            优先复习易错单词，提高学习效率
-          </p>
-        </div>
-      </div>
-    </div>
+    <!-- 学习设置部分已移除 - 切换课程时不需要显示 -->
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue'
 import { getAllCourses, getCourseByName } from '../utils/coursesParser'
-import { getSelectedCourse, setSelectedCourse, getDailyGoal, setDailyGoal, getLearnedWords } from '../utils/studyData'
+import { getSelectedCourse, setSelectedCourse, getLearnedWords } from '../utils/studyData' // 切换课程时不需要学习设置相关导入
 
 // 防抖函数
 const debounce = (func, wait) => {
@@ -233,9 +180,9 @@ const searchQuery = ref('')
 const searchLoading = ref(false)
 const debouncedSearch = ref('')
 
-// 学习设置
-const dailyGoal = ref(10)
-const smartReviewEnabled = ref(true)
+// 学习设置 - 切换课程时不需要显示相关设置
+// const dailyGoal = ref(10)
+// const smartReviewEnabled = ref(true)
 
 // 计算属性：过滤后的课程列表
 const filteredCourses = computed(() => {
@@ -259,7 +206,7 @@ const filteredCourses = computed(() => {
 // 组件挂载时加载数据
 onMounted(() => {
   loadCourses()
-  loadSettings()
+  // loadSettings() // 切换课程时不需要显示相关设置
 })
 
 // 加载课程列表
@@ -268,11 +215,11 @@ const loadCourses = () => {
   selectedCourse.value = getSelectedCourse()
 }
 
-// 加载设置
-const loadSettings = () => {
-  dailyGoal.value = getDailyGoal()
-  smartReviewEnabled.value = localStorage.getItem('learn_word_smart_review') !== 'false'
-}
+// 加载设置 - 切换课程时不需要显示相关设置
+// const loadSettings = () => {
+//   dailyGoal.value = getDailyGoal()
+//   smartReviewEnabled.value = localStorage.getItem('learn_word_smart_review') !== 'false'
+// }
 
 // 返回上一页
 const goBack = () => {
@@ -346,11 +293,11 @@ const getCourseProgress = (courseName) => {
   return Math.round((learnedInCourse.length / course.wordCount) * 100)
 }
 
-// 切换智能复习
-const toggleSmartReview = () => {
-  smartReviewEnabled.value = !smartReviewEnabled.value
-  localStorage.setItem('learn_word_smart_review', smartReviewEnabled.value.toString())
-}
+// 切换智能复习 - 切换课程时不需要显示相关设置
+// const toggleSmartReview = () => {
+//   smartReviewEnabled.value = !smartReviewEnabled.value
+//   localStorage.setItem('learn_word_smart_review', smartReviewEnabled.value.toString())
+// }
 
 // 显示课程选择提示
 const showCourseSelectedToast = (courseName) => {
@@ -390,18 +337,18 @@ watch(searchQuery, (newValue) => {
   handleSearch(newValue)
 })
 
-// 监听每日学习目标变化
-watch(dailyGoal, (newValue) => {
-  if (newValue >= 5 && newValue <= 50) {
-    setDailyGoal(newValue)
-  }
-})
+// 监听每日学习目标变化 - 切换课程时不需要显示相关设置
+// watch(dailyGoal, (newValue) => {
+//   if (newValue >= 5 && newValue <= 50) {
+//     setDailyGoal(newValue)
+//   }
+// })
 </script>
 
 <style scoped>
 .course-selection-page {
-  min-height: 100vh;
-  padding-bottom: 80px; /* 为底部导航留出空间 */
+  min-height: auto; /* 让内容自然撑开高度 */
+  padding-bottom: 20px; /* 减少底部间距 */
 }
 
 .page-header {
