@@ -141,32 +141,4 @@ onUnmounted(() => {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* 按钮悬停效果 */
-button {
-  position: relative;
-  overflow: hidden;
-}
-
-button::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(59, 130, 246, 0.1);
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s;
-}
-
-button:hover::before {
-  width: 100px;
-  height: 100px;
-}
-
-/* 深色模式适配 */
-.dark button:hover::before {
-  background: rgba(59, 130, 246, 0.2);
-}
 </style>
