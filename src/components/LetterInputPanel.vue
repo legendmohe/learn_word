@@ -21,49 +21,26 @@
     </div>
 
     <!-- 字母输入面板 -->
-    <div class="letter-keyboard">
-      <!-- 第一行字母 -->
-      <div class="keyboard-row">
+    <div class="letter-keyboard" :class="{ 'assist-mode': assistModeEnabled }">
+      <!-- 动态字母行 -->
+      <div
+        v-for="(row, rowIndex) in keyboardRows"
+        :key="rowIndex"
+        class="keyboard-row"
+        :class="{ 'assist-mode-row': assistModeEnabled }"
+      >
         <button
-          v-for="letter in ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']"
-          :key="letter"
+          v-for="(letter, letterIndex) in row"
+          :key="`${rowIndex}-${letterIndex}-${letter}`"
           @click="inputLetter(letter)"
-          :disabled="isLetterUsed(letter) || showResult"
+          :disabled="isSpecificLetterUsed(letter, rowIndex, letterIndex) || showResult"
           :class="[
             'letter-key',
-            { 'used': isLetterUsed(letter), 'disabled': showResult }
-          ]"
-        >
-          {{ letter }}
-        </button>
-      </div>
-
-      <!-- 第二行字母 -->
-      <div class="keyboard-row">
-        <button
-          v-for="letter in ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']"
-          :key="letter"
-          @click="inputLetter(letter)"
-          :disabled="isLetterUsed(letter) || showResult"
-          :class="[
-            'letter-key',
-            { 'used': isLetterUsed(letter), 'disabled': showResult }
-          ]"
-        >
-          {{ letter }}
-        </button>
-      </div>
-
-      <!-- 第三行字母 -->
-      <div class="keyboard-row">
-        <button
-          v-for="letter in ['Z', 'X', 'C', 'V', 'B', 'N', 'M']"
-          :key="letter"
-          @click="inputLetter(letter)"
-          :disabled="isLetterUsed(letter) || showResult"
-          :class="[
-            'letter-key',
-            { 'used': isLetterUsed(letter), 'disabled': showResult }
+            {
+              'used': isSpecificLetterUsed(letter, rowIndex, letterIndex),
+              'disabled': showResult,
+              'assist-mode-key': assistModeEnabled
+            }
           ]"
         >
           {{ letter }}
@@ -127,6 +104,7 @@ const emit = defineEmits(['answer', 'input-change'])
 // 响应式数据
 const currentInput = ref([])
 const letterCounts = ref({}) // 记录每个字母的使用次数
+const usedLetterIndices = ref(new Set()) // 记录辅助模式下已使用的具体字母按钮索引
 
 // 辅助模式状态
 const assistModeEnabled = ref(localStorage.getItem('learn_word_assist_mode') !== 'false')
@@ -157,6 +135,69 @@ const isLongWord = computed(() => {
   return wordLetters.value.length >= 10
 })
 
+// 生成动态键盘行
+const keyboardRows = computed(() => {
+  if (assistModeEnabled.value) {
+    // 辅助模式：仅显示单词所含的字母
+    return generateAssistModeKeyboard()
+  } else {
+    // 非辅助模式：显示单词字母 + 额外字母，凑成整行
+    return generateNormalModeKeyboard()
+  }
+})
+
+// 辅助模式键盘生成
+const generateAssistModeKeyboard = () => {
+  // 获取单词中的所有字母（包括重复字母）
+  const allLetters = [...wordLetters.value]
+  // 随机打乱字母顺序，但保持字母数量
+  const shuffledLetters = shuffleArray([...allLetters])
+  const rows = []
+
+  // 辅助模式每行显示较少字母，确保舒适间距
+  const lettersPerRow = Math.max(3, Math.min(5, Math.ceil(shuffledLetters.length / 2))) // 每行3-5个字母
+
+  // 将字母分行显示，保持舒适的间距
+  for (let i = 0; i < shuffledLetters.length; i += lettersPerRow) {
+    rows.push(shuffledLetters.slice(i, i + lettersPerRow))
+  }
+
+  return rows
+}
+
+// 非辅助模式键盘生成
+const generateNormalModeKeyboard = () => {
+  const wordLettersSet = new Set(wordLetters.value)
+  const wordLettersArray = Array.from(wordLettersSet)
+
+  // 常用英文字母（按使用频率排序）
+  const commonLetters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D', 'L', 'C', 'U', 'M', 'W', 'F', 'G', 'Y', 'P', 'B', 'V', 'K', 'J', 'X', 'Q', 'Z']
+
+  // 获取额外的字母（不在单词中但常用的字母）
+  const extraLetters = commonLetters.filter(letter => !wordLettersSet.has(letter))
+
+  // 合并字母：单词字母在前，额外字母在后
+  const allLetters = [...wordLettersArray, ...extraLetters]
+
+  // 根据单词长度决定添加多少额外字母
+  const extraCount = Math.min(
+    Math.max(8, Math.ceil(wordLettersArray.length * 0.8)), // 至少添加8个，或单词字母数的80%
+    extraLetters.length // 不超过可用的额外字母数
+  )
+
+  const finalLetters = allLetters.slice(0, wordLettersArray.length + extraCount)
+
+  // 分行显示，每行7-8个字母
+  const lettersPerRow = finalLetters.length <= 14 ? 7 : 8
+  const rows = []
+
+  for (let i = 0; i < finalLetters.length; i += lettersPerRow) {
+    rows.push(finalLetters.slice(i, i + lettersPerRow))
+  }
+
+  return rows
+}
+
 // 输入字母
 const inputLetter = (letter) => {
   if (currentInput.value.length >= wordLetters.value.length) return
@@ -173,8 +214,34 @@ const inputLetter = (letter) => {
   if (canInput) {
     currentInput.value.push(letter)
     letterCounts.value[letter] = (letterCounts.value[letter] || 0) + 1
+
+    // 在辅助模式下标记对应的字母按钮为已使用
+    if (assistModeEnabled.value) {
+      const letterPosition = findLetterPositionInKeyboard(letter)
+      if (letterPosition) {
+        markLetterAsUsed(letter, letterPosition.rowIndex, letterPosition.letterIndex)
+      }
+    }
+
     emit('input-change', currentInput.value.join(''))
   }
+}
+
+// 在键盘中找到字母的位置
+const findLetterPositionInKeyboard = (targetLetter) => {
+  const rows = keyboardRows.value
+  for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+    const row = rows[rowIndex]
+    for (let letterIndex = 0; letterIndex < row.length; letterIndex++) {
+      const letter = row[letterIndex]
+      const buttonKey = `${rowIndex}-${letterIndex}-${letter}`
+      // 检查这个按钮是否还未被使用且字母匹配
+      if (letter === targetLetter && !usedLetterIndices.value.has(buttonKey)) {
+        return { rowIndex, letterIndex }
+      }
+    }
+  }
+  return null
 }
 
 // 清除最后一个字母
@@ -182,6 +249,12 @@ const clearLastLetter = () => {
   if (currentInput.value.length > 0) {
     const lastLetter = currentInput.value.pop()
     letterCounts.value[lastLetter] = Math.max(0, (letterCounts.value[lastLetter] || 0) - 1)
+
+    // 在辅助模式下取消标记对应的字母按钮
+    if (assistModeEnabled.value) {
+      unmarkLetterAsUsed(lastLetter)
+    }
+
     emit('input-change', currentInput.value.join(''))
   }
 }
@@ -190,6 +263,7 @@ const clearLastLetter = () => {
 const clearAll = () => {
   currentInput.value = []
   letterCounts.value = {}
+  usedLetterIndices.value.clear() // 清空所有已使用的字母按钮标记
   emit('input-change', '')
 }
 
@@ -211,6 +285,47 @@ const isLetterUsed = (letter) => {
   const currentCount = letterCounts.value[letter] || 0
   const maxCount = wordLetterCounts.value[letter] || 0
   return currentCount >= maxCount
+}
+
+// 检查具体位置的字母按钮是否已使用（辅助模式专用）
+const isSpecificLetterUsed = (letter, rowIndex, letterIndex) => {
+  if (!assistModeEnabled.value) {
+    return false
+  }
+
+  const buttonKey = `${rowIndex}-${letterIndex}-${letter}`
+  return usedLetterIndices.value.has(buttonKey)
+}
+
+// 在辅助模式下标记具体字母按钮为已使用
+const markLetterAsUsed = (letter, rowIndex, letterIndex) => {
+  if (assistModeEnabled.value) {
+    const buttonKey = `${rowIndex}-${letterIndex}-${letter}`
+    usedLetterIndices.value.add(buttonKey)
+  }
+}
+
+// 在辅助模式下取消标记具体字母按钮（用于删除操作）
+const unmarkLetterAsUsed = (letter) => {
+  if (assistModeEnabled.value) {
+    // 找到并移除第一个匹配的字母按钮索引
+    for (const key of usedLetterIndices.value) {
+      if (key.endsWith(`-${letter}`)) {
+        usedLetterIndices.value.delete(key)
+        break
+      }
+    }
+  }
+}
+
+// 随机打乱数组（Fisher-Yates 洗牌算法）
+const shuffleArray = (array) => {
+  const shuffled = [...array]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
 }
 
 // 键盘输入支持
@@ -383,6 +498,20 @@ defineExpose({
   flex: 1;
 }
 
+/* 辅助模式样式 */
+.assist-mode .keyboard-row {
+  gap: 12px; /* 增加间距 */
+  justify-content: center; /* 居中对齐，不铺满整行 */
+  margin-bottom: 12px; /* 增加行间距 */
+}
+
+.assist-mode .letter-key {
+  flex: none; /* 不拉伸，保持统一大小 */
+  width: 48px; /* 固定宽度，等于高度 */
+  min-width: 48px;
+  max-width: 48px;
+}
+
 .dark .letter-key {
   background: linear-gradient(135deg, #4b5563, #374151);
   color: #e5e7eb;
@@ -503,10 +632,7 @@ defineExpose({
     font-size: 1rem;
   }
 
-  .action-column {
-    gap: 10px;
-  }
-
+  
   .action-key {
     height: 50px; /* 中等屏幕尺寸 */
     font-size: 0.95rem;
@@ -583,10 +709,7 @@ defineExpose({
     font-size: 0.95rem;
   }
 
-  .action-column {
-    gap: 10px; /* 小屏幕上稍微减少间距 */
   }
-}
 
 /* 触摸优化 */
 @media (hover: none) {
