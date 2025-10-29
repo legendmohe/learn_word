@@ -2,7 +2,10 @@
   <div class="letter-input-panel">
     <!-- 单词下划线显示 -->
     <div class="word-display mb-6">
-      <div class="flex justify-center items-center gap-2 flex-wrap">
+      <div
+        class="letter-slots-container"
+        :class="{ 'long-word': isLongWord }"
+      >
         <div
           v-for="(letter, index) in wordLetters"
           :key="index"
@@ -67,16 +70,17 @@
         </button>
       </div>
 
-      <!-- 操作按钮 -->
-      <div class="action-row">
+      <!-- 操作按钮 - 垂直排列 -->
+      <div class="action-column">
         <button
           @click="clearLastLetter"
           :disabled="currentInput.length === 0 || showResult"
           class="action-key backspace"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"></path>
           </svg>
+          删除
         </button>
 
         <button
@@ -143,6 +147,11 @@ const wordLetterCounts = computed(() => {
     counts[letter] = (counts[letter] || 0) + 1
   })
   return counts
+})
+
+// 检测是否为长单词，用于动态调整显示
+const isLongWord = computed(() => {
+  return wordLetters.value.length >= 10
 })
 
 // 输入字母
@@ -268,27 +277,37 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-x: auto;
   padding: 0 10px;
+  width: 100%;
+}
+
+.letter-slots-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 4px;
+  flex-wrap: nowrap; /* 强制保持在一行 */
 }
 
 .letter-slot {
-  width: 50px;
-  height: 60px;
+  width: clamp(40px, 8vw, 50px); /* 动态宽度：最小40px，最大50px */
+  height: clamp(50px, 10vw, 60px); /* 动态高度：最小50px，最大60px */
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 2px 1px;
-  flex-shrink: 0;
+  flex-shrink: 1; /* 允许收缩以适应容器 */
+  flex-grow: 0; /* 不允许增长 */
 }
 
 .letter-text {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* 动态字体大小：最小1.5rem，最大2rem */
   font-weight: bold;
   color: #3b82f6;
   text-transform: uppercase;
   animation: letterAppear 0.3s ease-out;
+  line-height: 1;
 }
 
 .underline {
@@ -400,27 +419,29 @@ defineExpose({
   cursor: not-allowed;
 }
 
-/* 操作按钮行 */
-.action-row {
+/* 操作按钮列 - 垂直布局 */
+.action-column {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 16px;
 }
 
 .action-key {
-  min-width: 60px;
-  height: 44px;
+  width: 100%; /* 相同宽度 */
+  height: 52px; /* 更大的高度 */
+  min-height: 52px;
   border: none;
-  border-radius: 10px;
-  font-size: 0.9rem;
+  border-radius: 12px;
+  font-size: 1rem; /* 更大的字体 */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 8px; /* 增加图标和文字间距 */
 }
 
 .action-key:disabled {
@@ -431,7 +452,6 @@ defineExpose({
 .action-key.backspace {
   background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: white;
-  min-width: 50px;
 }
 
 .action-key.backspace:hover:not(:disabled) {
@@ -452,7 +472,6 @@ defineExpose({
 .action-key.submit {
   background: linear-gradient(135deg, #10b981, #059669);
   color: white;
-  min-width: 80px;
 }
 
 .action-key.submit:hover:not(:disabled) {
@@ -478,14 +497,13 @@ defineExpose({
     font-size: 1rem;
   }
 
-  .action-row {
-    gap: 8px;
+  .action-column {
+    gap: 10px;
   }
 
   .action-key {
-    min-width: 60px;
-    height: 44px;
-    font-size: 0.9rem;
+    height: 50px; /* 中等屏幕尺寸 */
+    font-size: 0.95rem;
   }
 }
 
@@ -515,10 +533,52 @@ defineExpose({
     font-size: 1.2rem;
   }
 
+  /* 在小屏幕上进一步调整单词显示 */
+  .word-display {
+    padding: 0 5px;
+  }
+
+  .letter-slots-container {
+    gap: 2px;
+  }
+
+  /* 极小屏幕（<320px）的特殊处理 */
+  @media (max-width: 320px) {
+    .letter-slot {
+      width: clamp(35px, 10vw, 40px);
+      height: clamp(45px, 12vw, 50px);
+    }
+
+    .letter-text {
+      font-size: clamp(1.2rem, 5vw, 1.5rem);
+    }
+
+    .letter-slots-container {
+      gap: 1px;
+    }
+  }
+
+  /* 长单词的适配 - 使用类名方式 */
+  .letter-slots-container.long-word {
+    .letter-slot {
+      width: clamp(30px, 7vw, 40px);
+      height: clamp(40px, 9vw, 50px);
+    }
+
+    .letter-text {
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+    }
+
+    gap: 2px;
+  }
+
   .action-key {
-    min-width: 55px;
-    height: 40px;
-    font-size: 0.85rem;
+    height: 48px; /* 在小屏幕上稍微小一点，但仍保持较大 */
+    font-size: 0.95rem;
+  }
+
+  .action-column {
+    gap: 10px; /* 小屏幕上稍微减少间距 */
   }
 }
 
