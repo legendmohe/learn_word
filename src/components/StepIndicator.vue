@@ -1,13 +1,5 @@
 <template>
   <div class="step-indicator">
-    <!-- 步骤进度条 -->
-    <div class="progress-bar">
-      <div
-        class="progress-fill"
-        :style="{ width: progressPercentage + '%' }"
-      ></div>
-    </div>
-
     <!-- 步骤点 -->
     <div class="step-dots">
       <div
@@ -59,7 +51,7 @@
 
       <button
         class="nav-btn next-btn"
-        :disabled="currentStep === steps.length - 1"
+        :disabled="currentStep === steps.length - 1 || !isStepCompleted(currentStep)"
         @click="goToNextStep"
       >
         下一步
@@ -144,21 +136,7 @@ export default {
       return import.meta.env.DEV
     }
   },
-  watch: {
-    stepErrors: {
-      handler(newVal) {
-        if (this.isDev) {
-          console.log('StepIndicator stepErrors更新:', newVal)
-          this.steps.forEach((step, index) => {
-            console.log(`步骤${index + 1} (${step.id}): 错误状态 =`, newVal[step.id])
-          })
-        }
-      },
-      deep: true,
-      immediate: true
-    }
-  },
-  methods: {
+    methods: {
     isStepCompleted(index) {
       const stepId = this.steps[index].id
       return this.stepProgress[stepId] === true
@@ -169,10 +147,11 @@ export default {
 
       // 只允许点击：
       // 1. 已完成的步骤（可以回顾）
-      // 2. 紧邻的下一步（当前步骤 + 1）
-      const isNextStep = index === this.currentStep + 1
+      // 2. 紧邻的下一步，但前提是当前步骤已完成
+      const isNextStep = index === this.currentStep + 1 && this.isStepCompleted(this.currentStep)
       const isCompleted = this.isStepCompleted(index)
 
+      
       return isCompleted || isNextStep
     },
 
@@ -189,7 +168,8 @@ export default {
     },
 
     goToNextStep() {
-      if (this.currentStep < this.steps.length - 1) {
+      // 只有当前步骤完成时才允许进入下一步
+      if (this.currentStep < this.steps.length - 1 && this.isStepCompleted(this.currentStep)) {
         this.$emit('next-step')
       }
     }

@@ -271,6 +271,7 @@ const consecutiveCorrect = ref(0)
 
 // 多步骤学习状态
 const currentStep = ref(0) // 当前学习步骤 0-4
+
 const allowStepNavigation = ref(true) // 是否允许步骤导航
 const spellingAttempts = ref(0) // 拼写尝试次数
 const maxSpellingAttempts = 2 // 最大拼写尝试次数
@@ -530,8 +531,6 @@ const handleStepCompleted = (stepData = {}) => {
 
 // 处理步骤答案（用于测试和拼写步骤）
 const handleStepAnswer = (answerData) => {
-  console.log('handleStepAnswer called with:', answerData)
-
   // 更新学习统计
   if (answerData.correct) {
     studyStats.value.correct++
@@ -547,7 +546,6 @@ const handleStepAnswer = (answerData) => {
     // 标记当前步骤的错误状态
     if (answerData.type === 'test' || answerData.type === 'phonics' || answerData.type === 'spelling') {
       currentStepErrors.value[answerData.type] = true
-      console.log('设置步骤错误状态:', answerData.type, '= true')
     }
 
     // 添加到错误单词列表

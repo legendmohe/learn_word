@@ -307,16 +307,7 @@ export function getTodayWords(count) {
   }
 
   // 对所有单词进行数据增强
-  const finalWords = words.slice(0, count).map(word => enhanceWordData(word))
-  console.log('🔍 getTodayWords 最终数据:', {
-    finalCount: finalWords.length,
-    sampleWord: finalWords[0] ? {
-      word: finalWords[0].word,
-      phonemes: finalWords[0].phonemes,
-      originalPhonemes: finalWords[0].word?.phonemes
-    } : null
-  })
-  return finalWords
+  return words.slice(0, count).map(word => enhanceWordData(word))
 }
 
 /**

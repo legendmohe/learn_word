@@ -10,9 +10,6 @@
     </div>
 
     <div class="recording-area text-center mb-8">
-      <div class="text-base text-gray-600 dark:text-gray-400 mb-6">
-        长按录音按钮，录下你的读音
-      </div>
 
       <!-- 录音按钮 -->
       <button

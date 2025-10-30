@@ -96,44 +96,48 @@
 
     <!-- 操作按钮 -->
     <div class="action-buttons flex justify-center gap-4 mt-8">
+      <!-- 无音素情况：直接显示跳过按钮 -->
       <button
-        v-if="!showResult && selectedPhonemes.length > 0"
-        @click="clearAnswer"
-        class="px-6 py-2 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors"
-      >
-        清空
-      </button>
-
-      <button
-        v-if="!showResult"
-        @click="submitAnswer"
-        :disabled="!canSubmit"
-        class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-      >
-        提交答案
-      </button>
-
-      <button
-        v-else-if="word.phonemes && word.phonemes.length > 0"
-        @click="completeStep"
-        class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-      >
-        继续下一步
-      </button>
-
-      <button
-        v-else
+        v-if="!hasPhonemes"
         @click="completeStep"
         class="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
       >
         跳过此步骤
       </button>
+
+      <!-- 有音素情况的逻辑 -->
+      <template v-else>
+        <button
+          v-if="!showResult && selectedPhonemes.length > 0"
+          @click="clearAnswer"
+          class="px-6 py-2 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors"
+        >
+          清空
+        </button>
+
+        <button
+          v-if="!showResult"
+          @click="submitAnswer"
+          :disabled="!canSubmit"
+          class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        >
+          提交答案
+        </button>
+
+        <button
+          v-else
+          @click="completeStep"
+          class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+        >
+          继续下一步
+        </button>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 export default {
   name: 'PhonicsStep',
@@ -213,18 +217,10 @@ export default {
       emit('completed')
     }
 
-    // 监听单词数据变化，调试音素数据
-    watch(() => props.word, (newWord) => {
-      console.log('PhonicsStep 单词数据变化:', {
-        word: newWord.word,
-        phonemes: newWord.phonemes,
-        phonemesLength: newWord.phonemes?.length,
-        hasPhonemes: hasPhonemes.value
-      })
-    }, { immediate: true })
-
     onMounted(() => {
-      shufflePhonemes()
+      if (hasPhonemes.value) {
+        shufflePhonemes()
+      }
     })
 
     return {
