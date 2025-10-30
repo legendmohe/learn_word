@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语音服务可用性测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-word {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🔊 语音服务可用性测试</h1>
+    <p>这个页面将测试各个免费语音服务的可用性和质量。</p>
+
+    <div class="test-container">
+        <h2>🎯 测试单词</h2>
+        <input type="text" id="testWord" value="hello" placeholder="输入要测试的单词" style="padding: 8px; width: 200px; margin-right: 10px;">
+        <button class="test-button" onclick="updateTestWord()">更新测试单词</button>
+        <div class="test-word">当前测试单词: <span id="currentWord">hello</span></div>
+    </div>
+
+    <!-- 1. Speech Synthesis 测试 -->
+    <div class="test-container">
+        <h3>🎙️ Speech Synthesis (浏览器内置)</h3>
+        <button class="test-button" onclick="testSpeechSynthesis()">测试 Speech Synthesis</button>
+        <div id="speech-status"></div>
+        <div id="speech-result" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- 2. 牛津词典测试 -->
+    <div class="test-container">
+        <h3>📚 牛津学习词典 (真人发音)</h3>
+        <button class="test-button" onclick="testOxfordDictionary()">测试牛津词典</button>
+        <div id="oxford-status"></div>
+        <div id="oxford-result" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- 3. Google Translate TTS 测试 -->
+    <div class="test-container">
+        <h3>🌐 Google Translate TTS</h3>
+        <button class="test-button" onclick="testGoogleTTS()">测试 Google TTS</button>
+        <div id="google-status"></div>
+        <div id="google-result" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- 4. WordOnline 测试 -->
+    <div class="test-container">
+        <h3>🌏 WordOnline (微软TTS)</h3>
+        <button class="test-button" onclick="testWordOnline()">测试 WordOnline</button>
+        <div id="wordonline-status"></div>
+        <div id="wordonline-result" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- 5. Howjsay 测试 -->
+    <div class="test-container">
+        <h3>🗣️ Howjsay (真人发音)</h3>
+        <button class="test-button" onclick="testHowjsay()">测试 Howjsay</button>
+        <div id="howjsay-status"></div>
+        <div id="howjsay-result" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- 6. Wiktionary 测试 -->
+    <div class="test-container">
+        <h3>📖 Wiktionary (社区发音)</h3>
+        <button class="test-button" onclick="testWiktionary()">测试 Wiktionary</button>
+        <div id="wiktionary-status"></div>
+        <div id="wiktionary-result" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- 5. 综合测试 -->
+    <div class="test-container">
+        <h3>🚀 综合测试所有服务</h3>
+        <button class="test-button" onclick="testAllServices()">测试所有服务</button>
+        <div id="all-status"></div>
+        <div id="all-result" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        const testWords = ['hello', 'world', 'computer', 'javascript', 'amazing'];
+        let currentTestWord = 'hello';
+
+        function updateTestWord() {
+            const input = document.getElementById('testWord');
+            currentTestWord = input.value.trim() || 'hello';
+            document.getElementById('currentWord').textContent = currentTestWord;
+        }
+
+        function showStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = `status ${type}`;
+            element.innerHTML = message;
+        }
+
+        function showResult(elementId, result) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.textContent = JSON.stringify(result, null, 2);
+        }
+
+        function hideResult(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        // 1. 测试 Speech Synthesis
+        async function testSpeechSynthesis() {
+            const statusId = 'speech-status';
+            const resultId = 'speech-result';
+
+            showStatus(statusId, '正在测试 Speech Synthesis...<span class="loading"></span>', 'info');
+            hideResult(resultId);
+
+            try {
+                if (!('speechSynthesis' in window)) {
+                    throw new Error('浏览器不支持 Speech Synthesis');
+                }
+
+                const synth = window.speechSynthesis;
+                const voices = synth.getVoices();
+
+                // 获取英语语音列表
+                const englishVoices = voices.filter(voice => voice.lang.startsWith('en'));
+
+                const result = {
+                    supported: true,
+                    totalVoices: voices.length,
+                    englishVoices: englishVoices.length,
+                    voices: englishVoices.slice(0, 5).map(v => ({
+                        name: v.name,
+                        lang: v.lang,
+                        localService: v.localService
+                    }))
+                };
+
+                // 测试播放
+                const utterance = new SpeechSynthesisUtterance(currentTestWord);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.75;
+
+                await new Promise((resolve, reject) => {
+                    utterance.onend = resolve;
+                    utterance.onerror = reject;
+                    synth.speak(utterance);
+                });
+
+                showStatus(statusId, `✅ Speech Synthesis 可用 (${englishVoices.length}个英语语音)`, 'success');
+                showResult(resultId, result);
+
+            } catch (error) {
+                showStatus(statusId, `❌ Speech Synthesis 失败: ${error.message}`, 'error');
+                showResult(resultId, { error: error.message, stack: error.stack });
+            }
+        }
+
+        // 2. 测试牛津词典
+        async function testOxfordDictionary() {
+            const statusId = 'oxford-status';
+            const resultId = 'oxford-result';
+
+            showStatus(statusId, '正在测试牛津词典...<span class="loading"></span>', 'info');
+            hideResult(resultId);
+
+            try {
+                const firstLetter = currentTestWord.charAt(0).toLowerCase();
+                const audioUrl = `https://www.oxfordlearnersdictionaries.com/media/english/us_pron/${firstLetter}/${currentTestWord}/${currentTestWord}__us_1.mp3`;
+
+                const result = {
+                    testWord: currentTestWord,
+                    audioUrl: audioUrl
+                };
+
+                // 测试HEAD请求
+                const response = await fetch(audioUrl, { method: 'HEAD' });
+
+                if (response.ok) {
+                    // 测试音频播放
+                    const audio = new Audio(audioUrl);
+                    await audio.play();
+
+                    result.status = 'success';
+                    result.contentType = response.headers.get('content-type');
+                    result.contentLength = response.headers.get('content-length');
+
+                    showStatus(statusId, `✅ 牛津词典可用 (真人发音)`, 'success');
+                } else {
+                    // 尝试英式发音
+                    const ukAudioUrl = `https://www.oxfordlearnersdictionaries.com/media/english/uk_pron/${firstLetter}/${currentTestWord}/${currentTestWord}__gb_1.mp3`;
+                    const ukResponse = await fetch(ukAudioUrl, { method: 'HEAD' });
+
+                    if (ukResponse.ok) {
+                        const audio = new Audio(ukAudioUrl);
+                        await audio.play();
+
+                        result.status = 'success_uk';
+                        result.audioUrl = ukAudioUrl;
+                        result.variant = 'UK';
+
+                        showStatus(statusId, `✅ 牛津词典可用 (英式发音)`, 'success');
+                    } else {
+                        result.status = 'not_found';
+                        showStatus(statusId, `⚠️ 牛津词典中未找到单词 "${currentTestWord}" 的发音`, 'warning');
+                    }
+                }
+
+                showResult(resultId, result);
+
+            } catch (error) {
+                showStatus(statusId, `❌ 牛津词典失败: ${error.message}`, 'error');
+                showResult(resultId, { error: error.message, stack: error.stack });
+            }
+        }
+
+        // 3. 测试 Google Translate TTS
+        async function testGoogleTTS() {
+            const statusId = 'google-status';
+            const resultId = 'google-result';
+
+            showStatus(statusId, '正在测试 Google Translate TTS...<span class="loading"></span>', 'info');
+            hideResult(resultId);
+
+            try {
+                const params = new URLSearchParams({
+                    ie: 'UTF-8',
+                    tl: 'en',
+                    client: 'tw-ob',
+                    q: currentTestWord
+                });
+
+                const audioUrl = `https://translate.google.com/translate_tts?${params.toString()}`;
+
+                const result = {
+                    testWord: currentTestWord,
+                    audioUrl: audioUrl
+                };
+
+                // 尝试播放音频
+                const audio = new Audio();
+                audio.crossOrigin = 'anonymous'; // 尝试解决CORS问题
+
+                await new Promise((resolve, reject) => {
+                    audio.src = audioUrl;
+                    audio.oncanplay = async () => {
+                        try {
+                            await audio.play();
+                            resolve();
+                        } catch (playError) {
+                            reject(playError);
+                        }
+                    };
+                    audio.onerror = () => reject(new Error('音频加载失败'));
+                });
+
+                result.status = 'success';
+                showStatus(statusId, `✅ Google TTS 可用`, 'success');
+                showResult(resultId, result);
+
+            } catch (error) {
+                showStatus(statusId, `❌ Google TTS 失败: ${error.message}`, 'error');
+                showResult(resultId, {
+                    error: error.message,
+                    note: '可能由于CORS限制或网络策略不可用',
+                    stack: error.stack
+                });
+            }
+        }
+
+        // 4. 测试 WordOnline
+        async function testWordOnline() {
+            const statusId = 'wordonline-status';
+            const resultId = 'wordonline-result';
+
+            showStatus(statusId, '正在测试 WordOnline...<span class="loading"></span>', 'info');
+            hideResult(resultId);
+
+            try {
+                const audioUrl = `https://www.wordonline.cn/api/audio?word=${encodeURIComponent(currentTestWord)}&lang=en`;
+
+                const result = {
+                    testWord: currentTestWord,
+                    audioUrl: audioUrl
+                };
+
+                // 测试音频播放
+                const audio = new Audio();
+                await new Promise((resolve, reject) => {
+                    audio.oncanplay = async () => {
+                        try {
+                            await audio.play();
+                            resolve();
+                        } catch (playError) {
+                            reject(playError);
+                        }
+                    };
+                    audio.onerror = () => reject(new Error('音频加载失败'));
+
+                    // 设置超时
+                    setTimeout(() => {
+                        reject(new Error('请求超时'));
+                    }, 5000);
+
+                    audio.src = audioUrl;
+                });
+
+                result.status = 'success';
+                showStatus(statusId, `✅ WordOnline 可用 (微软TTS)`, 'success');
+                showResult(resultId, result);
+
+            } catch (error) {
+                showStatus(statusId, `❌ WordOnline 失败: ${error.message}`, 'error');
+                showResult(resultId, { error: error.message, stack: error.stack });
+            }
+        }
+
+        // 5. 测试 Howjsay
+        async function testHowjsay() {
+            const statusId = 'howjsay-status';
+            const resultId = 'howjsay-result';
+
+            showStatus(statusId, '正在测试 Howjsay...<span class="loading"></span>', 'info');
+            hideResult(resultId);
+
+            try {
+                const audioUrl = `https://howjsay.com/mp3/${encodeURIComponent(currentTestWord)}.mp3`;
+
+                const result = {
+                    testWord: currentTestWord,
+                    audioUrl: audioUrl
+                };
+
+                // 测试音频播放
+                const audio = new Audio();
+                await new Promise((resolve, reject) => {
+                    audio.oncanplay = async () => {
+                        try {
+                            await audio.play();
+                            resolve();
+                        } catch (playError) {
+                            reject(playError);
+                        }
+                    };
+                    audio.onerror = () => reject(new Error('音频加载失败'));
+
+                    // 设置超时
+                    setTimeout(() => {
+                        reject(new Error('请求超时'));
+                    }, 5000);
+
+                    audio.src = audioUrl;
+                });
+
+                result.status = 'success';
+                showStatus(statusId, `✅ Howjsay 可用 (真人发音)`, 'success');
+                showResult(resultId, result);
+
+            } catch (error) {
+                showStatus(statusId, `❌ Howjsay 失败: ${error.message}`, 'error');
+                showResult(resultId, { error: error.message, stack: error.stack });
+            }
+        }
+
+        // 6. 测试 Wiktionary
+        async function testWiktionary() {
+            const statusId = 'wiktionary-status';
+            const resultId = 'wiktionary-result';
+
+            showStatus(statusId, '正在测试 Wiktionary...<span class="loading"></span>', 'info');
+            hideResult(resultId);
+
+            try {
+                const baseUrl = 'https://commons.wikimedia.org/w/api.php';
+
+                // 尝试OGG格式
+                const oggParams = new URLSearchParams({
+                    action: 'query',
+                    format: 'json',
+                    prop: 'imageinfo',
+                    titles: `File:en-${currentTestWord}.ogg`,
+                    iiprop: 'url',
+                    origin: '*'
+                });
+
+                const oggResponse = await fetch(`${baseUrl}?${oggParams.toString()}`);
+                const oggData = await oggResponse.json();
+
+                const result = {
+                    testWord: currentTestWord,
+                    apiResponse: oggData
+                };
+
+                let audioUrl = null;
+                let format = 'ogg';
+
+                const pages = oggData.query.pages;
+                const pageId = Object.keys(pages)[0];
+
+                if (pageId !== '-1' && pages[pageId].imageinfo) {
+                    audioUrl = pages[pageId].imageinfo[0].url;
+                } else {
+                    // 尝试MP3格式
+                    const mp3Params = new URLSearchParams({
+                        action: 'query',
+                        format: 'json',
+                        prop: 'imageinfo',
+                        titles: `File:en-${currentTestWord}.mp3`,
+                        iiprop: 'url',
+                        origin: '*'
+                    });
+
+                    const mp3Response = await fetch(`${baseUrl}?${mp3Params.toString()}`);
+                    const mp3Data = await mp3Response.json();
+
+                    const mp3Pages = mp3Data.query.pages;
+                    const mp3PageId = Object.keys(mp3Pages)[0];
+
+                    if (mp3PageId !== '-1' && mp3Pages[mp3PageId].imageinfo) {
+                        audioUrl = mp3Pages[mp3PageId].imageinfo[0].url;
+                        format = 'mp3';
+                    }
+                }
+
+                if (audioUrl) {
+                    // 测试音频播放
+                    const audio = new Audio(audioUrl);
+                    await audio.play();
+
+                    result.status = 'success';
+                    result.audioUrl = audioUrl;
+                    result.format = format;
+
+                    showStatus(statusId, `✅ Wiktionary 可用 (${format.toUpperCase()}格式)`, 'success');
+                } else {
+                    result.status = 'not_found';
+                    showStatus(statusId, `⚠️ Wiktionary中未找到单词 "${currentTestWord}" 的发音`, 'warning');
+                }
+
+                showResult(resultId, result);
+
+            } catch (error) {
+                showStatus(statusId, `❌ Wiktionary 失败: ${error.message}`, 'error');
+                showResult(resultId, { error: error.message, stack: error.stack });
+            }
+        }
+
+        // 5. 综合测试
+        async function testAllServices() {
+            const statusId = 'all-status';
+            const resultId = 'all-result';
+
+            showStatus(statusId, '🚀 正在测试所有服务...<span class="loading"></span>', 'info');
+            hideResult(resultId);
+
+            const results = {
+                testWord: currentTestWord,
+                timestamp: new Date().toISOString(),
+                services: {}
+            };
+
+            try {
+                // 测试所有服务
+                await Promise.allSettled([
+                    testSpeechSynthesisService(results),
+                    testOxfordDictionaryService(results),
+                    testGoogleTTSService(results),
+                    testWordOnlineService(results),
+                    testHowjsayService(results),
+                    testWiktionaryService(results)
+                ]);
+
+                // 统计结果
+                const services = Object.values(results.services);
+                const working = services.filter(s => s.status === 'success' || s.status === 'success_uk').length;
+                const total = services.length;
+
+                let summary = `测试完成: ${working}/${total} 个服务可用\n\n`;
+                summary += '详细结果:\n';
+
+                for (const [name, result] of Object.entries(results.services)) {
+                    const status = result.status === 'success' || result.status === 'success_uk' ? '✅' : '❌';
+                    summary += `${status} ${name}: ${result.message}\n`;
+                }
+
+                showStatus(statusId, `${working}/${total} 个语音服务可用`, working > 0 ? 'success' : 'error');
+                showResult(resultId, results);
+
+            } catch (error) {
+                showStatus(statusId, `❌ 综合测试失败: ${error.message}`, 'error');
+                showResult(resultId, { error: error.message, stack: error.stack });
+            }
+        }
+
+        // 单独的服务测试函数（用于综合测试）
+        async function testSpeechSynthesisService(results) {
+            try {
+                if (!('speechSynthesis' in window)) {
+                    throw new Error('浏览器不支持');
+                }
+                const synth = window.speechSynthesis;
+                const voices = synth.getVoices();
+                const englishVoices = voices.filter(voice => voice.lang.startsWith('en'));
+
+                results.services.speechSynthesis = {
+                    status: 'success',
+                    message: `${englishVoices.length}个英语语音`,
+                    details: { totalVoices: voices.length, englishVoices: englishVoices.length }
+                };
+            } catch (error) {
+                results.services.speechSynthesis = {
+                    status: 'error',
+                    message: error.message
+                };
+            }
+        }
+
+        async function testOxfordDictionaryService(results) {
+            try {
+                const firstLetter = currentTestWord.charAt(0).toLowerCase();
+                const audioUrl = `https://www.oxfordlearnersdictionaries.com/media/english/us_pron/${firstLetter}/${currentTestWord}/${currentTestWord}__us_1.mp3`;
+                const response = await fetch(audioUrl, { method: 'HEAD' });
+
+                if (response.ok) {
+                    results.services.oxfordDictionary = {
+                        status: 'success',
+                        message: '真人发音可用',
+                        details: { variant: 'US' }
+                    };
+                } else {
+                    // 尝试英式发音
+                    const ukAudioUrl = `https://www.oxfordlearnersdictionaries.com/media/english/uk_pron/${firstLetter}/${currentTestWord}/${currentTestWord}__gb_1.mp3`;
+                    const ukResponse = await fetch(ukAudioUrl, { method: 'HEAD' });
+
+                    if (ukResponse.ok) {
+                        results.services.oxfordDictionary = {
+                            status: 'success_uk',
+                            message: '真人发音可用 (英式)',
+                            details: { variant: 'UK' }
+                        };
+                    } else {
+                        results.services.oxfordDictionary = {
+                            status: 'not_found',
+                            message: '单词未找到'
+                        };
+                    }
+                }
+            } catch (error) {
+                results.services.oxfordDictionary = {
+                    status: 'error',
+                    message: error.message
+                };
+            }
+        }
+
+        async function testGoogleTTSService(results) {
+            try {
+                const params = new URLSearchParams({
+                    ie: 'UTF-8',
+                    tl: 'en',
+                    client: 'tw-ob',
+                    q: currentTestWord
+                });
+                const audioUrl = `https://translate.google.com/translate_tts?${params.toString()}`;
+
+                const audio = new Audio();
+                audio.crossOrigin = 'anonymous';
+
+                await new Promise((resolve, reject) => {
+                    audio.src = audioUrl;
+                    audio.oncanplay = async () => {
+                        try {
+                            await audio.play();
+                            resolve();
+                        } catch (playError) {
+                            reject(playError);
+                        }
+                    };
+                    audio.onerror = () => reject(new Error('音频加载失败'));
+                });
+
+                results.services.googleTTS = {
+                    status: 'success',
+                    message: '神经语音可用'
+                };
+            } catch (error) {
+                results.services.googleTTS = {
+                    status: 'error',
+                    message: error.message,
+                    note: '可能CORS限制'
+                };
+            }
+        }
+
+        async function testWordOnlineService(results) {
+            try {
+                const audioUrl = `https://www.wordonline.cn/api/audio?word=${encodeURIComponent(currentTestWord)}&lang=en`;
+                const audio = new Audio();
+
+                await new Promise((resolve, reject) => {
+                    audio.oncanplay = async () => {
+                        try {
+                            await audio.play();
+                            resolve();
+                        } catch (playError) {
+                            reject(playError);
+                        }
+                    };
+                    audio.onerror = () => reject(new Error('音频加载失败'));
+
+                    setTimeout(() => {
+                        reject(new Error('请求超时'));
+                    }, 5000);
+
+                    audio.src = audioUrl;
+                });
+
+                results.services.wordOnline = {
+                    status: 'success',
+                    message: '微软TTS可用',
+                    details: { provider: 'Microsoft' }
+                };
+            } catch (error) {
+                results.services.wordOnline = {
+                    status: 'error',
+                    message: error.message
+                };
+            }
+        }
+
+        async function testHowjsayService(results) {
+            try {
+                const audioUrl = `https://howjsay.com/mp3/${encodeURIComponent(currentTestWord)}.mp3`;
+                const audio = new Audio();
+
+                await new Promise((resolve, reject) => {
+                    audio.oncanplay = async () => {
+                        try {
+                            await audio.play();
+                            resolve();
+                        } catch (playError) {
+                            reject(playError);
+                        }
+                    };
+                    audio.onerror = () => reject(new Error('音频加载失败'));
+
+                    setTimeout(() => {
+                        reject(new Error('请求超时'));
+                    }, 5000);
+
+                    audio.src = audioUrl;
+                });
+
+                results.services.howjsay = {
+                    status: 'success',
+                    message: '真人发音可用',
+                    details: { type: 'Human pronunciation' }
+                };
+            } catch (error) {
+                results.services.howjsay = {
+                    status: 'error',
+                    message: error.message
+                };
+            }
+        }
+
+        async function testWiktionaryService(results) {
+            try {
+                const baseUrl = 'https://commons.wikimedia.org/w/api.php';
+                const params = new URLSearchParams({
+                    action: 'query',
+                    format: 'json',
+                    prop: 'imageinfo',
+                    titles: `File:en-${currentTestWord}.ogg`,
+                    iiprop: 'url',
+                    origin: '*'
+                });
+
+                const response = await fetch(`${baseUrl}?${params.toString()}`);
+                const data = await response.json();
+
+                const pages = data.query.pages;
+                const pageId = Object.keys(pages)[0];
+
+                if (pageId !== '-1' && pages[pageId].imageinfo) {
+                    results.services.wiktionary = {
+                        status: 'success',
+                        message: '社区发音可用 (OGG)',
+                        details: { format: 'ogg' }
+                    };
+                } else {
+                    // 尝试MP3格式
+                    const mp3Params = new URLSearchParams({
+                        action: 'query',
+                        format: 'json',
+                        prop: 'imageinfo',
+                        titles: `File:en-${currentTestWord}.mp3`,
+                        iiprop: 'url',
+                        origin: '*'
+                    });
+
+                    const mp3Response = await fetch(`${baseUrl}?${mp3Params.toString()}`);
+                    const mp3Data = await mp3Response.json();
+
+                    const mp3Pages = mp3Data.query.pages;
+                    const mp3PageId = Object.keys(mp3Pages)[0];
+
+                    if (mp3PageId !== '-1' && mp3Pages[mp3PageId].imageinfo) {
+                        results.services.wiktionary = {
+                            status: 'success',
+                            message: '社区发音可用 (MP3)',
+                            details: { format: 'mp3' }
+                        };
+                    } else {
+                        results.services.wiktionary = {
+                            status: 'not_found',
+                            message: '单词未找到'
+                        };
+                    }
+                }
+            } catch (error) {
+                results.services.wiktionary = {
+                    status: 'error',
+                    message: error.message
+                };
+            }
+        }
+
+        // 页面加载时初始化语音列表
+        window.addEventListener('load', () => {
+            // 确保语音列表已加载
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+            }
+        });
+
+        // 处理语音列表变化
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                console.log('语音列表已更新');
+            };
+        }
+    </script>
+</body>
+</html>

@@ -55,10 +55,10 @@
               </div>
               <!-- 语音播放按钮 -->
               <button
-                @click="playWordAudio"
+                @click="handlePlayWordAudio"
                 :disabled="isPlayingAudio"
                 class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 group"
-                title="播放发音"
+                :title="audioEngineInfo ? `播放发音 (${audioEngineInfo.name})` : '播放发音'"
               >
                 <svg
                   class="w-6 h-6 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
@@ -70,6 +70,10 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
                 </svg>
               </button>
+              <!-- 语音引擎指示器
+              <div v-if="audioEngineInfo" class="text-xs text-gray-500 dark:text-gray-400 ml-2" title="当前语音引擎">
+                <span class="hidden sm:inline">{{ audioEngineInfo.name }}</span>
+              </div> -->
             </div>
 
             <!-- 字母输入面板 -->
@@ -365,6 +369,7 @@ import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, addLearnedWord, removeErrorWord, updateStudyTime } from '../utils/studyData'
 import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
+import { playWordAudio, getAudioEngineInfo } from '../utils/audioService'
 import LetterInputPanel from './LetterInputPanel.vue'
 import WelcomeGuide from './WelcomeGuide.vue'
 
@@ -406,6 +411,7 @@ const letterInputPanel = ref(null)
 
 // 语音播放相关状态
 const isPlayingAudio = ref(false)
+const audioEngineInfo = ref(null)
 
 // 计算属性
 const currentWord = computed(() => {
@@ -453,51 +459,30 @@ const getMotivationalQuote = () => {
   return quotes[Math.floor(Math.random() * quotes.length)]
 }
 
-// 播放单词语音
-const playWordAudio = () => {
-  if (!currentWord.value.word) return
+// 播放单词语音 - 使用新的音频服务
+const handlePlayWordAudio = async () => {
+  if (!currentWord.value?.word) return
 
-  // 检查浏览器是否支持语音合成
-  if (!('speechSynthesis' in window)) {
-    console.warn('浏览器不支持语音合成功能')
-    return
-  }
-
-  // 如果正在播放，先停止
+  // 如果正在播放，停止当前播放
   if (isPlayingAudio.value) {
-    window.speechSynthesis.cancel()
     isPlayingAudio.value = false
     return
   }
 
-  // 创建语音合成实例
-  const utterance = new SpeechSynthesisUtterance(currentWord.value.word)
-
-  // 设置语音参数
-  utterance.lang = 'en-US'  // 美式英语
-  utterance.rate = 0.8      // 语速稍慢，便于学习
-  utterance.pitch = 1.0      // 正常音调
-  utterance.volume = 1.0     // 最大音量
-
-  // 事件监听
-  utterance.onstart = () => {
-    isPlayingAudio.value = true
-  }
-
-  utterance.onend = () => {
-    isPlayingAudio.value = false
-  }
-
-  utterance.onerror = (event) => {
-    console.error('语音播放错误:', event.error)
-    isPlayingAudio.value = false
-  }
-
-  // 开始播放
   try {
-    window.speechSynthesis.speak(utterance)
+    isPlayingAudio.value = true
+    const success = await playWordAudio(currentWord.value.word, {
+      lang: 'en-US',
+      rate: 0.75,
+      // 可以添加其他选项
+    })
+
+    if (!success) {
+      console.warn('语音播放失败')
+    }
   } catch (error) {
-    console.error('语音播放失败:', error)
+    console.error('语音播放错误:', error)
+  } finally {
     isPlayingAudio.value = false
   }
 }
@@ -909,6 +894,12 @@ const restoreStudySession = () => {
 // 组件挂载时初始化
 onMounted(() => {
   dailyGoal.value = getDailyGoal()
+
+  // 获取语音引擎信息
+  audioEngineInfo.value = getAudioEngineInfo()
+  if (audioEngineInfo.value) {
+    console.log('当前语音引擎:', audioEngineInfo.value)
+  }
 
   // 尝试恢复之前的学习会话
   const hasRestoredSession = restoreStudySession()
