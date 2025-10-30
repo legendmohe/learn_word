@@ -44,15 +44,12 @@
     <div v-if="showResult" class="result-feedback text-center mb-8">
       <div v-if="isCorrect" class="success-message">
         <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
-          回答正确！
-        </div>
-        <div class="text-gray-600 dark:text-gray-400">
-          {{ word.word }} 的意思是 {{ word.meaning }}
+          回答正确
         </div>
       </div>
       <div v-else class="error-message">
         <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
-          再接再厉！
+          再接再厉
         </div>
         <div class="text-gray-600 dark:text-gray-400">
           正确答案是：{{ word.meaning }}

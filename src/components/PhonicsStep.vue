@@ -78,7 +78,7 @@
     <div v-if="showResult" class="result-feedback text-center mb-8">
       <div v-if="isCorrect" class="success-message">
         <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
-          拼写正确！
+          拼写正确
         </div>
         <div class="text-gray-600 dark:text-gray-400">
           音素拼写：{{ word.phonemes.join(' + ') }} = {{ word.word }}

@@ -1,8 +1,14 @@
 <template>
   <div class="spelling-step">
     <div class="word-display text-center">
-      <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">
+      <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">
         {{ word.meaning }}
+      </div>
+    </div>
+
+    <div class="spelling-info text-center mb-8">
+      <div class="text-base text-gray-600 dark:text-gray-400 mb-4">
+        使用所有字母完整拼写出单词
       </div>
 
       <!-- 语音播放按钮 -->
@@ -38,52 +44,18 @@
     </div>
 
     <!-- 结果显示 -->
-    <div v-else class="result-display text-center mb-8">
-      <div v-if="isCorrect" class="success-animation">
-        <div class="success-icon mb-6">
-          <div class="text-6xl mb-4">🎯</div>
-        </div>
-
-        <div class="success-message mb-4">
-          <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-2">
-            拼写正确！
-          </h3>
-          <p class="text-lg text-gray-600 dark:text-gray-300">
-            太棒了！完整拼写成功
-          </p>
-        </div>
-
-        <div class="word-display">
-          <div class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-            {{ word.word }}
-          </div>
-          <div class="text-base text-gray-600 dark:text-gray-400">
-            {{ word.meaning }}
-          </div>
+    <div v-else class="result-feedback text-center mb-8">
+      <div v-if="isCorrect" class="success-message">
+        <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
+          拼写正确
         </div>
       </div>
-
-      <div v-else class="error-animation">
-        <div class="error-icon mb-6">
-          <div class="text-6xl mb-4">💡</div>
+      <div v-else class="error-message">
+        <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
+          再接再厉！
         </div>
-
-        <div class="error-message mb-4">
-          <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-2">
-            再接再厉！
-          </h3>
-          <p class="text-lg text-gray-600 dark:text-gray-300">
-            正确答案是：{{ word.word }}
-          </p>
-        </div>
-
-        <div class="correct-answer mb-4">
-          <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-full">
-            <span class="text-blue-500">✓</span>
-            <span class="text-sm font-medium text-blue-700 dark:text-blue-400">
-              {{ word.word }}
-            </span>
-          </div>
+        <div class="text-gray-600 dark:text-gray-400">
+          正确答案是：{{ word.word }}
         </div>
       </div>
     </div>
