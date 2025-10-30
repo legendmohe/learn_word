@@ -222,9 +222,8 @@
           </div>
 
           <!-- 操作按钮 -->
-          <div class="flex gap-3 justify-center mt-4">
+          <div v-if="showResult" class="flex gap-3 justify-center mt-4">
             <button
-              v-if="showResult"
               @click="nextWord"
               class="px-6 py-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
             >
@@ -964,7 +963,6 @@ onUnmounted(() => {
 .word-card {
   transition: transform 0.3s ease;
   flex: 1;
-  margin-bottom: 16px;
 }
 
 
