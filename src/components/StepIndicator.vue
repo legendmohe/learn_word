@@ -406,10 +406,17 @@ export default {
   margin-left: auto;
 }
 
+.next-btn:disabled {
+  background: #93c5fd;
+  border-color: #93c5fd;
+  color: #dbeafe;
+}
+
 .next-btn:hover:not(:disabled) {
   background: #2563eb;
   border-color: #2563eb;
 }
+
 
 .prev-btn svg {
   order: -1;
