@@ -3,7 +3,7 @@
  * 使用localStorage存储学习进度、错误记录等数据
  */
 
-import { getDefaultSettings, isValidCourse } from './coursesParser.js'
+import { getDefaultSettings, isValidCourse, getRandomWords } from './coursesParser.js'
 
 const STORAGE_KEYS = {
   STUDY_PROGRESS: 'learn_word_study_progress',
@@ -301,19 +301,22 @@ export function getTodayWords(count) {
   let words = [...recentErrors.map(word => enhanceWordData(word)), ...frequentErrors]
 
   if (remainingCount > 0) {
-    // 静态导入以避免异步问题
-    import('./coursesParser.js').then(({ getRandomWords }) => {
-      const newWords = getRandomWords(selectedCourse, remainingCount)
-      words = [...words, ...newWords]
-      return words.slice(0, count).map(word => enhanceWordData(word))
-    }).catch(() => {
-      // 如果导入失败，返回已有的单词
-      return words.slice(0, count).map(word => enhanceWordData(word))
-    })
+    // 同步获取新单词
+    const newWords = getRandomWords(selectedCourse, remainingCount)
+    words = [...words, ...newWords]
   }
 
   // 对所有单词进行数据增强
-  return words.slice(0, count).map(word => enhanceWordData(word))
+  const finalWords = words.slice(0, count).map(word => enhanceWordData(word))
+  console.log('🔍 getTodayWords 最终数据:', {
+    finalCount: finalWords.length,
+    sampleWord: finalWords[0] ? {
+      word: finalWords[0].word,
+      phonemes: finalWords[0].phonemes,
+      originalPhonemes: finalWords[0].word?.phonemes
+    } : null
+  })
+  return finalWords
 }
 
 /**

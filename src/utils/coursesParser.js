@@ -35,7 +35,20 @@ export function getRandomWords(courseName, count = 10) {
 
   // 随机选择指定数量的单词
   const shuffled = [...course.words].sort(() => 0.5 - Math.random())
-  return shuffled.slice(0, count)
+  const result = shuffled.slice(0, count)
+
+  // 调试信息
+  console.log('📚 getRandomWords 调试:', {
+    courseName,
+    requestedCount: count,
+    actualCount: result.length,
+    sampleWord: result[0] ? {
+      word: result[0].word,
+      phonemes: result[0].phonemes
+    } : null
+  })
+
+  return result
 }
 
 /**

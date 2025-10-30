@@ -29,12 +29,13 @@
           <span v-else>{{ index + 1 }}</span>
 
           <!-- 错误指示器 -->
-          <div v-if="hasError && step.id === 'test'" class="error-indicator">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          <div v-if="stepErrors[step.id]" class="error-indicator">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
             </svg>
           </div>
 
+    
           </div>
 
         <!-- 步骤标签 -->
@@ -93,9 +94,13 @@ export default {
       type: Boolean,
       default: true
     },
-    hasError: {
-      type: Boolean,
-      default: false
+    stepErrors: {
+      type: Object,
+      default: () => ({
+        test: false,
+        phonics: false,
+        spelling: false
+      })
     }
   },
   emits: ['step-change', 'previous-step', 'next-step'],
@@ -134,18 +139,41 @@ export default {
     progressPercentage() {
       const completedSteps = Object.values(this.stepProgress).filter(Boolean).length
       return (completedSteps / this.steps.length) * 100
+    },
+    isDev() {
+      return import.meta.env.DEV
+    }
+  },
+  watch: {
+    stepErrors: {
+      handler(newVal) {
+        if (this.isDev) {
+          console.log('StepIndicator stepErrors更新:', newVal)
+          this.steps.forEach((step, index) => {
+            console.log(`步骤${index + 1} (${step.id}): 错误状态 =`, newVal[step.id])
+          })
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods: {
     isStepCompleted(index) {
       const stepId = this.steps[index].id
-      return this.stepProgress[stepId] || this.currentStep > index
+      return this.stepProgress[stepId] === true
     },
 
     canClickStep(index) {
       if (!this.allowStepNavigation) return false
-      // 允许点击已完成的步骤或下一步
-      return this.isStepCompleted(index) || index === this.currentStep + 1
+
+      // 只允许点击：
+      // 1. 已完成的步骤（可以回顾）
+      // 2. 紧邻的下一步（当前步骤 + 1）
+      const isNextStep = index === this.currentStep + 1
+      const isCompleted = this.isStepCompleted(index)
+
+      return isCompleted || isNextStep
     },
 
     handleStepClick(index) {

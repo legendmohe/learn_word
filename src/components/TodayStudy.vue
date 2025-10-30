@@ -48,7 +48,7 @@
         :current-step="currentStep"
         :step-progress="currentStepProgress"
         :allow-step-navigation="allowStepNavigation"
-        :has-error="currentWordHasError"
+        :step-errors="currentStepErrors"
         @step-change="handleStepChange"
         @previous-step="goToPreviousStep"
         @next-step="goToNextStep"
@@ -56,8 +56,7 @@
       />
 
       <!-- 单词卡片 -->
-      <div class="word-card glass-effect rounded-2xl p-6 card-shadow transform transition-all duration-300 flex-1 flex flex-col"
-           :class="{ 'animate-bounce': showResult }">
+      <div class="word-card glass-effect rounded-2xl p-6 card-shadow transform transition-all duration-300 flex-1 flex flex-col">
         <div class="text-center flex-1 flex flex-col justify-center">
           <!-- 步骤内容区域 -->
           <div class="step-content">
@@ -276,8 +275,12 @@ const allowStepNavigation = ref(true) // 是否允许步骤导航
 const spellingAttempts = ref(0) // 拼写尝试次数
 const maxSpellingAttempts = 2 // 最大拼写尝试次数
 
-// 当前单词的错误状态
-const currentWordHasError = ref(false) // 当前单词是否有错误
+// 当前单词的错误状态（按步骤跟踪）
+const currentStepErrors = ref({
+  test: false,
+  phonics: false,
+  spelling: false
+}) // 当前单词各步骤的错误状态
 
 // 为测试步骤准备的其他单词数据
 const otherWordsForTest = computed(() => {
@@ -395,10 +398,21 @@ const proceedToStudy = async () => {
 
     // 获取今日学习单词
     const todayWords = getTodayWords(dailyGoal.value)
+    console.log('📚 获取到今日单词:', {
+      dailyGoal: dailyGoal.value,
+      wordsCount: todayWords.length,
+      words: todayWords.map(w => ({ word: w.word, meaning: w.meaning }))
+    })
+
     if (todayWords.length === 0) {
       // 如果没有错误单词，使用新单词
       const courseName = getSelectedCourse()
       studyWords.value = getRandomWords(courseName, dailyGoal.value)
+      console.log('📚 使用新单词:', {
+        courseName,
+        wordsCount: studyWords.value.length,
+        words: studyWords.value.map(w => ({ word: w.word, meaning: w.meaning }))
+      })
     } else {
       studyWords.value = todayWords
     }
@@ -441,26 +455,45 @@ const resetWordStepProgress = () => {
     }
   }
   // 重置错误状态
-  currentWordHasError.value = false
+  currentStepErrors.value = {
+    test: false,
+    phonics: false,
+    spelling: false
+  }
 }
 
 // 步骤导航相关方法
 const handleStepChange = (newStep) => {
-  if (newStep >= 0 && newStep <= 4) {
-    currentStep.value = newStep
+  if (newStep < 0 || newStep > 4) return
+
+  const stepNames = ['listen', 'record', 'test', 'phonics', 'spelling']
+  const currentWordData = studyWords.value[currentWordIndex.value]
+
+  // 检查是否可以导航到目标步骤
+  if (currentWordData && currentWordData.stepProgress) {
+    // 只允许导航到：已完成的步骤 或 下一个未完成的步骤
+    const isStepCompleted = currentWordData.stepProgress[stepNames[newStep]]
+    const isNextUncompletedStep = newStep === currentStep.value + 1
+
+    if (isStepCompleted || isNextUncompletedStep) {
+      currentStep.value = newStep
+        } else {
+      }
   }
 }
 
 const goToPreviousStep = () => {
   if (currentStep.value > 0) {
+    // 允许回到任何已完成的步骤或前面的步骤
     currentStep.value--
-  }
+    }
 }
 
 const goToNextStep = () => {
   if (currentStep.value < 4) {
+    // 只能到下一步，不能跳过
     currentStep.value++
-  }
+      }
 }
 
 
@@ -497,6 +530,8 @@ const handleStepCompleted = (stepData = {}) => {
 
 // 处理步骤答案（用于测试和拼写步骤）
 const handleStepAnswer = (answerData) => {
+  console.log('handleStepAnswer called with:', answerData)
+
   // 更新学习统计
   if (answerData.correct) {
     studyStats.value.correct++
@@ -509,8 +544,11 @@ const handleStepAnswer = (answerData) => {
     studyStats.value.wrong++
     consecutiveCorrect.value = 0
 
-    // 标记当前单词有错误
-    currentWordHasError.value = true
+    // 标记当前步骤的错误状态
+    if (answerData.type === 'test' || answerData.type === 'phonics' || answerData.type === 'spelling') {
+      currentStepErrors.value[answerData.type] = true
+      console.log('设置步骤错误状态:', answerData.type, '= true')
+    }
 
     // 添加到错误单词列表
     addErrorWord({
@@ -537,6 +575,13 @@ const handleStepAnswer = (answerData) => {
 
 // 完成当前单词的学习
 const completeCurrentWord = () => {
+  console.log('🎯 完成当前单词:', {
+    currentWordIndex: currentWordIndex.value,
+    totalWords: studyWords.value.length,
+    isLastWord: currentWordIndex.value >= studyWords.value.length - 1,
+    currentWord: studyWords.value[currentWordIndex.value]?.word
+  })
+
   // 标记拼写步骤完成
   if (studyWords.value[currentWordIndex.value]) {
     studyWords.value[currentWordIndex.value].stepProgress.spelling = true
@@ -572,6 +617,14 @@ const completeCurrentWord = () => {
 
 // 下一个单词
 const nextWord = () => {
+  console.log('➡️ 进入下一个单词:', {
+    currentIndex: currentWordIndex.value,
+    nextIndex: currentWordIndex.value + 1,
+    totalWords: studyWords.value.length,
+    currentWord: studyWords.value[currentWordIndex.value]?.word,
+    nextWord: studyWords.value[currentWordIndex.value + 1]?.word
+  })
+
   if (currentWordIndex.value < studyWords.value.length - 1) {
     currentWordIndex.value++
     currentStep.value = 0 // 重置到第一步
@@ -698,7 +751,11 @@ const stopStudy = () => {
   studyWords.value = []
   currentWordIndex.value = 0
   currentStep.value = 0
-  currentWordHasError.value = false
+  currentStepErrors.value = {
+    test: false,
+    phonics: false,
+    spelling: false
+  }
   consecutiveCorrect.value = 0
   studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
   studyStartTime.value = null
@@ -718,7 +775,11 @@ const resetStudy = () => {
   studyWords.value = []
   currentWordIndex.value = 0
   currentStep.value = 0
-  currentWordHasError.value = false
+  currentStepErrors.value = {
+    test: false,
+    phonics: false,
+    spelling: false
+  }
   consecutiveCorrect.value = 0
   studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
 
@@ -763,7 +824,11 @@ const getStudyHint = () => {
 // 监听当前单词变化，重置输入状态
 watch(currentWord, () => {
   // 重置错误状态
-  currentWordHasError.value = false
+  currentStepErrors.value = {
+    test: false,
+    phonics: false,
+    spelling: false
+  }
 })
 
 // 监听学习状态变化
@@ -822,7 +887,11 @@ const restoreStudySession = () => {
       currentStep.value = session.currentStep || 0
 
       // 重置错误状态
-      currentWordHasError.value = false
+      currentStepErrors.value = {
+    test: false,
+    phonics: false,
+    spelling: false
+  }
 
       studyStatus.value = 'studying'
 
@@ -851,15 +920,7 @@ onMounted(() => {
   }
 
   // 尝试恢复之前的学习会话
-  const hasRestoredSession = restoreStudySession()
-  if (hasRestoredSession) {
-    // 如果恢复了会话，需要重新初始化字母输入面板
-    nextTick(() => {
-      if (letterInputPanel.value && !showResult.value) {
-        letterInputPanel.value.clear()
-      }
-    })
-  }
+  restoreStudySession()
 
   })
 

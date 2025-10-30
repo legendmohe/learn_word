@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 
 export default {
   name: 'PhonicsStep',
@@ -212,6 +212,16 @@ export default {
     const completeStep = () => {
       emit('completed')
     }
+
+    // 监听单词数据变化，调试音素数据
+    watch(() => props.word, (newWord) => {
+      console.log('PhonicsStep 单词数据变化:', {
+        word: newWord.word,
+        phonemes: newWord.phonemes,
+        phonemesLength: newWord.phonemes?.length,
+        hasPhonemes: hasPhonemes.value
+      })
+    }, { immediate: true })
 
     onMounted(() => {
       shufflePhonemes()
