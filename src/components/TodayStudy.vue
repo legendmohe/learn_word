@@ -19,10 +19,10 @@
 
     <!-- 学习进行中 -->
     <div v-else-if="studyStatus === 'studying'" class="study-container">
-      <!-- 进度指示器和停止按钮 -->
-      <div class="mb-6">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-base text-gray-600 dark:text-gray-400">学习进度</span>
+      <!-- 顶部导航：单词进度和停止按钮 -->
+      <div class="mb-4">
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-600 dark:text-gray-400">单词进度</span>
           <div class="flex items-center gap-3">
             <button
               @click="showStopConfirmDialog = true"
@@ -30,219 +30,80 @@
             >
               停止学习
             </button>
-            <span class="text-base font-medium text-gray-800 dark:text-gray-200">
+            <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
               {{ currentWordIndex + 1 }} / {{ studyWords.length }}
             </span>
           </div>
         </div>
-        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mt-2">
           <div
-            class="bg-gradient-to-r from-primary-500 to-accent-500 h-2 rounded-full transition-all duration-300"
+            class="bg-gradient-to-r from-primary-500 to-accent-500 h-1.5 rounded-full transition-all duration-300"
             :style="{ width: `${progressPercentage}%` }"
           ></div>
         </div>
       </div>
 
+      <!-- 步骤指示器 -->
+      <StepIndicator
+        :current-step="currentStep"
+        :step-progress="currentStepProgress"
+        :allow-step-navigation="allowStepNavigation"
+        :has-error="currentWordHasError"
+        @step-change="handleStepChange"
+        @previous-step="goToPreviousStep"
+        @next-step="goToNextStep"
+        class="mb-6"
+      />
+
       <!-- 单词卡片 -->
-      <div class="word-card glass-effect rounded-2xl p-6 card-shadow transform transition-all duration-300 flex-1 flex flex-col justify-between"
+      <div class="word-card glass-effect rounded-2xl p-6 card-shadow transform transition-all duration-300 flex-1 flex flex-col"
            :class="{ 'animate-bounce': showResult }">
         <div class="text-center flex-1 flex flex-col justify-center">
-          <!-- 填空题 -->
-          <div>
-            <div class="flex items-center justify-center gap-3">
-              <div class="text-3xl font-bold text-primary-600 dark:text-primary-400">
-                {{ currentWord.meaning }}
-              </div>
-              <!-- 语音播放按钮 -->
-              <button
-                @click="handlePlayWordAudio"
-                :disabled="isPlayingAudio"
-                class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 group"
-                :title="audioEngineInfo ? `播放发音 (${audioEngineInfo.name})` : '播放发音'"
-              >
-                <svg
-                  class="w-6 h-6 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
-                  :class="{ 'animate-pulse': isPlayingAudio }"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
-                </svg>
-              </button>
-              <!-- 语音引擎指示器
-              <div v-if="audioEngineInfo" class="text-xs text-gray-500 dark:text-gray-400 ml-2" title="当前语音引擎">
-                <span class="hidden sm:inline">{{ audioEngineInfo.name }}</span>
-              </div> -->
-            </div>
+          <!-- 步骤内容区域 -->
+          <div class="step-content">
+            <!-- 步骤1: 听音学义 -->
+            <ListenStep
+              v-if="currentStep === 0"
+              :word="currentWord"
+              @completed="handleStepCompleted"
+            />
 
-            <!-- 字母输入面板 -->
-            <div v-if="!showResult" class="flex-1 flex flex-col justify-center">
-              <LetterInputPanel
-                :word="currentWord.word"
-                :show-result="showResult"
-                @answer="handleAnswer"
-                @input-change="handleInputChange"
-                ref="letterInputPanel"
-              />
-            </div>
+            <!-- 步骤2: 边读边学 -->
+            <RecordStep
+              v-else-if="currentStep === 1"
+              :word="currentWord"
+              @completed="handleStepCompleted"
+            />
 
-            <!-- 结果显示 -->
-            <div v-else class="result-display flex-1 flex flex-col justify-center items-center px-4">
-              <div v-if="isCorrect" class="success-animation text-center">
-                <!-- 成功动画和图标 -->
-                <div class="success-icon-container mb-6">
-                  <div class="success-icon">
-                    🎯
-                  </div>
-                  <div class="success-particles">
-                    <span class="particle particle-1">✨</span>
-                    <span class="particle particle-2">⭐</span>
-                    <span class="particle particle-3">💫</span>
-                    <span class="particle particle-4">🌟</span>
-                    <span class="particle particle-5">✨</span>
-                  </div>
-                </div>
+            <!-- 步骤3: 小测试 -->
+            <TestStep
+              v-else-if="currentStep === 2"
+              :word="currentWord"
+              :other-words="otherWordsForTest"
+              @completed="handleStepCompleted"
+              @answer="handleStepAnswer"
+            />
 
-                <!-- 随机鼓励文案 -->
-                <div class="success-message mb-4">
-                  <h3 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-2">
-                    {{ getSuccessMessage() }}
-                  </h3>
-                  <p class="text-lg text-gray-600 dark:text-gray-300">
-                    太棒了！继续保持这个势头
-                  </p>
-                </div>
+            <!-- 步骤4: 拆分拼写 -->
+            <PhonicsStep
+              v-else-if="currentStep === 3"
+              :word="currentWord"
+              @completed="handleStepCompleted"
+              @answer="handleStepAnswer"
+            />
 
-                <!-- 进度指示器 -->
-                <div class="progress-indicator mb-6">
-                  <div class="flex items-center justify-center mb-2">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                      当前进度
-                    </div>
-                    <div class="mx-3 text-gray-300 dark:text-gray-600">•</div>
-                    <div class="text-sm font-medium text-primary-600 dark:text-primary-400">
-                      {{ currentWordIndex + 1 }} / {{ studyWords.length }}
-                    </div>
-                  </div>
-                  <div class="w-48 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
-                    <div
-                      class="bg-gradient-to-r from-green-400 to-emerald-500 h-2 rounded-full transition-all duration-500"
-                      :style="{ width: `${((currentWordIndex + 1) / studyWords.length) * 100}%` }"
-                    ></div>
-                  </div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400">
-                    已完成 {{ Math.round(((currentWordIndex + 1) / studyWords.length) * 100) }}%
-                  </div>
-                </div>
-
-                <!-- 单词显示 -->
-                <div class="word-display">
-                  <div class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-1">
-                    {{ currentWord.word }}
-                  </div>
-                  <div class="text-sm text-gray-600 dark:text-gray-400">
-                    {{ currentWord.meaning }}
-                  </div>
-                </div>
-
-                <!-- 连续正确计数 -->
-                <div v-if="consecutiveCorrect > 1" class="streak-indicator mt-4">
-                  <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 dark:bg-orange-900/20 rounded-full">
-                    <span class="text-orange-500">🔥</span>
-                    <span class="text-sm font-medium text-orange-700 dark:text-orange-400">
-                      连续正确 {{ consecutiveCorrect }} 次！
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div v-else class="error-animation text-center">
-                <!-- 错误动画和图标 -->
-                <div class="error-icon-container mb-6">
-                  <div class="error-icon">
-                    💡
-                  </div>
-                  <div class="error-hint">
-                    <span class="hint-particle hint-1">💭</span>
-                    <span class="hint-particle hint-2">📚</span>
-                    <span class="hint-particle hint-3">🎯</span>
-                  </div>
-                </div>
-
-                <!-- 建设性反馈 -->
-                <div class="error-message mb-4">
-                  <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-2">
-                    {{ getEncouragementMessage() }}
-                  </h3>
-                  <p class="text-lg text-gray-600 dark:text-gray-300">
-                    {{ getLearningHint() }}
-                  </p>
-                </div>
-
-                <!-- 正确答案展示 -->
-                <div class="correct-answer mb-6">
-                  <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-full">
-                    <span class="text-blue-500">✓</span>
-                    <span class="text-sm font-medium text-blue-700 dark:text-blue-400">
-                      正确答案：{{ currentWord.word }}
-                    </span>
-                  </div>
-                </div>
-
-                <!-- 学习机会 -->
-                <div class="learning-opportunity mb-4">
-                  <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 dark:bg-orange-900/20 rounded-full">
-                    <span class="text-orange-500">🌱</span>
-                    <span class="text-sm font-medium text-orange-700 dark:text-orange-400">
-                      学习机会
-                    </span>
-                  </div>
-                </div>
-
-                <!-- 单词含义 -->
-                <div class="word-meaning mb-4">
-                  <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                    含义
-                  </div>
-                  <div class="text-base font-medium text-gray-800 dark:text-gray-200">
-                    {{ currentWord.meaning }}
-                  </div>
-                </div>
-
-                <!-- 你的答案对比 -->
-                <div v-if="userAnswer.trim()" class="answer-comparison">
-                  <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    你的答案
-                  </div>
-                  <div class="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                    <span class="text-gray-700 dark:text-gray-300 font-medium">
-                      {{ userAnswer.trim() }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 操作按钮 -->
-          <div v-if="showResult" class="flex gap-3 justify-center mt-4">
-            <button
-              @click="nextWord"
-              class="px-6 py-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-            >
-              {{ currentWordIndex < studyWords.length - 1 ? '下一个单词' : '完成学习' }}
-            </button>
+            <!-- 步骤5: 全字母拼 -->
+            <SpellingStep
+              v-else-if="currentStep === 4"
+              :word="currentWord"
+              :is-last-step="currentWordIndex >= studyWords.length - 1"
+              @completed="handleStepCompleted"
+              @answer="handleStepAnswer"
+            />
           </div>
         </div>
       </div>
 
-      <!-- 提示信息 -->
-      <div class="text-center text-base text-gray-500 dark:text-gray-400 mt-4">
-        <div v-if="!showResult">
-          💡 提示：{{ getStudyHint() }}
-        </div>
-      </div>
     </div>
 
     <!-- 学习完成 -->
@@ -370,11 +231,27 @@ import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, add
 import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
 import { playWordAudio, getAudioEngineInfo } from '../utils/audioService'
-import LetterInputPanel from './LetterInputPanel.vue'
 import WelcomeGuide from './WelcomeGuide.vue'
+import StepIndicator from './StepIndicator.vue'
+import ListenStep from './ListenStep.vue'
+import RecordStep from './RecordStep.vue'
+import TestStep from './TestStep.vue'
+import PhonicsStep from './PhonicsStep.vue'
+import SpellingStep from './SpellingStep.vue'
 
 // 定义事件
 const emit = defineEmits(['completed', 'study-status-changed'])
+
+// 注册组件
+const components = {
+  WelcomeGuide,
+  StepIndicator,
+  ListenStep,
+  RecordStep,
+  TestStep,
+  PhonicsStep,
+  SpellingStep
+}
 
 // 学习状态
 const studyStatus = ref('ready') // ready, studying, completed
@@ -391,10 +268,22 @@ const showStartConfirmDialog = ref(false)
 const dailyGoal = ref(10)
 const studyWords = ref([])
 const currentWordIndex = ref(0)
-const userAnswer = ref('')
-const showResult = ref(false)
-const isCorrect = ref(false)
 const consecutiveCorrect = ref(0)
+
+// 多步骤学习状态
+const currentStep = ref(0) // 当前学习步骤 0-4
+const allowStepNavigation = ref(true) // 是否允许步骤导航
+const spellingAttempts = ref(0) // 拼写尝试次数
+const maxSpellingAttempts = 2 // 最大拼写尝试次数
+
+// 当前单词的错误状态
+const currentWordHasError = ref(false) // 当前单词是否有错误
+
+// 为测试步骤准备的其他单词数据
+const otherWordsForTest = computed(() => {
+  // 获取当前单词之外的其他单词作为测试干扰项
+  return studyWords.value.filter((_, index) => index !== currentWordIndex.value)
+})
 
 // 学习时间记录
 const studyStartTime = ref(null)
@@ -405,9 +294,6 @@ const studyStats = ref({
   wrong: 0,
   accuracy: 0
 })
-
-// 字母输入面板引用
-const letterInputPanel = ref(null)
 
 // 语音播放相关状态
 const isPlayingAudio = ref(false)
@@ -420,6 +306,20 @@ const currentWord = computed(() => {
 
 const progressPercentage = computed(() => {
   return Math.round(((currentWordIndex.value + 1) / studyWords.value.length) * 100)
+})
+
+// 当前单词的步骤进度
+const currentStepProgress = computed(() => {
+  if (!currentWord.value?.stepProgress) {
+    return {
+      listen: false,
+      record: false,
+      test: false,
+      phonics: false,
+      spelling: false
+    }
+  }
+  return currentWord.value.stepProgress
 })
 
 // 开始学习
@@ -503,59 +403,127 @@ const proceedToStudy = async () => {
       studyWords.value = todayWords
     }
 
+    // 重置学习状态
     currentWordIndex.value = 0
+    currentStep.value = 0
+    spellingAttempts.value = 0
+    consecutiveCorrect.value = 0
     studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
     studyStatus.value = 'studying'
+
+    // 重置当前单词的步骤进度
+    if (studyWords.value.length > 0) {
+      resetWordStepProgress()
+    }
   } catch (error) {
     console.error('开始学习失败:', error)
     // 如果获取错误单词失败，使用新单词
     const courseName = getSelectedCourse()
     studyWords.value = getRandomWords(courseName, dailyGoal.value)
     currentWordIndex.value = 0
+    currentStep.value = 0
+    spellingAttempts.value = 0
+    consecutiveCorrect.value = 0
     studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
     studyStatus.value = 'studying'
   }
 }
 
-// 处理字母输入面板的答案
-const handleAnswer = (answer) => {
-  userAnswer.value = answer
-  checkAnswer()
+// 重置当前单词的步骤进度
+const resetWordStepProgress = () => {
+  if (studyWords.value[currentWordIndex.value]) {
+    studyWords.value[currentWordIndex.value].stepProgress = {
+      listen: false,
+      record: false,
+      test: false,
+      phonics: false,
+      spelling: false
+    }
+  }
+  // 重置错误状态
+  currentWordHasError.value = false
 }
 
-// 处理字母输入变化
-const handleInputChange = (input) => {
-  userAnswer.value = input
+// 步骤导航相关方法
+const handleStepChange = (newStep) => {
+  if (newStep >= 0 && newStep <= 4) {
+    currentStep.value = newStep
+  }
 }
 
-// 检查答案
-const checkAnswer = () => {
-  if (!userAnswer.value) return
+const goToPreviousStep = () => {
+  if (currentStep.value > 0) {
+    currentStep.value--
+  }
+}
 
-  const answer = userAnswer.value.toLowerCase()
-  const correctAnswer = currentWord.value.word.toLowerCase()
+const goToNextStep = () => {
+  if (currentStep.value < 4) {
+    currentStep.value++
+  }
+}
 
-  isCorrect.value = answer === correctAnswer
-  showResult.value = true
 
+// 获取步骤提示
+const getStepHint = () => {
+  const hints = {
+    0: '点击喇叭按钮，仔细听单词的发音',
+    1: '长按录音按钮，录下你的读音',
+    2: '选择正确的中文意思',
+    3: '按照音素顺序拼写出单词',
+    4: '使用所有字母完整拼写出单词'
+  }
+  return hints[currentStep.value] || '继续学习...'
+}
+
+// 处理步骤完成
+const handleStepCompleted = (stepData = {}) => {
+  const stepNames = ['listen', 'record', 'test', 'phonics', 'spelling']
+  const currentStepName = stepNames[currentStep.value]
+
+  // 标记当前步骤为完成
+  if (studyWords.value[currentWordIndex.value]) {
+    studyWords.value[currentWordIndex.value].stepProgress[currentStepName] = true
+  }
+
+  // 如果不是最后一步，自动进入下一步
+  if (currentStep.value < 4) {
+    currentStep.value++
+  } else {
+    // 如果是最后一步，完成当前单词的学习
+    completeCurrentWord()
+  }
+}
+
+// 处理步骤答案（用于测试和拼写步骤）
+const handleStepAnswer = (answerData) => {
   // 更新学习统计
-  if (isCorrect.value) {
+  if (answerData.correct) {
     studyStats.value.correct++
-    consecutiveCorrect.value++ // 增加连续正确计数
+    if (answerData.type !== 'spelling') {
+      consecutiveCorrect.value++
+    }
     addLearnedWord(currentWord.value)
     removeErrorWord(currentWord.value.word)
   } else {
     studyStats.value.wrong++
-    consecutiveCorrect.value = 0 // 重置连续正确计数
+    consecutiveCorrect.value = 0
+
+    // 标记当前单词有错误
+    currentWordHasError.value = true
+
+    // 添加到错误单词列表
     addErrorWord({
       word: currentWord.value.word,
       meaning: currentWord.value.meaning,
-      userAnswer: answer
+      userAnswer: answerData.selectedAnswer || '',
+      type: answerData.type || 'unknown',
+      step: answerData.type === 'test' ? '小测试' : answerData.type === 'spelling' ? '拼写' : '其他'
     })
   }
 
   // 更新学习进度
-  updateStudyProgress(isCorrect.value)
+  updateStudyProgress(answerData.correct)
 
   // 计算正确率
   const total = studyStats.value.correct + studyStats.value.wrong
@@ -563,22 +531,54 @@ const checkAnswer = () => {
 
   // 触觉反馈
   if (navigator.vibrate) {
-    navigator.vibrate(isCorrect.value ? 100 : [50, 50, 50])
+    navigator.vibrate(answerData.correct ? 100 : [50, 50, 50])
   }
 }
+
+// 完成当前单词的学习
+const completeCurrentWord = () => {
+  // 标记拼写步骤完成
+  if (studyWords.value[currentWordIndex.value]) {
+    studyWords.value[currentWordIndex.value].stepProgress.spelling = true
+  }
+
+  // 如果不是最后一个单词，进入下一个单词
+  if (currentWordIndex.value < studyWords.value.length - 1) {
+    setTimeout(() => {
+      nextWord()
+    }, 1500)
+  } else {
+    // 学习完成
+    setTimeout(() => {
+      studyStatus.value = 'completed'
+
+      // 计算并保存学习时长
+      if (studyStartTime.value) {
+        const studyEndTime = Date.now()
+        const studyDurationMs = studyEndTime - studyStartTime.value
+        const studyDurationMinutes = Math.max(1, Math.round(studyDurationMs / (1000 * 60)))
+        updateStudyTime(studyDurationMinutes)
+      }
+
+      // 清理学习会话
+      localStorage.removeItem('learn_word_study_session')
+
+      // 发送学习完成事件
+      emit('completed')
+    }, 1500)
+  }
+}
+
 
 // 下一个单词
 const nextWord = () => {
   if (currentWordIndex.value < studyWords.value.length - 1) {
     currentWordIndex.value++
-    userAnswer.value = ''
-    showResult.value = false
-    isCorrect.value = false
+    currentStep.value = 0 // 重置到第一步
+    spellingAttempts.value = 0 // 重置拼写尝试次数
 
-    // 清空字母输入面板
-    nextTick(() => {
-      letterInputPanel.value?.clear()
-    })
+    // 重置新单词的步骤进度
+    resetWordStepProgress()
 
     // 保存当前学习会话状态
     saveStudySession()
@@ -697,9 +697,9 @@ const stopStudy = () => {
   studyStatus.value = 'ready'
   studyWords.value = []
   currentWordIndex.value = 0
-  userAnswer.value = ''
-  showResult.value = false
-  isCorrect.value = false
+  currentStep.value = 0
+  currentWordHasError.value = false
+  consecutiveCorrect.value = 0
   studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
   studyStartTime.value = null
 
@@ -717,9 +717,9 @@ const resetStudy = () => {
   studyStatus.value = 'ready'
   studyWords.value = []
   currentWordIndex.value = 0
-  userAnswer.value = ''
-  showResult.value = false
-  isCorrect.value = false
+  currentStep.value = 0
+  currentWordHasError.value = false
+  consecutiveCorrect.value = 0
   studyStats.value = { correct: 0, wrong: 0, accuracy: 0 }
 
   // 清除保存的学习会话数据
@@ -762,9 +762,8 @@ const getStudyHint = () => {
 
 // 监听当前单词变化，重置输入状态
 watch(currentWord, () => {
-  userAnswer.value = ''
-  showResult.value = false
-  isCorrect.value = false
+  // 重置错误状态
+  currentWordHasError.value = false
 })
 
 // 监听学习状态变化
@@ -772,13 +771,6 @@ watch(studyStatus, (newStatus) => {
   emit('study-status-changed', newStatus)
 }, { immediate: true })
 
-// 监听键盘事件用于下一个单词
-const handleKeydown = (event) => {
-  if (showResult.value && event.key === 'Enter') {
-    event.preventDefault()
-    nextWord()
-  }
-}
 
 // 保存当前学习时长
 const saveCurrentStudyTime = () => {
@@ -795,41 +787,16 @@ const saveCurrentStudyTime = () => {
 // 保存学习会话状态
 const saveStudySession = () => {
   if (studyStatus.value === 'studying') {
-    // 如果已经显示结果（回答正确/错误），则直接进入下一个单词
-    let sessionCurrentWordIndex = currentWordIndex.value
-    let sessionUserAnswer = ''
-    let sessionShowResult = false
-    let sessionIsCorrect = false
-
-    // 如果还没显示结果，保存当前状态
-    if (!showResult.value) {
-      sessionCurrentWordIndex = currentWordIndex.value
-      sessionUserAnswer = userAnswer.value
-      sessionShowResult = false
-      sessionIsCorrect = false
-    } else {
-      // 如果已经显示结果了，说明这个单词已经学完，下次恢复时应该直接到下一个单词
-      // 但这里我们不推进index，因为推进index的逻辑在nextWord()中
-      // 我们只标记当前单词已完成
-      sessionCurrentWordIndex = currentWordIndex.value
-      sessionUserAnswer = ''
-      sessionShowResult = false
-      sessionIsCorrect = false
-    }
-
     const sessionData = {
       studyWords: studyWords.value,
-      currentWordIndex: sessionCurrentWordIndex,
-      userAnswer: sessionUserAnswer,
-      showResult: sessionShowResult,
-      isCorrect: sessionIsCorrect,
+      currentWordIndex: currentWordIndex.value,
+      currentStep: currentStep.value,
       studyStats: studyStats.value,
       studyStartTime: studyStartTime.value,
-      timestamp: Date.now(),
-      wordCompleted: showResult.value // 标记当前单词是否已完成
+      timestamp: Date.now()
     }
     localStorage.setItem('learn_word_study_session', JSON.stringify(sessionData))
-    console.log('学习会话状态已保存, wordCompleted:', showResult.value)
+    console.log('学习会话状态已保存')
   }
 }
 
@@ -851,29 +818,11 @@ const restoreStudySession = () => {
       studyWords.value = session.studyWords || []
       studyStats.value = session.studyStats || { correct: 0, wrong: 0, accuracy: 0 }
       studyStartTime.value = session.studyStartTime || Date.now()
+      currentWordIndex.value = session.currentWordIndex || 0
+      currentStep.value = session.currentStep || 0
 
-      // 如果当前单词已完成（已显示结果），则直接进入下一个单词
-      if (session.wordCompleted) {
-        if (session.currentWordIndex < studyWords.value.length - 1) {
-          currentWordIndex.value = session.currentWordIndex + 1
-          userAnswer.value = ''
-          showResult.value = false
-          isCorrect.value = false
-          console.log('当前单词已完成，直接进入下一个单词')
-        } else {
-          // 如果已经是最后一个单词，则完成学习
-          studyStatus.value = 'completed'
-          localStorage.removeItem('learn_word_study_session')
-          console.log('所有单词已完成')
-          return true
-        }
-      } else {
-        // 如果当前单词未完成，恢复到原来状态
-        currentWordIndex.value = session.currentWordIndex || 0
-        userAnswer.value = session.userAnswer || ''
-        showResult.value = session.showResult || false
-        isCorrect.value = session.isCorrect || false
-      }
+      // 重置错误状态
+      currentWordHasError.value = false
 
       studyStatus.value = 'studying'
 
@@ -912,16 +861,12 @@ onMounted(() => {
     })
   }
 
-  // 添加键盘事件监听
-  document.addEventListener('keydown', handleKeydown)
-})
+  })
 
 // 组件卸载时保存学习时长和当前学习状态
 onUnmounted(() => {
   saveCurrentStudyTime()
   saveStudySession()
-  // 移除键盘事件监听
-  document.removeEventListener('keydown', handleKeydown)
 })
 </script>
 

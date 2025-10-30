@@ -243,6 +243,33 @@ export function updateStudyTime(minutes) {
 }
 
 /**
+ * 增强单词数据，确保学习流程所需字段完整
+ * @param {Object} word 原始单词数据
+ * @returns {Object} 增强后的单词数据
+ */
+export function enhanceWordData(word) {
+  return {
+    ...word,
+    // 添加学习流程相关字段
+    phonemes: word.phonemes || null, // 音素拆分
+    currentStep: 0, // 当前学习步骤
+    stepProgress: { // 各步骤完成情况
+      listen: false,
+      record: false,
+      test: false,
+      phonics: false,
+      spelling: false
+    },
+    // 确保必要字段存在
+    errorCount: word.errorCount || 0,
+    firstErrorDate: word.firstErrorDate || null,
+    lastErrorDate: word.lastErrorDate || null,
+    firstLearnDate: word.firstLearnDate || null,
+    reviewCount: word.reviewCount || 0
+  }
+}
+
+/**
  * 获取今日学习单词（用于复习）
  * @param {number} count 单词数量
  * @returns {Array} 单词列表
@@ -266,25 +293,27 @@ export function getTodayWords(count) {
     .filter(word => word.errorCount >= 3)
     .sort((a, b) => b.errorCount - a.errorCount)
     .slice(0, Math.ceil(count / 3))
+    .map(word => enhanceWordData(word))
 
   // 剩余数量用新单词填充
   const remainingCount = count - recentErrors.length - frequentErrors.length
 
-  let words = [...recentErrors, ...frequentErrors]
+  let words = [...recentErrors.map(word => enhanceWordData(word)), ...frequentErrors]
 
   if (remainingCount > 0) {
     // 静态导入以避免异步问题
     import('./coursesParser.js').then(({ getRandomWords }) => {
       const newWords = getRandomWords(selectedCourse, remainingCount)
       words = [...words, ...newWords]
-      return words.slice(0, count)
+      return words.slice(0, count).map(word => enhanceWordData(word))
     }).catch(() => {
       // 如果导入失败，返回已有的单词
-      return words.slice(0, count)
+      return words.slice(0, count).map(word => enhanceWordData(word))
     })
   }
 
-  return words.slice(0, count)
+  // 对所有单词进行数据增强
+  return words.slice(0, count).map(word => enhanceWordData(word))
 }
 
 /**
