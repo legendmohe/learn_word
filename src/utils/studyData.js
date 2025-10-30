@@ -260,6 +260,26 @@ export function enhanceWordData(word) {
       phonics: false,
       spelling: false
     },
+    // 各步骤的状态数据
+    stepStates: { // 保存每个步骤的用户输入和结果
+      listen: word.stepStates?.listen || { completed: false },
+      record: word.stepStates?.record || { completed: false },
+      test: word.stepStates?.test || {
+        selectedIndex: null,
+        showResult: false,
+        completed: false
+      },
+      phonics: word.stepStates?.phonics || {
+        selectedPhonemes: [],
+        showResult: false,
+        completed: false
+      },
+      spelling: word.stepStates?.spelling || {
+        attempts: 0,
+        showResult: false,
+        completed: false
+      }
+    },
     // 确保必要字段存在
     errorCount: word.errorCount || 0,
     firstErrorDate: word.firstErrorDate || null,

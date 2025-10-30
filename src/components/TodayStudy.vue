@@ -79,6 +79,7 @@
               v-else-if="currentStep === 2"
               :word="currentWord"
               :other-words="otherWordsForTest"
+              :initial-state="currentWord?.stepStates?.test || { selectedIndex: null, showResult: false, completed: false, options: [] }"
               @completed="handleStepCompleted"
               @answer="handleStepAnswer"
             />
@@ -87,6 +88,7 @@
             <PhonicsStep
               v-else-if="currentStep === 3"
               :word="currentWord"
+              :initial-state="currentWord?.stepStates?.phonics || { selectedPhonemes: [], showResult: false, completed: false }"
               @completed="handleStepCompleted"
               @answer="handleStepAnswer"
             />
@@ -96,6 +98,7 @@
               v-else-if="currentStep === 4"
               :word="currentWord"
               :is-last-step="currentWordIndex >= studyWords.length - 1"
+              :initial-state="currentWord?.stepStates?.spelling || { attempts: 0, showResult: false, completed: false }"
               @completed="handleStepCompleted"
               @answer="handleStepAnswer"
             />
@@ -447,12 +450,24 @@ const proceedToStudy = async () => {
 // 重置当前单词的步骤进度
 const resetWordStepProgress = () => {
   if (studyWords.value[currentWordIndex.value]) {
+    // 只重置步骤进度，不重置步骤状态
     studyWords.value[currentWordIndex.value].stepProgress = {
       listen: false,
       record: false,
       test: false,
       phonics: false,
       spelling: false
+    }
+
+    // 确保stepStates存在
+    if (!studyWords.value[currentWordIndex.value].stepStates) {
+      studyWords.value[currentWordIndex.value].stepStates = {
+        listen: { completed: false },
+        record: { completed: false },
+        test: { selectedIndex: null, showResult: false, completed: false },
+        phonics: { selectedPhonemes: [], showResult: false, completed: false },
+        spelling: { attempts: 0, showResult: false, completed: false }
+      }
     }
   }
   // 重置错误状态
@@ -518,6 +533,9 @@ const handleStepCompleted = (stepData = {}) => {
   // 标记当前步骤为完成
   if (studyWords.value[currentWordIndex.value]) {
     studyWords.value[currentWordIndex.value].stepProgress[currentStepName] = true
+
+    // 标记步骤状态为完成
+    studyWords.value[currentWordIndex.value].stepStates[currentStepName].completed = true
   }
 
   // 如果不是最后一步，自动进入下一步
@@ -531,6 +549,32 @@ const handleStepCompleted = (stepData = {}) => {
 
 // 处理步骤答案（用于测试和拼写步骤）
 const handleStepAnswer = (answerData) => {
+  // 保存步骤状态
+  if (studyWords.value[currentWordIndex.value]) {
+    const stepType = answerData.type
+    if (stepType === 'test') {
+      // 获取当前TestStep组件的选项顺序（需要从组件传递过来）
+      studyWords.value[currentWordIndex.value].stepStates.test = {
+        selectedIndex: answerData.selectedIndex !== undefined ? answerData.selectedIndex : null,
+        showResult: true,
+        completed: false,
+        options: answerData.options || [] // 保存选项顺序
+      }
+    } else if (stepType === 'phonics') {
+      studyWords.value[currentWordIndex.value].stepStates.phonics = {
+        selectedPhonemes: answerData.selectedPhonemes || [],
+        showResult: true,
+        completed: false
+      }
+    } else if (stepType === 'spelling') {
+      studyWords.value[currentWordIndex.value].stepStates.spelling = {
+        attempts: answerData.attempts || 1,
+        showResult: true,
+        completed: false
+      }
+    }
+  }
+
   // 更新学习统计
   if (answerData.correct) {
     studyStats.value.correct++

@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <div class="action-buttons flex justify-center mt-8">
+    <div class="action-buttons flex justify-center">
       <button
         v-if="!showResult"
         @click="submitAnswer"
@@ -94,16 +94,32 @@ export default {
     otherWords: {
       type: Array,
       default: () => []
+    },
+    // 初始状态（用于恢复用户的选择）
+    initialState: {
+      type: Object,
+      default: () => ({
+        selectedIndex: null,
+        showResult: false,
+        completed: false,
+        options: [] // 保存选项顺序
+      })
     }
   },
   emits: ['completed', 'answer'],
   setup(props, { emit }) {
-    const selectedIndex = ref(null)
-    const showResult = ref(false)
+    const selectedIndex = ref(props.initialState?.selectedIndex)
+    const showResult = ref(props.initialState?.showResult)
     const options = ref([])
 
     // 获取干扰选项
     const generateOptions = () => {
+      // 如果有保存的选项顺序，直接使用
+      if (props.initialState.options && props.initialState.options.length > 0) {
+        options.value = props.initialState.options
+        return
+      }
+
       const correctAnswer = props.word.meaning
       const distractors = []
 
@@ -163,6 +179,8 @@ export default {
         correct: isCorrect.value,
         selectedAnswer: options.value[selectedIndex.value],
         correctAnswer: props.word.meaning,
+        selectedIndex: selectedIndex.value, // 添加选中的索引
+        options: options.value, // 保存选项顺序
         type: 'test'
       })
     }

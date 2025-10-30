@@ -1,12 +1,12 @@
 <template>
   <div class="spelling-step">
-    <div class="word-display text-center mb-8">
+    <div class="word-display text-center">
       <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">
         {{ word.meaning }}
       </div>
 
       <!-- 语音播放按钮 -->
-      <div class="audio-controls flex justify-center gap-4 mb-6">
+      <div class="audio-controls flex justify-center gap-4">
         <button
           @click="playAudio"
           :disabled="isPlaying"
@@ -23,10 +23,6 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
           </svg>
         </button>
-      </div>
-
-      <div class="text-base text-gray-600 dark:text-gray-400 mb-8">
-        使用所有字母完整拼写出单词
       </div>
     </div>
 
@@ -130,15 +126,24 @@ export default {
     isLastStep: {
       type: Boolean,
       default: false
+    },
+    // 初始状态（用于恢复用户的选择）
+    initialState: {
+      type: Object,
+      default: () => ({
+        attempts: 0,
+        showResult: false,
+        completed: false
+      })
     }
   },
   emits: ['completed', 'answer'],
   setup(props, { emit }) {
     const letterInputPanel = ref(null)
     const isPlaying = ref(false)
-    const showResult = ref(false)
+    const showResult = ref(props.initialState?.showResult || false)
     const isCorrect = ref(false)
-    const attempts = ref(0)
+    const attempts = ref(props.initialState?.attempts || 0)
     const maxAttempts = 2
 
     const playAudio = async () => {

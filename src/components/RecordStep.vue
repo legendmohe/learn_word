@@ -53,14 +53,14 @@
     </div>
 
     <!-- 录音播放区域 -->
-    <div v-if="audioUrl" class="playback-area text-center mb-8">
+    <div v-if="audioUrl" class="playback-area text-center">
       <div class="text-sm text-gray-600 dark:text-gray-400 mb-3">
         你的录音
       </div>
       <audio controls :src="audioUrl" class="w-full max-w-xs mx-auto"></audio>
     </div>
 
-    <div class="action-buttons flex justify-center mt-8">
+    <div class="action-buttons flex justify-center">
       <button
         @click="completeStep"
         class="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"

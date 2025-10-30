@@ -15,8 +15,8 @@
       </div>
 
       <!-- 显示音素拆分 -->
-      <div v-if="word.phonemes && word.phonemes.length > 0" class="phonemes-display mb-6">
-        <div class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+      <div v-if="word.phonemes && word.phonemes.length > 0" class="phonemes-display">
+        <!-- <div class="text-sm text-gray-500 dark:text-gray-400 mb-3">
           音素拆分：
         </div>
         <div class="flex gap-2 justify-center flex-wrap mb-4">
@@ -27,7 +27,7 @@
           >
             {{ phoneme }}
           </span>
-        </div>
+        </div> -->
       </div>
       <div v-else class="no-phonics-message text-sm text-yellow-600 dark:text-yellow-400 mb-4">
         ⚠️ 此单词暂无音素拆分，跳过此步骤
@@ -86,7 +86,7 @@
       </div>
       <div v-else class="error-message">
         <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
-          再试一次！
+          哎呀！
         </div>
         <div class="text-gray-600 dark:text-gray-400">
           正确顺序：{{ word.phonemes.join(' + ') }} = {{ word.word }}
@@ -95,7 +95,7 @@
     </div>
 
     <!-- 操作按钮 -->
-    <div class="action-buttons flex justify-center gap-4 mt-8">
+    <div class="action-buttons flex justify-center gap-4">
       <!-- 无音素情况：直接显示跳过按钮 -->
       <button
         v-if="!hasPhonemes"
@@ -145,13 +145,22 @@ export default {
     word: {
       type: Object,
       required: true
+    },
+    // 初始状态（用于恢复用户的选择）
+    initialState: {
+      type: Object,
+      default: () => ({
+        selectedPhonemes: [],
+        showResult: false,
+        completed: false
+      })
     }
   },
   emits: ['completed', 'answer'],
   setup(props, { emit }) {
-    const selectedPhonemes = ref([])
+    const selectedPhonemes = ref(props.initialState?.selectedPhonemes || [])
     const usedPhonemes = ref([])
-    const showResult = ref(false)
+    const showResult = ref(props.initialState?.showResult || false)
     const isCorrect = ref(false)
     const shuffledPhonemes = ref([])
 
@@ -208,6 +217,7 @@ export default {
         correct: isCorrect.value,
         selectedAnswer: userAnswer,
         correctAnswer: correctAnswer,
+        selectedPhonemes: selectedPhonemes.value, // 保存选中的音素
         type: 'phonics'
       })
     }
@@ -220,6 +230,16 @@ export default {
     onMounted(() => {
       if (hasPhonemes.value) {
         shufflePhonemes()
+        // 恢复usedPhonemes状态
+        if (props.initialState?.selectedPhonemes && props.initialState.selectedPhonemes.length > 0) {
+          usedPhonemes.value = []
+          props.initialState.selectedPhonemes.forEach(selectedPhoneme => {
+            const originalIndex = props.word.phonemes.findIndex(phoneme => phoneme === selectedPhoneme)
+            if (originalIndex !== -1 && !usedPhonemes.value.includes(originalIndex)) {
+              usedPhonemes.value.push(originalIndex)
+            }
+          })
+        }
       }
     })
 
