@@ -52,7 +52,7 @@
       </div>
       <div v-else class="error-message">
         <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
-          再接再厉！
+          哎呀！
         </div>
         <div class="text-gray-600 dark:text-gray-400">
           正确答案是：{{ word.word }}
@@ -202,7 +202,7 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
