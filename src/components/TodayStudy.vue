@@ -530,12 +530,13 @@ const handleStepCompleted = (stepData = {}) => {
   const stepNames = ['listen', 'record', 'test', 'phonics', 'spelling']
   const currentStepName = stepNames[currentStep.value]
 
-  // 标记当前步骤为完成
+  // 标记当前步骤为完成（如果是listen或record步骤）
   if (studyWords.value[currentWordIndex.value]) {
-    studyWords.value[currentWordIndex.value].stepProgress[currentStepName] = true
-
-    // 标记步骤状态为完成
-    studyWords.value[currentWordIndex.value].stepStates[currentStepName].completed = true
+    // 对于不需要answer事件的步骤（listen, record），在这里标记完成
+    if (currentStepName === 'listen' || currentStepName === 'record') {
+      studyWords.value[currentWordIndex.value].stepProgress[currentStepName] = true
+      studyWords.value[currentWordIndex.value].stepStates[currentStepName].completed = true
+    }
   }
 
   // 如果不是最后一步，自动进入下一步
@@ -549,28 +550,34 @@ const handleStepCompleted = (stepData = {}) => {
 
 // 处理步骤答案（用于测试和拼写步骤）
 const handleStepAnswer = (answerData) => {
-  // 保存步骤状态
-  if (studyWords.value[currentWordIndex.value]) {
-    const stepType = answerData.type
+  const stepNames = ['listen', 'record', 'test', 'phonics', 'spelling']
+  const stepType = answerData.type
+  const stepIndex = stepNames.indexOf(stepType)
+
+  // 立即标记步骤为完成，更新指示器状态
+  if (studyWords.value[currentWordIndex.value] && stepIndex !== -1) {
+    studyWords.value[currentWordIndex.value].stepProgress[stepType] = true
+
+    // 保存步骤状态
     if (stepType === 'test') {
       // 获取当前TestStep组件的选项顺序（需要从组件传递过来）
       studyWords.value[currentWordIndex.value].stepStates.test = {
         selectedIndex: answerData.selectedIndex !== undefined ? answerData.selectedIndex : null,
         showResult: true,
-        completed: false,
+        completed: true, // 立即标记为完成
         options: answerData.options || [] // 保存选项顺序
       }
     } else if (stepType === 'phonics') {
       studyWords.value[currentWordIndex.value].stepStates.phonics = {
         selectedPhonemes: answerData.selectedPhonemes || [],
         showResult: true,
-        completed: false
+        completed: true // 立即标记为完成
       }
     } else if (stepType === 'spelling') {
       studyWords.value[currentWordIndex.value].stepStates.spelling = {
         attempts: answerData.attempts || 1,
         showResult: true,
-        completed: false
+        completed: true // 立即标记为完成
       }
     }
   }
