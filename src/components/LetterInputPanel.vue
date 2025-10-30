@@ -47,12 +47,12 @@
         </button>
       </div>
 
-      <!-- 操作按钮 - 删除和清空在同一行 -->
+      <!-- 操作按钮 - 两个按钮在同一行 -->
       <div class="action-row">
         <button
           @click="clearLastLetter"
           :disabled="currentInput.length === 0 || showResult"
-          class="action-key backspace"
+          class="px-6 py-3 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"></path>
@@ -61,20 +61,9 @@
         </button>
 
         <button
-          @click="clearAll"
-          :disabled="currentInput.length === 0 || showResult"
-          class="action-key clear"
-        >
-          清空
-        </button>
-      </div>
-
-      <!-- 提交按钮单独一行 -->
-      <div class="action-row submit-row">
-        <button
           @click="submitAnswer"
           :disabled="currentInput.length !== wordLetters.length || showResult"
-          class="action-key submit"
+          class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
           提交
         </button>
@@ -271,14 +260,6 @@ const clearLastLetter = () => {
   }
 }
 
-// 清空所有输入
-const clearAll = () => {
-  currentInput.value = []
-  letterCounts.value = {}
-  usedLetterIndices.value.clear() // 清空所有已使用的字母按钮标记
-  emit('input-change', '')
-}
-
 // 提交答案
 const submitAnswer = () => {
   if (currentInput.value.length === wordLetters.value.length) {
@@ -364,13 +345,19 @@ const handleKeydown = (event) => {
   // Escape键清空
   else if (event.key === 'Escape') {
     event.preventDefault()
-    clearAll()
+    currentInput.value = []
+    letterCounts.value = {}
+    usedLetterIndices.value.clear()
+    emit('input-change', '')
   }
 }
 
 // 监听props.word变化，重置输入
 watch(() => props.word, () => {
-  clearAll()
+  currentInput.value = []
+  letterCounts.value = {}
+  usedLetterIndices.value.clear()
+  emit('input-change', '')
 })
 
 // 组件挂载时添加事件监听
@@ -387,7 +374,10 @@ onUnmounted(() => {
 
 // 清空方法暴露给父组件
 const clear = () => {
-  clearAll()
+  currentInput.value = []
+  letterCounts.value = {}
+  usedLetterIndices.value.clear()
+  emit('input-change', '')
 }
 
 // 暴露方法
@@ -397,102 +387,63 @@ defineExpose({
 </script>
 
 <style scoped>
-.letter-input-panel {
-  user-select: none;
-}
-
 /* 单词显示区域 */
 .word-display {
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10px;
-  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .letter-slots-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 4px;
-  flex-wrap: nowrap; /* 强制保持在一行 */
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .letter-slot {
-  width: clamp(40px, 8vw, 50px); /* 动态宽度：最小40px，最大50px */
-  height: clamp(50px, 10vw, 60px); /* 动态高度：最小50px，最大60px */
+  min-width: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  flex-shrink: 1; /* 允许收缩以适应容器 */
-  flex-grow: 0; /* 不允许增长 */
+  border-bottom: 3px solid #3b82f6;
 }
 
 .letter-text {
-  font-size: clamp(1.5rem, 4vw, 2rem); /* 动态字体大小：最小1.5rem，最大2rem */
+  font-size: 1.5rem;
   font-weight: bold;
   color: #3b82f6;
   text-transform: uppercase;
-  animation: letterAppear 0.3s ease-out;
-  line-height: 1;
 }
 
-.underline {
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-  border-radius: 2px;
-  animation: underlinePulse 2s infinite;
+.letter-slots-container.long-word .letter-slot {
+  min-width: 30px;
+  height: 40px;
 }
 
-@keyframes letterAppear {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.letter-slots-container.long-word .letter-text {
+  font-size: 1.2rem;
 }
 
-@keyframes underlinePulse {
-  0%, 100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-/* 键盘样式 */
+/* 字母键盘 */
 .letter-keyboard {
-  width: 100%;
-  max-width: 100%;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 12px 6px;
-  box-sizing: border-box;
-}
-
-.dark .letter-keyboard {
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 3px;
+  gap: 8px;
   margin-bottom: 8px;
 }
 
 .letter-key {
-  min-width: 28px;
-  height: 48px;
+  min-width: 40px;
+  height: 50px;
   border: 2px solid #d1d5db;
   border-radius: 8px;
-  background: #ffffff;
+  background: white;
   color: #374151;
   font-size: 1rem;
   font-weight: 500;
@@ -501,78 +452,19 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  min-height: 60px;
-  padding: 8px 12px;
-}
-
-/* 辅助模式样式 */
-.assist-mode .keyboard-row {
-  gap: 12px; /* 增加间距 */
-  justify-content: center; /* 居中对齐，不铺满整行 */
-  margin-bottom: 12px; /* 增加行间距 */
-}
-
-.assist-mode .letter-key {
-  flex: none; /* 不拉伸，保持统一大小 */
-  width: 48px; /* 固定宽度，等于高度 */
-  min-width: 48px;
-  max-width: 48px;
-  min-height: 60px;
-}
-
-/* 非辅助模式样式 - 增加间距和统一尺寸 */
-.letter-keyboard:not(.assist-mode) .keyboard-row {
-  gap: 8px; /* 非辅助模式增加间距 */
-  margin-bottom: 10px; /* 增加行间距 */
-  justify-content: center; /* 居中对齐，不顶满整行 */
-}
-
-.letter-keyboard:not(.assist-mode) .letter-key {
-  flex: none; /* 不拉伸，保持统一大小 */
-  width: 48px; /* 固定宽度，等于高度 */
-  min-width: 48px;
-  max-width: 48px;
-  min-height: 60px;
-}
-
-.dark .letter-key {
-  border-color: #4b5563;
-  background: #1f2937;
-  color: #e5e7eb;
 }
 
 .letter-key:hover:not(.used):not(.disabled) {
+  background: #f3f4f6;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-  border-color: #a78bfa;
-  background: #f5f3ff;
-  color: #5b21b6;
-}
-
-.dark .letter-key:hover:not(.used):not(.disabled) {
-  border-color: #a78bfa;
-  background: #4c1d95;
-  color: #e9d5ff;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-}
-
-.letter-key:active:not(.used):not(.disabled) {
-  transform: translateY(0);
 }
 
 .letter-key.used {
-  border-color: #f87171;
   background: #fee2e2;
   color: #991b1b;
+  border-color: #f87171;
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-.dark .letter-key.used {
-  border-color: #dc2626;
-  background: #7f1d1d;
-  color: #fecaca;
 }
 
 .letter-key.disabled {
@@ -580,180 +472,39 @@ defineExpose({
   cursor: not-allowed;
 }
 
-/* 操作按钮行 - 水平布局 */
+/* 操作按钮 */
 .action-row {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 2rem;
 }
 
-.action-row.submit-row {
-  margin-top: 8px; /* 提交按钮与上方按钮组的间距稍小 */
+/* 深色模式 */
+.dark .letter-key {
+  border-color: #4b5563;
+  background: #1f2937;
+  color: #e5e7eb;
 }
 
-.action-key {
-  flex: 1; /* 均匀分配宽度 */
-  height: 52px; /* 保持相同高度 */
-  min-height: 52px;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem; /* 保持字体大小 */
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px; /* 稍微减少间距适应水平布局 */
+.dark .letter-key:hover:not(.used):not(.disabled) {
+  background: #374151;
 }
 
-.action-key:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.dark .letter-key.used {
+  background: #7f1d1d;
+  color: #fecaca;
+  border-color: #dc2626;
 }
 
-.action-key.backspace {
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  color: white;
+/* 辅助模式特殊布局 */
+.assist-mode .keyboard-row {
+  gap: 12px;
 }
 
-.action-key.backspace:hover:not(:disabled) {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  transform: translateY(-1px);
-}
-
-.action-key.clear {
-  background: linear-gradient(135deg, #94a3b8, #64748b);
-  color: white;
-}
-
-.action-key.clear:hover:not(:disabled) {
-  background: linear-gradient(135deg, #64748b, #475569);
-  transform: translateY(-1px);
-}
-
-.action-key.submit {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-}
-
-.action-key.submit:hover:not(:disabled) {
-  background: linear-gradient(135deg, #059669, #047857);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
-
-/* 响应式设计 */
-@media (max-width: 480px) {
-  .letter-keyboard {
-    padding: 14px 8px;
-  }
-
-  .keyboard-row {
-    gap: 3px;
-    margin-bottom: 8px;
-  }
-
-  .letter-key {
-    min-width: 32px;
-    height: 48px;
-    font-size: 1rem;
-  }
-
-  
-  .action-key {
-    height: 50px; /* 中等屏幕尺寸 */
-    font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 380px) {
-  .letter-keyboard {
-    padding: 12px 6px;
-  }
-
-  .keyboard-row {
-    gap: 2px;
-    margin-bottom: 6px;
-  }
-
-  .letter-key {
-    min-width: 30px;
-    height: 44px;
-    font-size: 0.95rem;
-    border-radius: 10px;
-  }
-
-  .letter-slot {
-    width: 32px;
-    height: 42px;
-  }
-
-  .letter-text {
-    font-size: 1.2rem;
-  }
-
-  /* 在小屏幕上进一步调整单词显示 */
-  .word-display {
-    padding: 0 5px;
-  }
-
-  .letter-slots-container {
-    gap: 2px;
-  }
-
-  /* 极小屏幕（<320px）的特殊处理 */
-  @media (max-width: 320px) {
-    .letter-slot {
-      width: clamp(35px, 10vw, 40px);
-      height: clamp(45px, 12vw, 50px);
-    }
-
-    .letter-text {
-      font-size: clamp(1.2rem, 5vw, 1.5rem);
-    }
-
-    .letter-slots-container {
-      gap: 1px;
-    }
-  }
-
-  /* 长单词的适配 - 使用类名方式 */
-  .letter-slots-container.long-word {
-    .letter-slot {
-      width: clamp(30px, 7vw, 40px);
-      height: clamp(40px, 9vw, 50px);
-    }
-
-    .letter-text {
-      font-size: clamp(1rem, 3.5vw, 1.2rem);
-    }
-
-    gap: 2px;
-  }
-
-  .action-key {
-    height: 48px; /* 在小屏幕上稍微小一点，但仍保持较大 */
-    font-size: 0.95rem;
-  }
-
-  }
-
-/* 触摸优化 */
-@media (hover: none) {
-  .letter-key:active:not(.used):not(.disabled) {
-    border-color: #a78bfa;
-    background: #f5f3ff;
-    color: #5b21b6;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-  }
-
-  .dark .letter-key:active:not(.used):not(.disabled) {
-    border-color: #a78bfa;
-    background: #4c1d95;
-    color: #e9d5ff;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-  }
+.assist-mode .letter-key {
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
 }
 </style>

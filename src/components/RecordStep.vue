@@ -186,12 +186,34 @@ export default {
 /* 移动端优化 */
 @media (max-width: 640px) {
   .record-button {
-    padding: 5rem;
+    padding: 3rem;
   }
 
   .record-button svg {
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .record-button {
+    padding: 2.5rem;
+  }
+
+  .record-button svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .record-button {
+    padding: 2rem;
+  }
+
+  .record-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }
 

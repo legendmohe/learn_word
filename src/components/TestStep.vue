@@ -241,7 +241,7 @@ export default {
 /* 响应式设计 */
 @media (max-width: 480px) {
   .options-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
@@ -260,4 +260,5 @@ export default {
     font-size: 15px;
   }
 }
+
 </style>

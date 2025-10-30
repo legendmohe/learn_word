@@ -2,9 +2,6 @@
   <div class="phonics-step">
     <div class="word-display text-center mb-8">
       <div class="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-4">
-        {{ word.word }}
-      </div>
-      <div class="text-xl font-medium text-gray-800 dark:text-gray-200 mb-6">
         {{ word.meaning }}
       </div>
     </div>
@@ -79,9 +76,6 @@
       <div v-if="isCorrect" class="success-message">
         <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
           拼写正确
-        </div>
-        <div class="text-gray-600 dark:text-gray-400">
-          音素拼写：{{ word.phonemes.join(' + ') }} = {{ word.word }}
         </div>
       </div>
       <div v-else class="error-message">

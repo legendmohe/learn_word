@@ -452,13 +452,13 @@ export default {
   }
 
   .navigation-buttons {
-    flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .nav-btn {
-    width: 100%;
-    max-width: 200px;
+    padding: 8px 10px;
+    font-size: 12px;
+    min-width: 70px;
   }
 }
 </style>

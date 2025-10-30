@@ -3,7 +3,7 @@
     <div class="word-display text-center mb-2">
       <div class="flex items-center justify-center gap-1">
         <div class="text-center">
-          <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
+          <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
             {{ word.meaning }}
           </div>
         </div>
@@ -27,20 +27,27 @@
         </button>
       </div>
     </div>
+    
+    <div v-if="showResult" class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">
+        {{ word.word }}
+    </div>
 
-    <div class="spelling-info text-center mb-8">
+    <div v-if="!showResult" class="spelling-info text-center mb-8">
       <div class="text-base text-gray-600 dark:text-gray-400">
         使用所有字母完整拼写出单词
       </div>
     </div>
+    
 
     <!-- 字母输入面板 -->
     <div v-if="!showResult" class="letter-input-panel mb-8">
-      <LetterInputPanel
+      <LetterInputPanelV2
         :word="word.word"
+        :meaning="word.meaning"
         :show-result="showResult"
+        :is-last-step="isLastStep"
         @answer="handleAnswer"
-        @input-change="handleInputChange"
+        @completed="completeStep"
         ref="letterInputPanel"
       />
     </div>
@@ -84,13 +91,13 @@
 
 <script>
 import { ref, nextTick } from 'vue'
-import LetterInputPanel from './LetterInputPanel.vue'
+import LetterInputPanelV2 from './LetterInputPanelV2.vue'
 import { playWordAudio } from '../utils/audioService'
 
 export default {
   name: 'SpellingStep',
   components: {
-    LetterInputPanel
+    LetterInputPanelV2
   },
   props: {
     word: {
@@ -140,32 +147,15 @@ export default {
       }
     }
 
-    const handleAnswer = (answer) => {
+    const handleAnswer = (answerData) => {
       attempts.value++
-      const correctAnswer = props.word.word.toLowerCase()
-      const userAnswer = answer.toLowerCase()
-
-      isCorrect.value = userAnswer === correctAnswer
+      isCorrect.value = answerData.correct
 
       if (isCorrect.value || attempts.value >= maxAttempts) {
         showResult.value = true
 
-        // 发送答案结果
-        emit('answer', {
-          word: props.word.word,
-          correct: isCorrect.value,
-          attempts: attempts.value,
-          selectedAnswer: userAnswer,
-          correctAnswer: correctAnswer,
-          type: 'spelling'
-        })
-      } else {
-        // 还有尝试机会，清空输入继续尝试
-        setTimeout(() => {
-          nextTick(() => {
-            letterInputPanel.value?.clear()
-          })
-        }, 1500)
+        // 发送答案结果（转发新组件的结果）
+        emit('answer', answerData)
       }
     }
 
@@ -247,10 +237,6 @@ export default {
 @media (max-width: 480px) {
   .spelling-step {
     padding: 1rem;
-  }
-
-  .word-display {
-    margin-bottom: 1.5rem;
   }
 
   .action-buttons {
