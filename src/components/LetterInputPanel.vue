@@ -478,7 +478,6 @@ defineExpose({
 }
 
 .dark .letter-keyboard {
-  background: rgba(31, 41, 55, 0.95);
 }
 
 .keyboard-row {
