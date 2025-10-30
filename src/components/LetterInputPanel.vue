@@ -490,19 +490,20 @@ defineExpose({
 .letter-key {
   min-width: 28px;
   height: 48px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
   color: #374151;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 1;
+  min-height: 60px;
+  padding: 8px 12px;
 }
 
 /* 辅助模式样式 */
@@ -517,6 +518,7 @@ defineExpose({
   width: 48px; /* 固定宽度，等于高度 */
   min-width: 48px;
   max-width: 48px;
+  min-height: 60px;
 }
 
 /* 非辅助模式样式 - 增加间距和统一尺寸 */
@@ -531,39 +533,45 @@ defineExpose({
   width: 48px; /* 固定宽度，等于高度 */
   min-width: 48px;
   max-width: 48px;
+  min-height: 60px;
 }
 
 .dark .letter-key {
-  background: linear-gradient(135deg, #4b5563, #374151);
+  border-color: #4b5563;
+  background: #1f2937;
   color: #e5e7eb;
 }
 
 .letter-key:hover:not(.used):not(.disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+  border-color: #a78bfa;
+  background: #f5f3ff;
   color: #5b21b6;
 }
 
 .dark .letter-key:hover:not(.used):not(.disabled) {
-  background: linear-gradient(135deg, #6d28d9, #5b21b6);
+  border-color: #a78bfa;
+  background: #4c1d95;
   color: #e9d5ff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
 .letter-key:active:not(.used):not(.disabled) {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .letter-key.used {
-  background: linear-gradient(135deg, #fecaca, #fca5a5);
+  border-color: #f87171;
+  background: #fee2e2;
   color: #991b1b;
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 .dark .letter-key.used {
-  background: linear-gradient(135deg, #7f1d1d, #991b1b);
+  border-color: #dc2626;
+  background: #7f1d1d;
   color: #fecaca;
 }
 
@@ -735,13 +743,17 @@ defineExpose({
 /* 触摸优化 */
 @media (hover: none) {
   .letter-key:active:not(.used):not(.disabled) {
-    background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+    border-color: #a78bfa;
+    background: #f5f3ff;
     color: #5b21b6;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
   }
 
   .dark .letter-key:active:not(.used):not(.disabled) {
-    background: linear-gradient(135deg, #6d28d9, #5b21b6);
+    border-color: #a78bfa;
+    background: #4c1d95;
     color: #e9d5ff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
   }
 }
 </style>
