@@ -1,7 +1,7 @@
 <template>
   <div class="word-card" :class="[`size-${size}`, { 'dark': isDark }]">
     <!-- 英文单词和音频按钮 -->
-    <div class="word-header">
+    <div v-if="showEnglishWord" class="word-header">
       <div class="english-word">
         <span
           v-for="(phoneme, index) in word.phonemes"
@@ -30,7 +30,7 @@
     </div>
 
     <!-- 音素显示 -->
-    <div v-if="showPhonemes && hasPhonemes" class="phonemes-container" :class="{ 'centered': !showAudio }">
+    <div v-if="showPhonemes && hasPhonemes" class="phonemes-container" :class="{ 'centered': !showAudio || !showEnglishWord }">
       <span class="phoneme-slash">/</span>
       <span
         v-for="(phoneme, index) in displayPhonemes"
@@ -44,7 +44,7 @@
     </div>
 
     <!-- 中文释义 -->
-    <div v-if="showMeaning" class="meaning" :class="{ 'centered': !showAudio }">{{ word.meaning }}</div>
+    <div v-if="showMeaning" class="meaning" :class="{ 'centered': !showAudio || !showEnglishWord }">{{ word.meaning }}</div>
   </div>
 </template>
 
@@ -73,6 +73,10 @@ const props = defineProps({
     default: true
   },
   showMeaning: {
+    type: Boolean,
+    default: true
+  },
+  showEnglishWord: {
     type: Boolean,
     default: true
   },

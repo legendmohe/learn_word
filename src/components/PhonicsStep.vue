@@ -1,12 +1,20 @@
 <template>
   <div class="phonics-step">
     <div class="word-display text-center mb-8">
-      <div class="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-4">
-        {{ word.meaning }}
+      <!-- WordCard 单词显示 -->
+      <div class="flex justify-center">
+        <WordCard
+          :word="word"
+          size="large"
+          :show-phonemes="true"
+          :show-audio="showResult"
+          :show-meaning="true"
+          :show-english-word="showResult"
+        />
       </div>
     </div>
 
-    <div class="phonics-info text-center mb-8">
+    <div class="phonics-info text-center">
       <div class="text-base text-gray-600 dark:text-gray-400 mb-4">
         按照音素顺序拼写出单词
       </div>
@@ -31,8 +39,25 @@
       </div>
     </div>
 
+    
+      <!-- 答案显示区域 -->
+      <div class="answer-display mb-4">
+        <div class="selected-phonemes flex gap-2 justify-center min-h-[40px] items-center">
+          <span
+            v-for="(phoneme, index) in selectedPhonemes"
+            :key="index"
+            class="selected-phoneme px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-md text-sm font-medium"
+          >
+            {{ phoneme }}
+          </span>
+          <span v-if="selectedPhonemes.length === 0" class="text-gray-400 dark:text-gray-500 text-sm">
+            点击音素进行拼写
+          </span>
+        </div>
+      </div>
+
     <!-- 音素拼写输入区域 -->
-    <div v-if="word.phonemes && word.phonemes.length > 0" class="phonics-input-area mb-8">
+    <div v-if="word.phonemes && word.phonemes.length > 0" class="phonics-input-area">
       <div class="phonics-grid grid gap-3 justify-center mb-6">
         <button
           v-for="(phoneme, index) in shuffledPhonemes"
@@ -51,24 +76,6 @@
         </button>
       </div>
 
-      <!-- 答案显示区域 -->
-      <div class="answer-display">
-        <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-          你的答案：
-        </div>
-        <div class="selected-phonemes flex gap-2 justify-center min-h-[40px] items-center">
-          <span
-            v-for="(phoneme, index) in selectedPhonemes"
-            :key="index"
-            class="selected-phoneme px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-md text-sm font-medium"
-          >
-            {{ phoneme }}
-          </span>
-          <span v-if="selectedPhonemes.length === 0" class="text-gray-400 dark:text-gray-500 text-sm">
-            点击上方音素进行拼写
-          </span>
-        </div>
-      </div>
     </div>
 
     <!-- 结果反馈 -->
@@ -81,9 +88,6 @@
       <div v-else-if="hasPhonemes" class="error-message">
         <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
           错了~
-        </div>
-        <div class="text-gray-600 dark:text-gray-400">
-          正确顺序：{{ word.phonemes ? word.phonemes.join(' + ') : '无音素数据' }} = {{ word.word }}
         </div>
       </div>
     </div>
@@ -132,9 +136,13 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import WordCard from './WordCard.vue'
 
 export default {
   name: 'PhonicsStep',
+  components: {
+    WordCard
+  },
   props: {
     word: {
       type: Object,
@@ -195,6 +203,7 @@ export default {
       selectedPhonemes.value = []
       usedPhonemes.value = []
       showResult.value = false
+      isCorrect.value = false
     }
 
     // 提交答案
@@ -277,6 +286,13 @@ export default {
               usedPhonemes.value.push(originalIndex)
             }
           })
+        }
+
+        // 如果初始状态显示结果，重新计算isCorrect
+        if (props.initialState?.showResult) {
+          const userAnswer = props.initialState.selectedPhonemes.join('')
+          const correctAnswer = props.word.phonemes.join('')
+          isCorrect.value = userAnswer === correctAnswer
         }
       }
     })
