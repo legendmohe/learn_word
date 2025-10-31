@@ -78,12 +78,12 @@
           拼写正确
         </div>
       </div>
-      <div v-else class="error-message">
+      <div v-else-if="hasPhonemes" class="error-message">
         <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
           错了~
         </div>
         <div class="text-gray-600 dark:text-gray-400">
-          正确顺序：{{ word.phonemes.join(' + ') }} = {{ word.word }}
+          正确顺序：{{ word.phonemes ? word.phonemes.join(' + ') : '无音素数据' }} = {{ word.word }}
         </div>
       </div>
     </div>
@@ -93,7 +93,7 @@
       <!-- 无音素情况：直接显示跳过按钮 -->
       <button
         v-if="!hasPhonemes"
-        @click="completeStep"
+        @click="skipStep"
         class="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
       >
         跳过此步骤
@@ -221,6 +221,22 @@ export default {
       emit('completed')
     }
 
+    // 跳过步骤（无音素情况）
+    const skipStep = () => {
+      // 发送跳过的事件，标记为正确
+      emit('answer', {
+        word: props.word.word,
+        correct: true,
+        selectedAnswer: '',
+        correctAnswer: '',
+        selectedPhonemes: [],
+        type: 'phonics',
+        skipped: true
+      })
+      // 完成步骤
+      emit('completed')
+    }
+
     onMounted(() => {
       if (hasPhonemes.value) {
         shufflePhonemes()
@@ -248,7 +264,8 @@ export default {
       selectPhoneme,
       clearAnswer,
       submitAnswer,
-      completeStep
+      completeStep,
+      skipStep
     }
   }
 }

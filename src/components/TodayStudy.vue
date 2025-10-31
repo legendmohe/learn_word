@@ -81,7 +81,7 @@
             <PhonicsStep
               v-else-if="currentStep === 2"
               :word="currentWord"
-              :initial-state="currentWord?.stepStates?.phonics || { selectedPhonemes: [], showResult: false, completed: false }"
+              :initial-state="currentWord?.stepStates?.phonics || { selectedPhonemes: [], showResult: false, completed: false, skipped: false }"
               @completed="handleStepCompleted"
               @answer="handleStepAnswer"
             />
@@ -453,7 +453,7 @@ const resetWordStepProgress = () => {
       studyWords.value[currentWordIndex.value].stepStates = {
         listen: { completed: false },
         test: { selectedIndex: null, showResult: false, completed: false },
-        phonics: { selectedPhonemes: [], showResult: false, completed: false },
+        phonics: { selectedPhonemes: [], showResult: false, completed: false, skipped: false },
         spelling: { attempts: 0, showResult: false, completed: false }
       }
     }
@@ -558,7 +558,8 @@ const handleStepAnswer = (answerData) => {
       studyWords.value[currentWordIndex.value].stepStates.phonics = {
         selectedPhonemes: answerData.selectedPhonemes || [],
         showResult: true,
-        completed: true // 立即标记为完成
+        completed: true, // 立即标记为完成
+        skipped: answerData.skipped || false // 记录是否为跳过的情况
       }
     } else if (stepType === 'spelling') {
       studyWords.value[currentWordIndex.value].stepStates.spelling = {
