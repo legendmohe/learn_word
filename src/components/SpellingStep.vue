@@ -108,6 +108,7 @@ export default {
       return {
         currentInput: this.initialState?.currentInput || [],
         usedLetters: this.initialState?.usedLetters || [],
+        inputLetterIndexes: this.initialState?.inputLetterIndexes || [],
         showResult: this.showResult,
         isCorrect: this.isCorrect,
         completed: false

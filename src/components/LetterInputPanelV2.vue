@@ -22,7 +22,7 @@
     </div>
 
     <!-- 字母选择区域 -->
-    <div v-if="!showResult" class="letter-selection-area mb-2">
+    <div v-if="!showResult" class="letter-selection-area mb-4">
       <div class="letter-grid grid gap-3 justify-center">
         <button
           v-for="(letter, index) in shuffledLetters"
@@ -108,6 +108,7 @@ const emit = defineEmits(['answer', 'completed'])
 // 响应式数据
 const currentInput = ref(props.initialState?.currentInput || [])
 const usedLetters = ref(props.initialState?.usedLetters || [])
+const inputLetterIndexes = ref(props.initialState?.inputLetterIndexes || []) // 跟踪输入字母对应的原始索引
 const isCorrect = ref(props.isCorrect || props.initialState?.isCorrect || false)
 const shuffledLetters = ref([])
 
@@ -136,16 +137,19 @@ const selectLetter = (letter, originalIndex) => {
 
   currentInput.value.push(letter)
   usedLetters.value.push(originalIndex)
+  inputLetterIndexes.value.push(originalIndex) // 记录每个输入字母对应的原始索引
 }
 
 // 删除最后一个字母
 const clearLastLetter = () => {
   if (currentInput.value.length > 0) {
-    // 找到最后一个使用的字母的原始索引
-    const lastLetter = currentInput.value.pop()
-    const letterIndex = shuffledLetters.value.lastIndexOf(lastLetter)
-    if (letterIndex !== -1 && usedLetters.value.includes(letterIndex)) {
-      const indexToRemove = usedLetters.value.lastIndexOf(letterIndex)
+    // 删除最后一个输入的字母
+    currentInput.value.pop()
+    // 从输入字母索引映射中获取对应的原始索引
+    const originalIndex = inputLetterIndexes.value.pop()
+    // 从已使用字母列表中移除该索引
+    const indexToRemove = usedLetters.value.indexOf(originalIndex)
+    if (indexToRemove !== -1) {
       usedLetters.value.splice(indexToRemove, 1)
     }
   }
@@ -155,6 +159,7 @@ const clearLastLetter = () => {
 const clearAll = () => {
   currentInput.value = []
   usedLetters.value = []
+  inputLetterIndexes.value = []
 }
 
 // 提交答案
@@ -175,7 +180,8 @@ const submitAnswer = () => {
     attempts: 1,
     type: 'spelling',
     currentInput: [...currentInput.value], // 保存用户输入的字母
-    usedLetters: [...usedLetters.value]    // 保存已使用的字母索引
+    usedLetters: [...usedLetters.value],    // 保存已使用的字母索引
+    inputLetterIndexes: [...inputLetterIndexes.value] // 保存输入字母索引映射
   })
 }
 
@@ -214,6 +220,10 @@ onMounted(() => {
   // 恢复isCorrect状态
   if (props.initialState?.isCorrect !== undefined) {
     isCorrect.value = props.initialState.isCorrect
+  }
+  // 恢复输入字母索引映射
+  if (props.initialState?.inputLetterIndexes) {
+    inputLetterIndexes.value = props.initialState.inputLetterIndexes
   }
 })
 </script>

@@ -462,7 +462,7 @@ const resetWordStepProgress = () => {
         listen: { completed: false },
         test: { selectedIndex: null, showResult: false, completed: false },
         phonics: { selectedPhonemes: [], showResult: false, completed: false, skipped: false },
-        spelling: { attempts: 0, showResult: false, isCorrect: false, completed: false }
+        spelling: { attempts: 0, showResult: false, isCorrect: false, currentInput: [], usedLetters: [], inputLetterIndexes: [], completed: false }
       }
     }
   }
@@ -579,6 +579,7 @@ const handleStepAnswer = (answerData) => {
         isCorrect: answerData.correct || false,
         currentInput: answerData.currentInput || [],
         usedLetters: answerData.usedLetters || [],
+        inputLetterIndexes: answerData.inputLetterIndexes || [],
         completed: true // 立即标记为完成
       }
     }
