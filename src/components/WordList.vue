@@ -289,6 +289,9 @@
       </div>
     </div>
 
+    <!-- Dialog Manager -->
+    <DialogManager :dialogs="dialogs" />
+
     </div>
 </template>
 
@@ -298,10 +301,13 @@ import {
   getErrorWords,
   getLearnedWords,
   removeErrorWord,
+  removeLearnedWord,
   clearAllErrorWords,
   addErrorWord,
   addLearnedWord
 } from '../utils/studyData'
+import DialogManager from './common/DialogManager.vue'
+import { useDialog } from '../composables/useDialog.js'
 
 // 防抖函数
 const debounce = (func, wait) => {
@@ -331,6 +337,9 @@ const props = defineProps({
 // 响应式数据
 const errorWords = ref([])
 const learnedWords = ref([])
+
+// 使用对话框组合式函数
+const { dialogs, deleteConfirm, info, warning } = useDialog()
 
 // 搜索功能
 const searchQuery = ref('')
@@ -389,46 +398,66 @@ const goBack = () => {
 }
 
 // 清空错误单词
-const clearErrorWords = () => {
-  if (confirm('确定要清空所有错误单词吗？')) {
-    clearAllErrorWords()
-    errorWords.value = []
-    showNotification('错误单词已清空', 'success')
-  }
+const clearErrorWords = async () => {
+  const confirmed = await deleteConfirm(
+    '所有错误单词',
+    () => {
+      clearAllErrorWords()
+      errorWords.value = []
+      loadData()
+      showNotification('错误单词已清空', 'success')
+    },
+    '错误单词'
+  )
 }
 
 // 移除单个错误单词
-const removeWord = (word) => {
-  if (confirm(`确定要移除单词 "${word}" 吗？`)) {
+const removeWord = async (word) => {
+  const confirmed = await deleteConfirm(word, () => {
     removeErrorWord(word)
     loadData()
     showNotification('单词已移除', 'success')
-  }
+  })
 }
 
 // 标记错误单词为已掌握
-const markAsLearned = (word) => {
-  if (confirm(`确定要将单词 "${word.word}" 标记为已掌握吗？`)) {
-    addLearnedWord({ word: word.word, meaning: word.meaning })
-    removeErrorWord(word.word)
-    loadData()
-    showNotification('单词已标记为已掌握', 'success')
-  }
+const markAsLearned = async (word) => {
+  const confirmed = await info(
+    '标记为已掌握',
+    `确定要将单词 <strong>${word.word}</strong> 标记为已掌握吗？<br>标记后该单词将从错误列表移至已掌握列表。`,
+    {
+      confirmText: '标记为已掌握',
+      onConfirm: () => {
+        addLearnedWord({ word: word.word, meaning: word.meaning })
+        removeErrorWord(word.word)
+        loadData()
+        showNotification('单词已标记为已掌握', 'success')
+      }
+    }
+  )
 }
 
 // 标记已学单词为错误
-const markAsError = (word) => {
-  if (confirm(`确定要将单词 "${word.word}" 标记为需要复习吗？`)) {
-    addErrorWord({
-      word: word.word,
-      meaning: word.meaning,
-      userAnswer: '',
-      errorCount: 1,
-      lastErrorDate: new Date().toISOString()
-    })
-    loadData()
-    showNotification('单词已标记为需要复习', 'info')
-  }
+const markAsError = async (word) => {
+  const confirmed = await warning(
+    '标记为需要复习',
+    `确定要将单词 <strong>${word.word}</strong> 标记为需要复习吗？<br>标记后该单词将从已掌握列表移至错误列表。`,
+    {
+      confirmText: '需要复习',
+      onConfirm: () => {
+        addErrorWord({
+          word: word.word,
+          meaning: word.meaning,
+          userAnswer: '',
+          errorCount: 1,
+          lastErrorDate: new Date().toISOString()
+        })
+        removeLearnedWord(word.word)
+        loadData()
+        showNotification('单词已标记为需要复习', 'info')
+      }
+    }
+  )
 }
 
 // 清除搜索
@@ -451,6 +480,7 @@ watch(searchQuery, (newValue) => {
   }
   handleSearch(newValue)
 })
+
 
 // 高亮搜索关键词
 const highlightText = (text, query) => {

@@ -158,6 +158,17 @@ export function addLearnedWord(wordData) {
 }
 
 /**
+ * 移除已学单词
+ * @param {string} word 单词
+ */
+export function removeLearnedWord(word) {
+  let learnedWords = getLearnedWords()
+  learnedWords = learnedWords.filter(item => item.word !== word)
+  localStorage.setItem(STORAGE_KEYS.LEARNED_WORDS, JSON.stringify(learnedWords))
+  return learnedWords
+}
+
+/**
  * 获取每日学习目标
  * @returns {number} 每日学习目标
  */

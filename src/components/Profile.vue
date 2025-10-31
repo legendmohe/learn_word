@@ -340,6 +340,9 @@
       </div>
     </div>
     </div>
+
+    <!-- 对话框管理器 -->
+    <DialogManager :dialogs="dialogs" />
   </div>
 </template>
 
@@ -358,6 +361,8 @@ import {
   importData,
   clearAllData
 } from '../utils/studyData'
+import DialogManager from './common/DialogManager.vue'
+import { useDialog } from '../composables/useDialog.js'
 import WordList from './WordList.vue'
 
 // 标签页配置
@@ -382,6 +387,9 @@ const wordListType = ref('errors')
 const isDarkMode = ref(false)
 const notificationsEnabled = ref(false)
 const assistModeEnabled = ref(true) // 默认开启辅助模式
+
+// 使用对话框组合式函数
+const { dialogs, deleteConfirm, dangerConfirm, success } = useDialog()
 
 
 // 深色模式控制
@@ -433,8 +441,13 @@ const loadSettings = () => {
 }
 
 // 清空错误单词
-const clearErrorWords = () => {
-  if (confirm('确定要清空所有错误单词吗？')) {
+const clearErrorWords = async () => {
+  const confirmed = await deleteConfirm(
+    '清空错误单词',
+    '确定要清空所有错误单词吗？<br><strong>此操作不可恢复！</strong><br>清空后所有错误单词记录将被删除，这些单词将重新出现在学习列表中。'
+  )
+
+  if (confirmed) {
     clearAllErrorWords()
     errorWords.value = []
     showNotification('错误单词已清空')
@@ -548,21 +561,35 @@ const importDataFile = (event) => {
 }
 
 // 重置所有数据
-const resetAllData = () => {
-  if (confirm('确定要重置所有学习数据吗？此操作不可恢复！')) {
-    if (confirm('再次确认：这将删除所有学习进度、错误单词、已学单词等数据！')) {
-      const success = clearAllData()
+const resetAllData = async () => {
+  // 第一次确认
+  const firstConfirm = await dangerConfirm(
+    '重置所有学习数据',
+    '这将删除所有学习进度、错误单词、已学单词、学习时间等数据。',
+    '重置所有学习数据'
+  )
 
-      if (success) {
-        loadData()
+  if (!firstConfirm) return
 
-        // 发送数据重置事件，通知其他组件更新数据
-        window.dispatchEvent(new CustomEvent('dataReset'))
+  // 第二次确认
+  const finalConfirm = await dangerConfirm(
+    '最终确认',
+    '<strong>再次确认：这将删除所有学习进度、错误单词、已学单词等数据！</strong><br><br>这是一个危险操作，一旦执行就无法撤销。请确认您真的要重置所有数据。',
+    '最终确认'
+  )
 
-        showNotification('所有数据已重置', 'success')
-      } else {
-        showNotification('重置数据失败', 'error')
-      }
+  if (finalConfirm) {
+    const success = clearAllData()
+
+    if (success) {
+      loadData()
+
+      // 发送数据重置事件，通知其他组件更新数据
+      window.dispatchEvent(new CustomEvent('dataReset'))
+
+      success('所有数据已重置')
+    } else {
+      showNotification('重置数据失败', 'error')
     }
   }
 }
@@ -618,6 +645,7 @@ const showNotification = (message, type = 'info') => {
     }, 300)
   }, 3000)
 }
+
 </script>
 
 <style scoped>
