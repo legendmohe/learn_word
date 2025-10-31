@@ -142,7 +142,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { getAllCourses, getCourseByName, getDefaultSettings } from '../utils/coursesParser'
 import { getSelectedCourse, setSelectedCourse, getDailyGoal, setDailyGoal, getLearnedWords } from '../utils/studyData'
 import CourseSelection from './CourseSelection.vue'
@@ -177,6 +177,24 @@ const completedCourses = computed(() => {
 onMounted(() => {
   loadCourses()
   loadSettings()
+
+  // 监听显示课程选择页面的事件
+  const handleShowCourseSelection = () => {
+    showCourseSelection.value = true
+  }
+
+  window.addEventListener('showCourseSelection', handleShowCourseSelection)
+
+  // 保存事件监听器引用，以便后续清理
+  window._coursesShowCourseSelectionHandler = handleShowCourseSelection
+})
+
+// 组件卸载时清理事件监听器
+onUnmounted(() => {
+  if (window._coursesShowCourseSelectionHandler) {
+    window.removeEventListener('showCourseSelection', window._coursesShowCourseSelectionHandler)
+    delete window._coursesShowCourseSelectionHandler
+  }
 })
 
 // 加载课程列表

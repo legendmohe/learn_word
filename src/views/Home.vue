@@ -54,7 +54,14 @@
             <!-- 当前学习课程 -->
             <div class="text-center pt-3">
               <div class="text-sm text-gray-500 dark:text-gray-400">
-                当前课程：<span class="font-medium text-gray-700 dark:text-gray-300">{{ selectedCourse || '未选择课程' }}</span>
+                当前课程：
+                <button
+                  @click="goToCourses"
+                  class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded px-1 py-0.5"
+                  :class="{ 'text-primary-600 dark:text-primary-400': currentTab === 'courses' }"
+                >
+                  {{ selectedCourse || '未选择课程' }}
+                </button>
               </div>
             </div>
           </div>
@@ -121,6 +128,23 @@ const handleStudyCompleted = () => {
 // 处理学习状态变化
 const handleStudyStatusChanged = (status) => {
   isStudying.value = status === 'studying'
+}
+
+// 跳转到课程tab
+const goToCourses = () => {
+  currentTab.value = 'courses'
+  // 发送标签页切换事件给底部导航组件
+  window.dispatchEvent(new CustomEvent('tabChange', {
+    detail: { tab: 'courses' }
+  }))
+  // 发送显示课程选择页面的事件
+//   setTimeout(() => {
+//     window.dispatchEvent(new CustomEvent('showCourseSelection'))
+//   }, 100) // 稍微延迟确保tab切换完成
+  // 添加触觉反馈效果（如果支持）
+  if (navigator.vibrate) {
+    navigator.vibrate(50)
+  }
 }
 
 // 监听标签页切换

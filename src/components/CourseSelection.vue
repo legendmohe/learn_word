@@ -1,7 +1,7 @@
 <template>
   <div class="course-selection-page">
     <!-- 页面头部 -->
-    <header class="page-header mb-6">
+    <header class="page-header mb-6 mt-6">
       <div class="flex items-center gap-3 mb-4">
         <button
           @click="goBack"
