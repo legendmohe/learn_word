@@ -9,9 +9,8 @@
         :class="{
           'active': currentStep === index,
           'completed': isStepCompleted(index),
-          'clickable': canClickStep(index)
+          'clickable': false
         }"
-        @click="handleStepClick(index)"
       >
         <!-- 步骤图标 -->
         <div class="step-icon">
@@ -144,7 +143,6 @@ export default {
       // 2. 紧邻的下一步，但前提是当前步骤已完成
       const isNextStep = index === this.currentStep + 1 && this.isStepCompleted(this.currentStep)
       const isCompleted = this.isStepCompleted(index)
-
       
       return isCompleted || isNextStep
     },
