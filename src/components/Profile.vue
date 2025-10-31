@@ -389,7 +389,7 @@ const notificationsEnabled = ref(false)
 const assistModeEnabled = ref(true) // 默认开启辅助模式
 
 // 使用对话框组合式函数
-const { dialogs, deleteConfirm, dangerConfirm, success } = useDialog()
+const { dialogs, deleteConfirm, dangerConfirm, success, info } = useDialog()
 
 
 // 深色模式控制
@@ -562,36 +562,38 @@ const importDataFile = (event) => {
 
 // 重置所有数据
 const resetAllData = async () => {
-  // 第一次确认
-  const firstConfirm = await dangerConfirm(
+  // 第一次确认 - 使用 info 函数避免 key 冲突
+  const firstConfirm = await info(
     '重置所有学习数据',
-    '这将删除所有学习进度、错误单词、已学单词、学习时间等数据。',
-    '重置所有学习数据'
+    '这将删除所有学习进度、错误单词、已学单词、学习时间等数据。<br><br><strong>此操作不可恢复！</strong>',
+    {
+      confirmText: '我知道了',
+      cancelText: '取消',
+      key: 'reset-first-confirm'
+    }
   )
 
   if (!firstConfirm) return
 
-  // 第二次确认
+  // 第二次确认 - 使用 dangerConfirm
   const finalConfirm = await dangerConfirm(
-    '最终确认',
     '<strong>再次确认：这将删除所有学习进度、错误单词、已学单词等数据！</strong><br><br>这是一个危险操作，一旦执行就无法撤销。请确认您真的要重置所有数据。',
+    () => {
+      const resetSuccess = clearAllData()
+
+      if (resetSuccess) {
+        loadData()
+
+        // 发送数据重置事件，通知其他组件更新数据
+        window.dispatchEvent(new CustomEvent('dataReset'))
+
+        showNotification('所有数据已重置', 'success')
+      } else {
+        showNotification('重置数据失败', 'error')
+      }
+    },
     '最终确认'
   )
-
-  if (finalConfirm) {
-    const success = clearAllData()
-
-    if (success) {
-      loadData()
-
-      // 发送数据重置事件，通知其他组件更新数据
-      window.dispatchEvent(new CustomEvent('dataReset'))
-
-      success('所有数据已重置')
-    } else {
-      showNotification('重置数据失败', 'error')
-    }
-  }
 }
 
 // 格式化时间
