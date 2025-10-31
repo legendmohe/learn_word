@@ -9,7 +9,7 @@
           今日需要学习 {{ dailyGoal }} 个单词，包含复习和新单词
         </p>
         <button
-          @click="showStartConfirmDialog = true"
+          @click="startStudy"
           class="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
         >
           开始学习
@@ -25,7 +25,7 @@
           <span class="text-sm text-gray-600 dark:text-gray-400">单词进度</span>
           <div class="flex items-center gap-3">
             <button
-              @click="showStopConfirmDialog = true"
+              @click="confirmStopStudy"
               class="px-3 py-1 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-sm font-medium"
             >
               停止学习
@@ -152,47 +152,9 @@
       @go-settings="handleGuideGoToSettings"
     />
 
-    <!-- 停止学习确认对话框 -->
-    <div v-if="showStopConfirmDialog" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="modal-content bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-sm w-full">
-        <div class="text-center mb-4">
-          <div class="text-4xl mb-3">⚠️</div>
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
-            确定要停止学习吗？
-          </h3>
-          <p class="text-base text-gray-600 dark:text-gray-400">
-            停止后，本次学习的所有进度和统计数据都将被清除，需要重新开始学习
-          </p>
-        </div>
-        <div class="flex gap-3">
-          <button
-            @click="showStopConfirmDialog = false"
-            class="flex-1 py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-          >
-            继续学习
-          </button>
-          <button
-            @click="stopStudy"
-            class="flex-1 py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-          >
-            确认停止
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 开始学习确认对话框 -->
-    <AppDialog
-      :show="showStartConfirmDialog"
-      title="准备好开始学习了吗？"
-      :message="getStartStudyMessage()"
-      type="info"
-      confirm-text="开始学习！"
-      cancel-text="再想想"
-      @confirm="confirmStartStudy"
-      @cancel="showStartConfirmDialog = false"
-      @close="showStartConfirmDialog = false"
-    />
+  
+    <!-- Dialog Manager -->
+    <DialogManager :dialogs="dialogs" />
 
     </div>
 </template>
@@ -204,6 +166,8 @@ import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
 import { playWordAudio, getAudioEngineInfo } from '../utils/audioService'
 import AppDialog from './common/AppDialog.vue'
+import DialogManager from './common/DialogManager.vue'
+import { useDialog } from '../composables/useDialog.js'
 import WelcomeGuide from './WelcomeGuide.vue'
 import StepIndicator from './StepIndicator.vue'
 import ListenStep from './ListenStep.vue'
@@ -232,10 +196,8 @@ const studyStatus = ref('ready') // ready, studying, completed
 // 引导弹窗状态
 const showWelcomeGuide = ref(false)
 
-// 停止学习确认对话框状态
-const showStopConfirmDialog = ref(false)
-// 开始学习确认对话框状态
-const showStartConfirmDialog = ref(false)
+// 使用对话框组合式函数
+const { dialogs, info, dangerConfirm } = useDialog()
 
 // 学习数据
 const dailyGoal = ref(10)
@@ -307,13 +269,19 @@ const currentStepProgress = computed(() => {
 // 开始学习
 const startStudy = async () => {
   // 显示确认对话框
-  showStartConfirmDialog.value = true
+  const confirmed = await info(
+    '准备好开始学习了吗？',
+    getStartStudyMessage(),
+    {
+      confirmText: '开始学习！',
+      cancelText: '再想想',
+      onConfirm: confirmStartStudy
+    }
+  )
 }
 
 // 确认开始学习
 const confirmStartStudy = async () => {
-  showStartConfirmDialog.value = false
-
   // 检查是否首次使用
   const isFirstTime = !localStorage.getItem('learn_word_welcome_shown')
   if (isFirstTime) {
@@ -774,6 +742,15 @@ const getLearningHint = () => {
 }
 
 // 停止学习（丢弃本次学习数据）
+// 确认停止学习
+const confirmStopStudy = async () => {
+  const confirmed = await dangerConfirm(
+    '停止后，本次学习的所有进度和统计数据都将被清除，需要重新开始学习',
+    stopStudy,
+    '确定要停止学习吗？'
+  )
+}
+
 const stopStudy = () => {
   // 保存本次学习的时长（即使停止了也要记录学习时间）
   if (studyStartTime.value) {
@@ -804,9 +781,6 @@ const stopStudy = () => {
 
   // 清除保存的学习会话数据
   localStorage.removeItem('learn_word_study_session')
-
-  // 关闭确认对话框
-  showStopConfirmDialog.value = false
 
   console.log('学习已停止，本次学习数据已清除')
 }
