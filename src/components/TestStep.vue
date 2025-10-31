@@ -51,12 +51,12 @@
     <!-- 结果反馈 -->
     <div v-if="showResult" class="result-feedback text-center mb-8">
       <div v-if="isCorrect" class="success-message">
-        <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
+        <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2 animate-bounce">
           回答正确
         </div>
       </div>
       <div v-else class="error-message">
-        <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
+        <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2 animate-bounce">
           错了~
         </div>
         <div class="text-gray-600 dark:text-gray-400">

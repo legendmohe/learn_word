@@ -39,12 +39,12 @@
     <!-- 结果显示 -->
     <div v-if="showResult" class="result-feedback text-center">
       <div v-if="isCorrect" class="success-message">
-        <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
+        <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2 animate-bounce">
           拼写正确
         </div>
       </div>
       <div v-else class="error-message">
-        <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
+        <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2 animate-bounce">
           错了~
         </div>
       </div>
