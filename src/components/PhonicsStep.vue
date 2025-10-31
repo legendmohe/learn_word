@@ -123,7 +123,7 @@
           @click="completeStep"
           class="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
         >
-          继续下一步
+          {{ countdown > 0 ? `下一步 (${countdown}s)` : '下一步' }}
         </button>
       </template>
     </div>
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 export default {
   name: 'PhonicsStep',
@@ -157,6 +157,8 @@ export default {
     const showResult = ref(props.initialState?.showResult || false)
     const isCorrect = ref(false)
     const shuffledPhonemes = ref([])
+    const countdown = ref(0)
+    let countdownTimer = null
 
     // 检查单词是否有音素数据
     const hasPhonemes = computed(() => {
@@ -214,10 +216,36 @@ export default {
         selectedPhonemes: selectedPhonemes.value, // 保存选中的音素
         type: 'phonics'
       })
+
+      // 开始3秒倒计时自动跳转
+      startCountdown()
+    }
+
+    // 开始倒计时
+    const startCountdown = () => {
+      // 答对时2秒自动跳转，答错时不跳转（只显示提示）
+      const autoJumpTime = isCorrect.value ? 2 : null
+      countdown.value = autoJumpTime || 0
+
+      if (autoJumpTime) {
+        countdownTimer = setInterval(() => {
+          countdown.value--
+          if (countdown.value <= 0) {
+            clearInterval(countdownTimer)
+            countdownTimer = null
+            completeStep()
+          }
+        }, 1000)
+      }
     }
 
     // 完成步骤
     const completeStep = () => {
+      // 清除倒计时
+      if (countdownTimer) {
+        clearInterval(countdownTimer)
+        countdownTimer = null
+      }
       emit('completed')
     }
 
@@ -253,6 +281,14 @@ export default {
       }
     })
 
+    onUnmounted(() => {
+      // 清理倒计时定时器
+      if (countdownTimer) {
+        clearInterval(countdownTimer)
+        countdownTimer = null
+      }
+    })
+
     return {
       selectedPhonemes,
       usedPhonemes,
@@ -261,6 +297,7 @@ export default {
       shuffledPhonemes,
       hasPhonemes,
       canSubmit,
+      countdown,
       selectPhoneme,
       clearAnswer,
       submitAnswer,

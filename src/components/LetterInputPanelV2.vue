@@ -2,7 +2,7 @@
   <div class="spelling-step">
 
     <!-- 字母输入显示区域 -->
-    <div v-if="!showResult" class="letter-input-area mb-2">
+    <div class="letter-input-area mb-2">
       <div class="letter-display-grid grid gap-3 justify-center mb-6">
         <div
           v-for="(letter, index) in wordLetters"
@@ -22,7 +22,7 @@
     </div>
 
     <!-- 字母选择区域 -->
-    <div v-if="!showResult" class="letter-selection-area mb-8">
+    <div class="letter-selection-area mb-8">
       <div class="letter-grid grid gap-3 justify-center">
         <button
           v-for="(letter, index) in shuffledLetters"
@@ -60,40 +60,6 @@
       >
         提交答案
       </button>
-
-      <button
-        v-else
-        @click="completeStep"
-        class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-      >
-        {{ isLastStep ? '完成学习' : '下一个单词' }}
-      </button>
-    </div>
-
-    <!-- 结果反馈 -->
-    <div v-if="showResult" class="result-feedback text-center mb-8">
-      <div class="mb-4">
-        <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
-          {{ word.toLowerCase() }}
-        </div>
-        <div class="text-xl font-medium text-gray-800 dark:text-gray-200">
-          {{ meaning }}
-        </div>
-      </div>
-
-      <div v-if="isCorrect" class="success-message">
-        <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
-          拼写正确
-        </div>
-      </div>
-      <div v-else class="error-message">
-        <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
-          错了~
-        </div>
-        <div class="text-gray-600 dark:text-gray-400">
-          正确答案是：{{ word.toLowerCase() }}
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -227,18 +193,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.spelling-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 400px;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  width: 100%;
-  box-sizing: border-box;
-}
 
 .letter-display-grid {
   display: flex;

@@ -49,6 +49,7 @@
         :step-progress="currentStepProgress"
         :allow-step-navigation="allowStepNavigation"
         :step-errors="currentStepErrors"
+        :is-last-step="isLastWord"
         @step-change="handleStepChange"
         @previous-step="goToPreviousStep"
         @next-step="goToNextStep"
@@ -304,6 +305,11 @@ const currentWord = computed(() => {
 
 const progressPercentage = computed(() => {
   return Math.round(((currentWordIndex.value + 1) / studyWords.value.length) * 100)
+})
+
+// 是否为最后一个单词
+const isLastWord = computed(() => {
+  return currentWordIndex.value >= studyWords.value.length - 1
 })
 
 // 当前单词的步骤进度

@@ -4,7 +4,7 @@
       <div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-6">
         {{ word.word }}
       </div>
-      <div class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+      <div class="text-lg text-gray-600 dark:text-gray-400">
         选择正确的中文意思
       </div>
     </div>
@@ -71,14 +71,14 @@
         @click="completeStep"
         class="px-8 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
       >
-        继续下一步
+        {{ countdown > 0 ? `下一步 (${countdown}s)` : '下一步' }}
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 export default {
   name: 'TestStep',
@@ -108,6 +108,8 @@ export default {
     const selectedIndex = ref(props.initialState?.selectedIndex)
     const showResult = ref(props.initialState?.showResult)
     const options = ref([])
+    const countdown = ref(0)
+    let countdownTimer = null
 
     // 获取干扰选项
     const generateOptions = () => {
@@ -180,14 +182,47 @@ export default {
         options: options.value, // 保存选项顺序
         type: 'test'
       })
+
+      // 开始3秒倒计时自动跳转
+      startCountdown()
+    }
+
+    const startCountdown = () => {
+      // 答对时2秒自动跳转，答错时不跳转（只显示提示）
+      const autoJumpTime = isCorrect.value ? 2 : null
+      countdown.value = autoJumpTime || 0
+
+      if (autoJumpTime) {
+        countdownTimer = setInterval(() => {
+          countdown.value--
+          if (countdown.value <= 0) {
+            clearInterval(countdownTimer)
+            countdownTimer = null
+            completeStep()
+          }
+        }, 1000)
+      }
     }
 
     const completeStep = () => {
+      // 清除倒计时
+      if (countdownTimer) {
+        clearInterval(countdownTimer)
+        countdownTimer = null
+      }
       emit('completed')
     }
 
     onMounted(() => {
       generateOptions()
+    })
+
+    onUnmounted(() => {
+      // 清理倒计时定时器
+      if (countdownTimer) {
+        clearInterval(countdownTimer)
+        countdownTimer = null
+      }
     })
 
     return {
@@ -196,6 +231,7 @@ export default {
       options,
       correctIndex,
       isCorrect,
+      countdown,
       selectOption,
       submitAnswer,
       completeStep

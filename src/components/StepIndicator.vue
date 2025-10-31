@@ -53,7 +53,7 @@
         :disabled="currentStep === steps.length - 1 || !isStepCompleted(currentStep)"
         @click="goToNextStep"
       >
-        下一步
+        {{ isLastStep ? '完成学习' : '下一步' }}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
         </svg>
@@ -91,6 +91,10 @@ export default {
         phonics: false,
         spelling: false
       })
+    },
+    isLastStep: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['step-change', 'previous-step', 'next-step'],

@@ -40,7 +40,7 @@
     
 
     <!-- 字母输入面板 -->
-    <div v-if="!showResult" class="letter-input-panel mb-8">
+    <div class="letter-input-panel">
       <LetterInputPanelV2
         :word="word.word"
         :meaning="word.meaning"
@@ -53,7 +53,7 @@
     </div>
 
     <!-- 结果显示 -->
-    <div v-else class="result-feedback text-center mb-8">
+    <div v-if="showResult" class="result-feedback text-center">
       <div v-if="isCorrect" class="success-message">
         <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
           拼写正确
@@ -64,7 +64,7 @@
           错了~
         </div>
         <div class="text-gray-600 dark:text-gray-400">
-          正确答案是：{{ word.word.toLowerCase() }}
+          正确答案是：{{ word.word }}
         </div>
       </div>
     </div>
@@ -193,8 +193,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
-  max-width: 600px;
   margin: 0 auto;
 }
 
