@@ -1,0 +1,9 @@
+{
+    "settings": {
+        "defaultCourse": "基础词汇",
+        "defaultDailyGoal": 10,
+        "maxDailyGoal": 50,
+        "minDailyGoal": 5,
+        "dailyGoalStep": 5
+    }
+}

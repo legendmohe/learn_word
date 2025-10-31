@@ -1,0 +1,596 @@
+{
+    "Unit 1": [
+        {
+            "word": "me",
+            "meaning": "我"
+        },
+        {
+            "word": "it",
+            "meaning": "它"
+        },
+        {
+            "word": "be (am/is/are)",
+            "meaning": "是"
+        },
+        {
+            "word": "on",
+            "meaning": "在…… 上面"
+        },
+        {
+            "word": "this",
+            "meaning": "这，这个"
+        },
+        {
+            "word": "ruler",
+            "meaning": "尺子"
+        },
+        {
+            "word": "you",
+            "meaning": "你，你们"
+        },
+        {
+            "word": "I",
+            "meaning": "我"
+        },
+        {
+            "word": "thank",
+            "meaning": "感谢，向…… 表示感谢"
+        },
+        {
+            "word": "nice",
+            "meaning": "令人愉快的"
+        },
+        {
+            "word": "to",
+            "meaning": "到，向，往"
+        },
+        {
+            "word": "meet",
+            "meaning": "结识；遇见"
+        },
+        {
+            "word": "too",
+            "meaning": "也"
+        },
+        {
+            "word": "hi",
+            "meaning": "嗨，喂，你好"
+        },
+        {
+            "word": "but",
+            "meaning": "但，但是"
+        }
+    ],
+    "Unit 2": [
+        {
+            "word": "chocolate",
+            "meaning": "巧克力"
+        },
+        {
+            "word": "coffee",
+            "meaning": "咖啡"
+        },
+        {
+            "word": "Chinese",
+            "meaning": "中文"
+        },
+        {
+            "word": "sofa",
+            "meaning": "沙发"
+        },
+        {
+            "word": "hamburger",
+            "meaning": "汉堡"
+        },
+        {
+            "word": "cookie",
+            "meaning": "饼干"
+        },
+        {
+            "word": "salad",
+            "meaning": "沙拉"
+        },
+        {
+            "word": "what",
+            "meaning": "什么"
+        },
+        {
+            "word": "in",
+            "meaning": "在…… 里面"
+        },
+        {
+            "word": "English",
+            "meaning": "英语"
+        },
+        {
+            "word": "know",
+            "meaning": "知道；认识"
+        },
+        {
+            "word": "yes",
+            "meaning": "是，对"
+        },
+        {
+            "word": "can",
+            "meaning": "能，可以"
+        },
+        {
+            "word": "get",
+            "meaning": "得到"
+        },
+        {
+            "word": "a (an)",
+            "meaning": "一，一个"
+        },
+        {
+            "word": "word",
+            "meaning": "单词"
+        },
+        {
+            "word": "guess",
+            "meaning": "猜，猜测"
+        },
+        {
+            "word": "one",
+            "meaning": "一"
+        },
+        {
+            "word": "like",
+            "meaning": "喜欢"
+        }
+    ],
+    "Unit 3": [
+        {
+            "word": "good",
+            "meaning": "好的"
+        },
+        {
+            "word": "morning",
+            "meaning": "早晨；上午"
+        },
+        {
+            "word": "your",
+            "meaning": "你的；你们的"
+        },
+        {
+            "word": "name",
+            "meaning": "名字"
+        },
+        {
+            "word": "my",
+            "meaning": "我的"
+        },
+        {
+            "word": "Mr",
+            "meaning": "先生"
+        },
+        {
+            "word": "boy",
+            "meaning": "男孩"
+        },
+        {
+            "word": "and",
+            "meaning": "和"
+        },
+        {
+            "word": "girl",
+            "meaning": "女孩"
+        },
+        {
+            "word": "hello",
+            "meaning": "你好"
+        },
+        {
+            "word": "everyone",
+            "meaning": "每个人，人人"
+        },
+        {
+            "word": "card",
+            "meaning": "卡片"
+        },
+        {
+            "word": "student",
+            "meaning": "学生"
+        },
+        {
+            "word": "want",
+            "meaning": "想要"
+        },
+        {
+            "word": "help",
+            "meaning": "帮助，帮忙"
+        },
+        {
+            "word": "how",
+            "meaning": "多少；怎样，如何"
+        },
+        {
+            "word": "last",
+            "meaning": "最后"
+        },
+        {
+            "word": "of",
+            "meaning": "…… 的"
+        },
+        {
+            "word": "for",
+            "meaning": "为了"
+        },
+        {
+            "word": "Ms",
+            "meaning": "女士"
+        },
+        {
+            "word": "Miss",
+            "meaning": "小姐"
+        },
+        {
+            "word": "Mrs",
+            "meaning": "女士，夫人"
+        }
+    ],
+    "Unit 4": [
+        {
+            "word": "red",
+            "meaning": "红色"
+        },
+        {
+            "word": "yellow",
+            "meaning": "黄色"
+        },
+        {
+            "word": "green",
+            "meaning": "绿色"
+        },
+        {
+            "word": "blue",
+            "meaning": "蓝色"
+        },
+        {
+            "word": "white",
+            "meaning": "白色"
+        },
+        {
+            "word": "colour",
+            "meaning": "颜色"
+        },
+        {
+            "word": "pencil",
+            "meaning": "铅笔"
+        },
+        {
+            "word": "left",
+            "meaning": "左边"
+        },
+        {
+            "word": "hand",
+            "meaning": "手"
+        },
+        {
+            "word": "right",
+            "meaning": "右边"
+        },
+        {
+            "word": "finger",
+            "meaning": "手指"
+        },
+        {
+            "word": "do",
+            "meaning": "做"
+        },
+        {
+            "word": "spell",
+            "meaning": "拼写"
+        },
+        {
+            "word": "that",
+            "meaning": "那，那个"
+        },
+        {
+            "word": "look",
+            "meaning": "看，瞧，望"
+        },
+        {
+            "word": "cool",
+            "meaning": "酷的，帅的"
+        },
+        {
+            "word": "teach",
+            "meaning": "教"
+        },
+        {
+            "word": "first",
+            "meaning": "第一的；首先；最初"
+        },
+        {
+            "word": "OK",
+            "meaning": "好，可以"
+        }
+    ],
+    "Unit 5": [
+        {
+            "word": "two",
+            "meaning": "二"
+        },
+        {
+            "word": "three",
+            "meaning": "三"
+        },
+        {
+            "word": "four",
+            "meaning": "四"
+        },
+        {
+            "word": "five",
+            "meaning": "五"
+        },
+        {
+            "word": "six",
+            "meaning": "六"
+        },
+        {
+            "word": "seven",
+            "meaning": "七"
+        },
+        {
+            "word": "nine",
+            "meaning": "九"
+        },
+        {
+            "word": "the",
+            "meaning": "这，那"
+        },
+        {
+            "word": "again",
+            "meaning": "再，再次"
+        },
+        {
+            "word": "step",
+            "meaning": "步骤"
+        },
+        {
+            "word": "letter",
+            "meaning": "字母"
+        },
+        {
+            "word": "from",
+            "meaning": "从"
+        },
+        {
+            "word": "each",
+            "meaning": "每个"
+        },
+        {
+            "word": "put",
+            "meaning": "放"
+        },
+        {
+            "word": "them",
+            "meaning": "它们"
+        }
+    ],
+    "Unit 6": [
+        {
+            "word": "face",
+            "meaning": "脸，面部"
+        },
+        {
+            "word": "ear",
+            "meaning": "耳朵"
+        },
+        {
+            "word": "eye",
+            "meaning": "眼睛"
+        },
+        {
+            "word": "nose",
+            "meaning": "鼻子"
+        },
+        {
+            "word": "mouth",
+            "meaning": "嘴巴"
+        },
+        {
+            "word": "its",
+            "meaning": "它的"
+        },
+        {
+            "word": "these",
+            "meaning": "这些"
+        },
+        {
+            "word": "hair",
+            "meaning": "头发"
+        },
+        {
+            "word": "write",
+            "meaning": "写"
+        },
+        {
+            "word": "big",
+            "meaning": "大的"
+        },
+        {
+            "word": "under",
+            "meaning": "在…… 下面"
+        },
+        {
+            "word": "his",
+            "meaning": "他的"
+        },
+        {
+            "word": "now",
+            "meaning": "现在"
+        },
+        {
+            "word": "head",
+            "meaning": "头"
+        }
+    ],
+    "Unit 7": [
+        {
+            "word": "see",
+            "meaning": "看见；明白"
+        },
+        {
+            "word": "nod",
+            "meaning": "点头"
+        },
+        {
+            "word": "keep",
+            "meaning": "保持"
+        },
+        {
+            "word": "quiet",
+            "meaning": "安静"
+        },
+        {
+            "word": "listen",
+            "meaning": "听"
+        },
+        {
+            "word": "teacher",
+            "meaning": "老师"
+        },
+        {
+            "word": "have",
+            "meaning": "有，拥有"
+        },
+        {
+            "word": "up",
+            "meaning": "向上"
+        },
+        {
+            "word": "they",
+            "meaning": "他们"
+        },
+        {
+            "word": "body",
+            "meaning": "身体"
+        },
+        {
+            "word": "friend",
+            "meaning": "朋友"
+        },
+        {
+            "word": "myself",
+            "meaning": "我自己"
+        },
+        {
+            "word": "heart",
+            "meaning": "心，心脏；内心"
+        }
+    ],
+    "Unit 8": [
+        {
+            "word": "bird",
+            "meaning": "鸟"
+        },
+        {
+            "word": "horse",
+            "meaning": "马"
+        },
+        {
+            "word": "monkey",
+            "meaning": "猴子"
+        },
+        {
+            "word": "fish",
+            "meaning": "鱼"
+        },
+        {
+            "word": "bear",
+            "meaning": "熊"
+        },
+        {
+            "word": "swim",
+            "meaning": "游泳"
+        },
+        {
+            "word": "walk",
+            "meaning": "走，走路"
+        },
+        {
+            "word": "fly",
+            "meaning": "飞，飞翔"
+        },
+        {
+            "word": "jump",
+            "meaning": "跳，跳跃"
+        },
+        {
+            "word": "arm",
+            "meaning": "手臂"
+        },
+        {
+            "word": "leg",
+            "meaning": "腿"
+        },
+        {
+            "word": "tiger",
+            "meaning": "老虎"
+        },
+        {
+            "word": "then",
+            "meaning": "然后，接下来"
+        },
+        {
+            "word": "let",
+            "meaning": "让"
+        },
+        {
+            "word": "us",
+            "meaning": "我们"
+        },
+        {
+            "word": "move",
+            "meaning": "移动"
+        },
+        {
+            "word": "our",
+            "meaning": "我们的"
+        },
+        {
+            "word": "foot",
+            "meaning": "脚"
+        }
+    ],
+    "Review": [
+        {
+            "word": "their",
+            "meaning": "他们的"
+        },
+        {
+            "word": "mum",
+            "meaning": "妈妈"
+        },
+        {
+            "word": "dad",
+            "meaning": "爸爸"
+        },
+        {
+            "word": "family",
+            "meaning": "家庭"
+        },
+        {
+            "word": "where",
+            "meaning": "哪里"
+        },
+        {
+            "word": "when",
+            "meaning": "什么时候"
+        },
+        {
+            "word": "class",
+            "meaning": "班级"
+        },
+        {
+            "word": "not",
+            "meaning": "不"
+        },
+        {
+            "word": "she",
+            "meaning": "她"
+        }
+    ]
+}

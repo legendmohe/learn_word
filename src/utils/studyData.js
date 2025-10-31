@@ -3,7 +3,7 @@
  * 使用localStorage存储学习进度、错误记录等数据
  */
 
-import { getDefaultSettings, isValidCourse, getRandomWords } from './coursesParser.js'
+import { getDefaultSettings, getDefaultCourse, isValidCourse, getRandomWords } from './coursesParser.js'
 
 const STORAGE_KEYS = {
   STUDY_PROGRESS: 'learn_word_study_progress',
@@ -18,7 +18,7 @@ const STORAGE_KEYS = {
 // 获取默认设置
 const DEFAULT_SETTINGS = getDefaultSettings()
 const DEFAULT_DAILY_GOAL = DEFAULT_SETTINGS.defaultDailyGoal
-const DEFAULT_COURSE = DEFAULT_SETTINGS.defaultCourse
+const DEFAULT_COURSE = getDefaultCourse()
 
 /**
  * 获取学习进度

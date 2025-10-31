@@ -38,7 +38,7 @@
         音标
       </div>
       <div class="text-lg font-medium text-gray-700 dark:text-gray-300">
-        /{{ word.phonetic }}/
+        {{ word.phonetic }}
       </div>
     </div>
 

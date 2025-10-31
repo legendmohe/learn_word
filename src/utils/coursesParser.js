@@ -4,6 +4,7 @@
  */
 
 import coursesData from '../data/courses_data.json'
+import defaultSettingsData from '../data/app_settings.json'
 
 /**
  * 获取所有课程列表
@@ -81,7 +82,15 @@ export function getCourseByName(courseName) {
  * @returns {Object} 默认设置
  */
 export function getDefaultSettings() {
-  return coursesData.settings
+    return defaultSettingsData.settings
+}
+
+/**
+ * 获取默认课程名称
+ * @returns {string} 默认课程名称 
+ */
+export function getDefaultCourse() {
+    return getAllCourses()[0]?.name || ''
 }
 
 /**

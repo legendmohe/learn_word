@@ -1,357 +1,2285 @@
 {
-  "courses": [
-    {
-      "id": "basic_vocabulary",
-      "name": "基础词汇",
-      "emoji": "🔤",
-      "description": "日常基础英语词汇",
-      "words": [
-        { "word": "apple", "meaning": "苹果", "phonemes": ["a", "pp", "le"] },
-        { "word": "banana", "meaning": "香蕉", "phonemes": ["ba", "na", "na"] },
-        { "word": "cat", "meaning": "猫", "phonemes": ["c", "a", "t"] },
-        { "word": "dog", "meaning": "狗", "phonemes": ["d", "o", "g"] },
-        { "word": "elephant", "meaning": "大象", "phonemes": ["e", "le", "phant"] },
-        { "word": "fish", "meaning": "鱼", "phonemes": ["f", "i", "sh"] },
-        { "word": "green", "meaning": "绿色的", "phonemes": ["gr", "ee", "n"] },
-        { "word": "house", "meaning": "房子", "phonemes": ["h", "ou", "se"] },
-        { "word": "ice", "meaning": "冰", "phonemes": ["i", "ce"] },
-        { "word": "juice", "meaning": "果汁", "phonemes": ["j", "ui", "ce"] },
-        { "word": "key", "meaning": "钥匙", "phonemes": ["k", "ey"] },
-        { "word": "lion", "meaning": "狮子", "phonemes": ["l", "i", "on"] },
-        { "word": "moon", "meaning": "月亮", "phonemes": ["m", "oo", "n"] },
-        { "word": "night", "meaning": "夜晚", "phonemes": ["n", "igh", "t"] },
-        { "word": "orange", "meaning": "橙子", "phonemes": ["o", "r", "ange"] },
-        { "word": "pen", "meaning": "笔", "phonemes": ["p", "e", "n"] },
-        { "word": "queen", "meaning": "女王", "phonemes": ["qu", "ee", "n"] },
-        { "word": "red", "meaning": "红色的", "phonemes": ["r", "e", "d"] },
-        { "word": "sun", "meaning": "太阳", "phonemes": ["s", "u", "n"] },
-        { "word": "tree", "meaning": "树", "phonemes": ["tr", "ee"] },
-        { "word": "umbrella", "meaning": "雨伞", "phonemes": ["um", "brel", "la"] },
-        { "word": "water", "meaning": "水", "phonemes": ["w", "a", "ter"] },
-        { "word": "yellow", "meaning": "黄色的", "phonemes": ["y", "e", "llow"] },
-        { "word": "zebra", "meaning": "斑马", "phonemes": ["z", "e", "bra"] }
-      ]
-    },
-    {
-      "id": "daily_expressions",
-      "name": "日常用语",
-      "emoji": "💬",
-      "description": "日常交流常用表达",
-      "words": [
-        { "word": "hello", "meaning": "你好", "phonemes": ["h", "e", "ll", "o"] },
-        { "word": "goodbye", "meaning": "再见", "phonemes": ["good", "bye"] },
-        { "word": "thank", "meaning": "感谢", "phonemes": ["th", "a", "nk"] },
-        { "word": "please", "meaning": "请", "phonemes": ["pl", "ea", "se"] },
-        { "word": "sorry", "meaning": "对不起", "phonemes": ["s", "or", "ry"] },
-        { "word": "excuse", "meaning": "打扰", "phonemes": ["ex", "cu", "se"] },
-        { "word": "welcome", "meaning": "欢迎", "phonemes": ["wel", "co", "me"] },
-        { "word": "morning", "meaning": "早上", "phonemes": ["m", "or", "n", "ing"] },
-        { "word": "evening", "meaning": "晚上", "phonemes": ["e", "ve", "n", "ing"] },
-        { "word": "friend", "meaning": "朋友", "phonemes": ["fr", "ie", "nd"] },
-        { "word": "family", "meaning": "家庭" },
-        { "word": "together", "meaning": "一起" },
-        { "word": "happy", "meaning": "开心" },
-        { "word": "sad", "meaning": "伤心" },
-        { "word": "love", "meaning": "爱" },
-        { "word": "help", "meaning": "帮助" },
-        { "word": "time", "meaning": "时间" },
-        { "word": "today", "meaning": "今天" },
-        { "word": "tomorrow", "meaning": "明天" },
-        { "word": "always", "meaning": "总是" }
-      ]
-    },
-    {
-      "id": "food_vocabulary",
-      "name": "食物词汇",
-      "emoji": "🍔",
-      "description": "各种食物相关词汇",
-      "words": [
-        { "word": "bread", "meaning": "面包" },
-        { "word": "rice", "meaning": "米饭" },
-        { "word": "noodle", "meaning": "面条" },
-        { "word": "meat", "meaning": "肉" },
-        { "word": "chicken", "meaning": "鸡肉" },
-        { "word": "beef", "meaning": "牛肉" },
-        { "word": "pork", "meaning": "猪肉" },
-        { "word": "fish", "meaning": "鱼" },
-        { "word": "egg", "meaning": "鸡蛋" },
-        { "word": "milk", "meaning": "牛奶" },
-        { "word": "cheese", "meaning": "奶酪" },
-        { "word": "butter", "meaning": "黄油" },
-        { "word": "sugar", "meaning": "糖" },
-        { "word": "salt", "meaning": "盐" },
-        { "word": "water", "meaning": "水" },
-        { "word": "coffee", "meaning": "咖啡" },
-        { "word": "tea", "meaning": "茶" },
-        { "word": "cake", "meaning": "蛋糕" },
-        { "word": "cookie", "meaning": "饼干" },
-        { "word": "chocolate", "meaning": "巧克力" },
-        { "word": "fruit", "meaning": "水果" },
-        { "word": "vegetable", "meaning": "蔬菜" },
-        { "word": "soup", "meaning": "汤" },
-        { "word": "salad", "meaning": "沙拉" },
-        { "word": "sandwich", "meaning": "三明治" }
-      ]
-    },
-    {
-      "id": "animal_vocabulary",
-      "name": "动物词汇",
-      "emoji": "🐾",
-      "description": "各种动物名称",
-      "words": [
-        { "word": "cat", "meaning": "猫" },
-        { "word": "dog", "meaning": "狗" },
-        { "word": "bird", "meaning": "鸟" },
-        { "word": "fish", "meaning": "鱼" },
-        { "word": "rabbit", "meaning": "兔子" },
-        { "word": "mouse", "meaning": "老鼠" },
-        { "word": "horse", "meaning": "马" },
-        { "word": "cow", "meaning": "牛" },
-        { "word": "pig", "meaning": "猪" },
-        { "word": "sheep", "meaning": "羊" },
-        { "word": "goat", "meaning": "山羊" },
-        { "word": "chicken", "meaning": "鸡" },
-        { "word": "duck", "meaning": "鸭子" },
-        { "word": "goose", "meaning": "鹅" },
-        { "word": "lion", "meaning": "狮子" },
-        { "word": "tiger", "meaning": "老虎" },
-        { "word": "elephant", "meaning": "大象" },
-        { "word": "bear", "meaning": "熊" },
-        { "word": "monkey", "meaning": "猴子" },
-        { "word": "panda", "meaning": "熊猫" },
-        { "word": "zebra", "meaning": "斑马" },
-        { "word": "giraffe", "meaning": "长颈鹿" },
-        { "word": "snake", "meaning": "蛇" },
-        { "word": "turtle", "meaning": "乌龟" },
-        { "word": "frog", "meaning": "青蛙" }
-      ]
-    },
-    {
-      "id": "color_vocabulary",
-      "name": "颜色词汇",
-      "emoji": "🎨",
-      "description": "各种颜色相关词汇",
-      "words": [
-        { "word": "red", "meaning": "红色" },
-        { "word": "blue", "meaning": "蓝色" },
-        { "word": "green", "meaning": "绿色" },
-        { "word": "yellow", "meaning": "黄色" },
-        { "word": "black", "meaning": "黑色" },
-        { "word": "white", "meaning": "白色" },
-        { "word": "orange", "meaning": "橙色" },
-        { "word": "purple", "meaning": "紫色" },
-        { "word": "pink", "meaning": "粉色" },
-        { "word": "brown", "meaning": "棕色" },
-        { "word": "gray", "meaning": "灰色" },
-        { "word": "gold", "meaning": "金色" },
-        { "word": "silver", "meaning": "银色" },
-        { "word": "light", "meaning": "浅色" },
-        { "word": "dark", "meaning": "深色" },
-        { "word": "bright", "meaning": "明亮" },
-        { "word": "color", "meaning": "颜色" },
-        { "word": "rainbow", "meaning": "彩虹" },
-        { "word": "sky", "meaning": "天空" },
-        { "word": "sunset", "meaning": "日落" }
-      ]
-    },
-    {
-      "id": "school_supplies",
-      "name": "学习用品",
-      "emoji": "✏️",
-      "description": "学校和学习相关用品",
-      "words": [
-        { "word": "pen", "meaning": "笔" },
-        { "word": "pencil", "meaning": "铅笔" },
-        { "word": "book", "meaning": "书" },
-        { "word": "notebook", "meaning": "笔记本" },
-        { "word": "paper", "meaning": "纸" },
-        { "word": "eraser", "meaning": "橡皮" },
-        { "word": "ruler", "meaning": "尺子" },
-        { "word": "bag", "meaning": "包" },
-        { "word": "desk", "meaning": "课桌" },
-        { "word": "chair", "meaning": "椅子" },
-        { "word": "computer", "meaning": "电脑" },
-        { "word": "phone", "meaning": "电话" },
-        { "word": "dictionary", "meaning": "字典" },
-        { "word": "library", "meaning": "图书馆" },
-        { "word": "school", "meaning": "学校" },
-        { "word": "teacher", "meaning": "老师" },
-        { "word": "student", "meaning": "学生" },
-        { "word": "class", "meaning": "班级" },
-        { "word": "lesson", "meaning": "课程" },
-        { "word": "homework", "meaning": "作业" },
-        { "word": "test", "meaning": "考试" },
-        { "word": "grade", "meaning": "成绩" },
-        { "word": "study", "meaning": "学习" },
-        { "word": "read", "meaning": "阅读" }
-      ]
-    },
-    {
-      "id": "number_vocabulary",
-      "name": "数字词汇",
-      "emoji": "🔢",
-      "description": "数字和计数相关词汇",
-      "words": [
-        { "word": "one", "meaning": "一" },
-        { "word": "two", "meaning": "二" },
-        { "word": "three", "meaning": "三" },
-        { "word": "four", "meaning": "四" },
-        { "word": "five", "meaning": "五" },
-        { "word": "six", "meaning": "六" },
-        { "word": "seven", "meaning": "七" },
-        { "word": "eight", "meaning": "八" },
-        { "word": "nine", "meaning": "九" },
-        { "word": "ten", "meaning": "十" },
-        { "word": "eleven", "meaning": "十一" },
-        { "word": "twelve", "meaning": "十二" },
-        { "word": "twenty", "meaning": "二十" },
-        { "word": "thirty", "meaning": "三十" },
-        { "word": "hundred", "meaning": "百" },
-        { "word": "thousand", "meaning": "千" },
-        { "word": "million", "meaning": "百万" },
-        { "word": "first", "meaning": "第一" },
-        { "word": "second", "meaning": "第二" },
-        { "word": "third", "meaning": "第三" },
-        { "word": "number", "meaning": "数字" },
-        { "word": "count", "meaning": "计数" },
-        { "word": "add", "meaning": "加" },
-        { "word": "minus", "meaning": "减" }
-      ]
-    },
-    {
-      "id": "family_members",
-      "name": "家庭成员",
-      "emoji": "👨‍👩‍👧‍👦",
-      "description": "家庭成员称谓",
-      "words": [
-        { "word": "father", "meaning": "父亲" },
-        { "word": "mother", "meaning": "母亲" },
-        { "word": "parent", "meaning": "父母" },
-        { "word": "son", "meaning": "儿子" },
-        { "word": "daughter", "meaning": "女儿" },
-        { "word": "child", "meaning": "孩子" },
-        { "word": "brother", "meaning": "兄弟" },
-        { "word": "sister", "meaning": "姐妹" },
-        { "word": "family", "meaning": "家庭" },
-        { "word": "home", "meaning": "家" },
-        { "word": "house", "meaning": "房子" },
-        { "word": "room", "meaning": "房间" },
-        { "word": "kitchen", "meaning": "厨房" },
-        { "word": "bedroom", "meaning": "卧室" },
-        { "word": "living", "meaning": "客厅" },
-        { "word": "bathroom", "meaning": "浴室" },
-        { "word": "garden", "meaning": "花园" },
-        { "word": "grandfather", "meaning": "爷爷" },
-        { "word": "grandmother", "meaning": "奶奶" },
-        { "word": "uncle", "meaning": "叔叔" },
-        { "word": "aunt", "meaning": "阿姨" },
-        { "word": "cousin", "meaning": "表亲" },
-        { "word": "nephew", "meaning": "侄子" },
-        { "word": "niece", "meaning": "侄女" }
-      ]
-    },
-    {
-      "id": "body_parts",
-      "name": "身体部位",
-      "emoji": "🤚",
-      "description": "人体部位名称",
-      "words": [
-        { "word": "head", "meaning": "头" },
-        { "word": "face", "meaning": "脸" },
-        { "word": "eye", "meaning": "眼睛" },
-        { "word": "nose", "meaning": "鼻子" },
-        { "word": "mouth", "meaning": "嘴巴" },
-        { "word": "ear", "meaning": "耳朵" },
-        { "word": "hair", "meaning": "头发" },
-        { "word": "neck", "meaning": "脖子" },
-        { "word": "shoulder", "meaning": "肩膀" },
-        { "word": "arm", "meaning": "手臂" },
-        { "word": "hand", "meaning": "手" },
-        { "word": "finger", "meaning": "手指" },
-        { "word": "chest", "meaning": "胸部" },
-        { "word": "back", "meaning": "背部" },
-        { "word": "waist", "meaning": "腰部" },
-        { "word": "leg", "meaning": "腿" },
-        { "word": "knee", "meaning": "膝盖" },
-        { "word": "foot", "meaning": "脚" },
-        { "word": "toe", "meaning": "脚趾" },
-        { "word": "body", "meaning": "身体" },
-        { "word": "skin", "meaning": "皮肤" },
-        { "word": "blood", "meaning": "血液" },
-        { "word": "heart", "meaning": "心脏" },
-        { "word": "brain", "meaning": "大脑" }
-      ]
-    },
-    {
-      "id": "transportation",
-      "name": "交通工具",
-      "emoji": "🚗",
-      "description": "各种交通工具",
-      "words": [
-        { "word": "car", "meaning": "汽车" },
-        { "word": "bus", "meaning": "公交车" },
-        { "word": "train", "meaning": "火车" },
-        { "word": "subway", "meaning": "地铁" },
-        { "word": "airplane", "meaning": "飞机" },
-        { "word": "ship", "meaning": "船" },
-        { "word": "boat", "meaning": "小船" },
-        { "word": "bicycle", "meaning": "自行车" },
-        { "word": "motorcycle", "meaning": "摩托车" },
-        { "word": "truck", "meaning": "卡车" },
-        { "word": "taxi", "meaning": "出租车" },
-        { "word": "ambulance", "meaning": "救护车" },
-        { "word": "police", "meaning": "警车" },
-        { "word": "fire", "meaning": "消防车" },
-        { "word": "helicopter", "meaning": "直升机" },
-        { "word": "rocket", "meaning": "火箭" },
-        { "word": "road", "meaning": "道路" },
-        { "word": "street", "meaning": "街道" },
-        { "word": "bridge", "meaning": "桥" },
-        { "word": "station", "meaning": "车站" },
-        { "word": "airport", "meaning": "机场" },
-        { "word": "traffic", "meaning": "交通" },
-        { "word": "drive", "meaning": "驾驶" },
-        { "word": "travel", "meaning": "旅行" }
-      ]
-    },
-    {
-      "id": "weather_vocabulary",
-      "name": "天气词汇",
-      "emoji": "🌤️",
-      "description": "天气和自然现象",
-      "words": [
-        { "word": "sunny", "meaning": "晴天" },
-        { "word": "cloudy", "meaning": "多云" },
-        { "word": "rainy", "meaning": "下雨" },
-        { "word": "snowy", "meaning": "下雪" },
-        { "word": "windy", "meaning": "有风" },
-        { "word": "hot", "meaning": "热" },
-        { "word": "cold", "meaning": "冷" },
-        { "word": "warm", "meaning": "温暖" },
-        { "word": "cool", "meaning": "凉爽" },
-        { "word": "weather", "meaning": "天气" },
-        { "word": "temperature", "meaning": "温度" },
-        { "word": "season", "meaning": "季节" },
-        { "word": "spring", "meaning": "春天" },
-        { "word": "summer", "meaning": "夏天" },
-        { "word": "autumn", "meaning": "秋天" },
-        { "word": "winter", "meaning": "冬天" },
-        { "word": "rain", "meaning": "雨" },
-        { "word": "snow", "meaning": "雪" },
-        { "word": "wind", "meaning": "风" },
-        { "word": "storm", "meaning": "暴风雨" },
-        { "word": "sun", "meaning": "太阳" },
-        { "word": "moon", "meaning": "月亮" },
-        { "word": "star", "meaning": "星星" },
-        { "word": "sky", "meaning": "天空" }
-      ]
-    }
-  ],
-  "settings": {
-    "defaultCourse": "基础词汇",
-    "defaultDailyGoal": 10,
-    "maxDailyGoal": 50,
-    "minDailyGoal": 5,
-    "dailyGoalStep": 5
-  }
+    "courses": [
+        {
+            "id": "unit_1",
+            "name": "Unit 1",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 1",
+            "words": [
+                {
+                    "word": "me",
+                    "meaning": "我",
+                    "phonetic": "/miː/",
+                    "phonemes": [
+                        "m",
+                        "iː"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "e"
+                    ]
+                },
+                {
+                    "word": "it",
+                    "meaning": "它",
+                    "phonetic": "/ɪt/",
+                    "phonemes": [
+                        "ɪ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "i",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "be (am/is/are)",
+                    "meaning": "是",
+                    "phonetic": "/biː/",
+                    "phonemes": [
+                        "b",
+                        "iː"
+                    ],
+                    "phonemes_a": [
+                        "b",
+                        "e"
+                    ]
+                },
+                {
+                    "word": "on",
+                    "meaning": "在…… 上面",
+                    "phonetic": "/ɒn/",
+                    "phonemes": [
+                        "ɒ",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "o",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "this",
+                    "meaning": "这，这个",
+                    "phonetic": "/ðɪs/",
+                    "phonemes": [
+                        "ð",
+                        "ɪ",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "i",
+                        "s"
+                    ]
+                },
+                {
+                    "word": "ruler",
+                    "meaning": "尺子",
+                    "phonetic": "/ˈruːlə/",
+                    "phonemes": [
+                        "r",
+                        "uː",
+                        "l",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "r",
+                        "u",
+                        "l",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "you",
+                    "meaning": "你，你们",
+                    "phonetic": "/juː/",
+                    "phonemes": [
+                        "j",
+                        "uː"
+                    ],
+                    "phonemes_a": [
+                        "y",
+                        "ou"
+                    ]
+                },
+                {
+                    "word": "I",
+                    "meaning": "我",
+                    "phonetic": "/aɪ/",
+                    "phonemes": [
+                        "aɪ"
+                    ],
+                    "phonemes_a": [
+                        "I"
+                    ]
+                },
+                {
+                    "word": "thank",
+                    "meaning": "感谢，向…… 表示感谢",
+                    "phonetic": "/θæŋk/",
+                    "phonemes": [
+                        "θ",
+                        "æ",
+                        "ŋ",
+                        "k"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "a",
+                        "n",
+                        "k"
+                    ]
+                },
+                {
+                    "word": "nice",
+                    "meaning": "令人愉快的",
+                    "phonetic": "/naɪs/",
+                    "phonemes": [
+                        "n",
+                        "aɪ",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "n",
+                        "i",
+                        "ce"
+                    ]
+                },
+                {
+                    "word": "to",
+                    "meaning": "到，向，往",
+                    "phonetic": "/tuː/",
+                    "phonemes": [
+                        "t",
+                        "uː"
+                    ],
+                    "phonemes_a": [
+                        "t",
+                        "o"
+                    ]
+                },
+                {
+                    "word": "meet",
+                    "meaning": "结识；遇见",
+                    "phonetic": "/miːt/",
+                    "phonemes": [
+                        "m",
+                        "iː",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "ee",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "too",
+                    "meaning": "也",
+                    "phonetic": "/tuː/",
+                    "phonemes": [
+                        "t",
+                        "uː"
+                    ],
+                    "phonemes_a": [
+                        "t",
+                        "oo"
+                    ]
+                },
+                {
+                    "word": "hi",
+                    "meaning": "嗨，喂，你好",
+                    "phonetic": "/haɪ/",
+                    "phonemes": [
+                        "h",
+                        "aɪ"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "i"
+                    ]
+                },
+                {
+                    "word": "but",
+                    "meaning": "但，但是",
+                    "phonetic": "/bʌt/",
+                    "phonemes": [
+                        "b",
+                        "ʌ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "b",
+                        "u",
+                        "t"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "unit_2",
+            "name": "Unit 2",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 2",
+            "words": [
+                {
+                    "word": "chocolate",
+                    "meaning": "巧克力",
+                    "phonetic": "/ˈtʃɒkəlɪt/",
+                    "phonemes": [
+                        "tʃ",
+                        "ɒ",
+                        "k",
+                        "ə",
+                        "l",
+                        "ɪ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "ch",
+                        "o",
+                        "c",
+                        "o",
+                        "l",
+                        "a",
+                        "te"
+                    ]
+                },
+                {
+                    "word": "coffee",
+                    "meaning": "咖啡",
+                    "phonetic": "/ˈkɒfi/",
+                    "phonemes": [
+                        "k",
+                        "ɒ",
+                        "f",
+                        "i"
+                    ],
+                    "phonemes_a": [
+                        "c",
+                        "o",
+                        "ff",
+                        "ee"
+                    ]
+                },
+                {
+                    "word": "Chinese",
+                    "meaning": "中文",
+                    "phonetic": "/ˌtʃaɪˈniːz/",
+                    "phonemes": [
+                        "tʃ",
+                        "aɪ",
+                        "n",
+                        "iː",
+                        "z"
+                    ],
+                    "phonemes_a": [
+                        "Ch",
+                        "i",
+                        "n",
+                        "e",
+                        "se"
+                    ]
+                },
+                {
+                    "word": "sofa",
+                    "meaning": "沙发",
+                    "phonetic": "/ˈsəʊfə/",
+                    "phonemes": [
+                        "s",
+                        "əʊ",
+                        "f",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "s",
+                        "o",
+                        "f",
+                        "a"
+                    ]
+                },
+                {
+                    "word": "hamburger",
+                    "meaning": "汉堡",
+                    "phonetic": "/ˈhæmbɜːɡə/",
+                    "phonemes": [
+                        "h",
+                        "æ",
+                        "m",
+                        "b",
+                        "ɜː",
+                        "ɡ",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "a",
+                        "m",
+                        "b",
+                        "ur",
+                        "g",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "cookie",
+                    "meaning": "饼干",
+                    "phonetic": "/ˈkʊki/",
+                    "phonemes": [
+                        "k",
+                        "ʊ",
+                        "k",
+                        "i"
+                    ],
+                    "phonemes_a": [
+                        "c",
+                        "oo",
+                        "k",
+                        "ie"
+                    ]
+                },
+                {
+                    "word": "salad",
+                    "meaning": "沙拉",
+                    "phonetic": "/ˈsæləd/",
+                    "phonemes": [
+                        "s",
+                        "æ",
+                        "l",
+                        "ə",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "s",
+                        "a",
+                        "l",
+                        "a",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "what",
+                    "meaning": "什么",
+                    "phonetic": "/wɒt/",
+                    "phonemes": [
+                        "w",
+                        "ɒ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "wh",
+                        "a",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "in",
+                    "meaning": "在…… 里面",
+                    "phonetic": "/ɪn/",
+                    "phonemes": [
+                        "ɪ",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "i",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "English",
+                    "meaning": "英语",
+                    "phonetic": "/ˈɪŋɡlɪʃ/",
+                    "phonemes": [
+                        "ɪ",
+                        "ŋ",
+                        "ɡ",
+                        "l",
+                        "ɪ",
+                        "ʃ"
+                    ],
+                    "phonemes_a": [
+                        "E",
+                        "ng",
+                        "l",
+                        "i",
+                        "sh"
+                    ]
+                },
+                {
+                    "word": "know",
+                    "meaning": "知道；认识",
+                    "phonetic": "/nəʊ/",
+                    "phonemes": [
+                        "n",
+                        "əʊ"
+                    ],
+                    "phonemes_a": [
+                        "kn",
+                        "ow"
+                    ]
+                },
+                {
+                    "word": "yes",
+                    "meaning": "是，对",
+                    "phonetic": "/jes/",
+                    "phonemes": [
+                        "j",
+                        "e",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "y",
+                        "e",
+                        "s"
+                    ]
+                },
+                {
+                    "word": "can",
+                    "meaning": "能，可以",
+                    "phonetic": "/kæn/",
+                    "phonemes": [
+                        "k",
+                        "æ",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "c",
+                        "a",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "get",
+                    "meaning": "得到",
+                    "phonetic": "/ɡet/",
+                    "phonemes": [
+                        "ɡ",
+                        "e",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "g",
+                        "e",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "a (an)",
+                    "meaning": "一，一个",
+                    "phonetic": "/ə/ (/ən/)",
+                    "phonemes": [
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "a"
+                    ]
+                },
+                {
+                    "word": "word",
+                    "meaning": "单词",
+                    "phonetic": "/wɜːd/",
+                    "phonemes": [
+                        "w",
+                        "ɜː",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "w",
+                        "or",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "guess",
+                    "meaning": "猜，猜测",
+                    "phonetic": "/ɡes/",
+                    "phonemes": [
+                        "ɡ",
+                        "e",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "gu",
+                        "e",
+                        "ss"
+                    ]
+                },
+                {
+                    "word": "one",
+                    "meaning": "一",
+                    "phonetic": "/wʌn/",
+                    "phonemes": [
+                        "w",
+                        "ʌ",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "o",
+                        "n",
+                        "e"
+                    ]
+                },
+                {
+                    "word": "like",
+                    "meaning": "喜欢",
+                    "phonetic": "/laɪk/",
+                    "phonemes": [
+                        "l",
+                        "aɪ",
+                        "k"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "i",
+                        "ke"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "unit_3",
+            "name": "Unit 3",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 3",
+            "words": [
+                {
+                    "word": "good",
+                    "meaning": "好的",
+                    "phonetic": "/ɡʊd/",
+                    "phonemes": [
+                        "ɡ",
+                        "ʊ",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "g",
+                        "oo",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "morning",
+                    "meaning": "早晨；上午",
+                    "phonetic": "/ˈmɔːnɪŋ/",
+                    "phonemes": [
+                        "m",
+                        "ɔː",
+                        "n",
+                        "ɪ",
+                        "ŋ"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "or",
+                        "n",
+                        "i",
+                        "ng"
+                    ]
+                },
+                {
+                    "word": "your",
+                    "meaning": "你的；你们的",
+                    "phonetic": "/jɔː/",
+                    "phonemes": [
+                        "j",
+                        "ɔː"
+                    ],
+                    "phonemes_a": [
+                        "y",
+                        "our"
+                    ]
+                },
+                {
+                    "word": "name",
+                    "meaning": "名字",
+                    "phonetic": "/neɪm/",
+                    "phonemes": [
+                        "n",
+                        "eɪ",
+                        "m"
+                    ],
+                    "phonemes_a": [
+                        "n",
+                        "a",
+                        "me"
+                    ]
+                },
+                {
+                    "word": "my",
+                    "meaning": "我的",
+                    "phonetic": "/maɪ/",
+                    "phonemes": [
+                        "m",
+                        "aɪ"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "y"
+                    ]
+                },
+                {
+                    "word": "Mr",
+                    "meaning": "先生",
+                    "phonetic": "/ˈmɪstə/",
+                    "phonemes": [
+                        "m",
+                        "ɪ",
+                        "s",
+                        "t",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "M",
+                        "i",
+                        "s",
+                        "t",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "boy",
+                    "meaning": "男孩",
+                    "phonetic": "/bɔɪ/",
+                    "phonemes": [
+                        "b",
+                        "ɔɪ"
+                    ],
+                    "phonemes_a": [
+                        "b",
+                        "oy"
+                    ]
+                },
+                {
+                    "word": "and",
+                    "meaning": "和",
+                    "phonetic": "/ænd/",
+                    "phonemes": [
+                        "æ",
+                        "n",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "a",
+                        "n",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "girl",
+                    "meaning": "女孩",
+                    "phonetic": "/ɡɜːl/",
+                    "phonemes": [
+                        "ɡ",
+                        "ɜː",
+                        "l"
+                    ],
+                    "phonemes_a": [
+                        "g",
+                        "ir",
+                        "l"
+                    ]
+                },
+                {
+                    "word": "hello",
+                    "meaning": "你好",
+                    "phonetic": "/həˈləʊ/",
+                    "phonemes": [
+                        "h",
+                        "ə",
+                        "l",
+                        "əʊ"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "e",
+                        "ll",
+                        "o"
+                    ]
+                },
+                {
+                    "word": "everyone",
+                    "meaning": "每个人，人人",
+                    "phonetic": "/ˈevriwʌn/",
+                    "phonemes": [
+                        "e",
+                        "v",
+                        "r",
+                        "i",
+                        "w",
+                        "ʌ",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "e",
+                        "v",
+                        "e",
+                        "ry",
+                        "o",
+                        "n",
+                        "e"
+                    ]
+                },
+                {
+                    "word": "card",
+                    "meaning": "卡片",
+                    "phonetic": "/kɑːd/",
+                    "phonemes": [
+                        "k",
+                        "ɑː",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "c",
+                        "ar",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "student",
+                    "meaning": "学生",
+                    "phonetic": "/ˈstjuːdnt/",
+                    "phonemes": [
+                        "s",
+                        "t",
+                        "j",
+                        "uː",
+                        "d",
+                        "n",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "s",
+                        "t",
+                        "u",
+                        "d",
+                        "e",
+                        "n",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "want",
+                    "meaning": "想要",
+                    "phonetic": "/wɒnt/",
+                    "phonemes": [
+                        "w",
+                        "ɒ",
+                        "n",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "w",
+                        "a",
+                        "n",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "help",
+                    "meaning": "帮助，帮忙",
+                    "phonetic": "/help/",
+                    "phonemes": [
+                        "h",
+                        "e",
+                        "l",
+                        "p"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "e",
+                        "l",
+                        "p"
+                    ]
+                },
+                {
+                    "word": "how",
+                    "meaning": "多少；怎样，如何",
+                    "phonetic": "/haʊ/",
+                    "phonemes": [
+                        "h",
+                        "aʊ"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "ow"
+                    ]
+                },
+                {
+                    "word": "last",
+                    "meaning": "最后",
+                    "phonetic": "/lɑːst/",
+                    "phonemes": [
+                        "l",
+                        "ɑː",
+                        "s",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "a",
+                        "s",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "of",
+                    "meaning": "…… 的",
+                    "phonetic": "/ɒv/",
+                    "phonemes": [
+                        "ɒ",
+                        "v"
+                    ],
+                    "phonemes_a": [
+                        "o",
+                        "f"
+                    ]
+                },
+                {
+                    "word": "for",
+                    "meaning": "为了",
+                    "phonetic": "/fɔː/",
+                    "phonemes": [
+                        "f",
+                        "ɔː"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "or"
+                    ]
+                },
+                {
+                    "word": "Ms",
+                    "meaning": "女士",
+                    "phonetic": "/mɪz/",
+                    "phonemes": [
+                        "m",
+                        "ɪ",
+                        "z"
+                    ],
+                    "phonemes_a": [
+                        "M",
+                        "s"
+                    ]
+                },
+                {
+                    "word": "Miss",
+                    "meaning": "小姐",
+                    "phonetic": "/mɪs/",
+                    "phonemes": [
+                        "m",
+                        "ɪ",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "M",
+                        "i",
+                        "ss"
+                    ]
+                },
+                {
+                    "word": "Mrs",
+                    "meaning": "女士，夫人",
+                    "phonetic": "/ˈmɪsɪz/",
+                    "phonemes": [
+                        "m",
+                        "ɪ",
+                        "s",
+                        "ɪ",
+                        "z"
+                    ],
+                    "phonemes_a": [
+                        "M",
+                        "r",
+                        "s"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "unit_4",
+            "name": "Unit 4",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 4",
+            "words": [
+                {
+                    "word": "red",
+                    "meaning": "红色",
+                    "phonetic": "/red/",
+                    "phonemes": [
+                        "r",
+                        "e",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "r",
+                        "e",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "yellow",
+                    "meaning": "黄色",
+                    "phonetic": "/ˈjeləʊ/",
+                    "phonemes": [
+                        "j",
+                        "e",
+                        "l",
+                        "əʊ"
+                    ],
+                    "phonemes_a": [
+                        "y",
+                        "e",
+                        "ll",
+                        "ow"
+                    ]
+                },
+                {
+                    "word": "green",
+                    "meaning": "绿色",
+                    "phonetic": "/ɡriːn/",
+                    "phonemes": [
+                        "ɡ",
+                        "r",
+                        "iː",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "gr",
+                        "ee",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "blue",
+                    "meaning": "蓝色",
+                    "phonetic": "/bluː/",
+                    "phonemes": [
+                        "b",
+                        "l",
+                        "uː"
+                    ],
+                    "phonemes_a": [
+                        "bl",
+                        "ue"
+                    ]
+                },
+                {
+                    "word": "white",
+                    "meaning": "白色",
+                    "phonetic": "/waɪt/",
+                    "phonemes": [
+                        "w",
+                        "aɪ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "wh",
+                        "i",
+                        "te"
+                    ]
+                },
+                {
+                    "word": "colour",
+                    "meaning": "颜色",
+                    "phonetic": "/ˈkʌlə/",
+                    "phonemes": [
+                        "k",
+                        "ʌ",
+                        "l",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "c",
+                        "o",
+                        "l",
+                        "our"
+                    ]
+                },
+                {
+                    "word": "pencil",
+                    "meaning": "铅笔",
+                    "phonetic": "/ˈpensl/",
+                    "phonemes": [
+                        "p",
+                        "e",
+                        "n",
+                        "s",
+                        "l"
+                    ],
+                    "phonemes_a": [
+                        "p",
+                        "e",
+                        "n",
+                        "c",
+                        "il"
+                    ]
+                },
+                {
+                    "word": "left",
+                    "meaning": "左边",
+                    "phonetic": "/left/",
+                    "phonemes": [
+                        "l",
+                        "e",
+                        "f",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "e",
+                        "f",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "hand",
+                    "meaning": "手",
+                    "phonetic": "/hænd/",
+                    "phonemes": [
+                        "h",
+                        "æ",
+                        "n",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "a",
+                        "n",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "right",
+                    "meaning": "右边",
+                    "phonetic": "/raɪt/",
+                    "phonemes": [
+                        "r",
+                        "aɪ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "r",
+                        "igh",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "finger",
+                    "meaning": "手指",
+                    "phonetic": "/ˈfɪŋɡə/",
+                    "phonemes": [
+                        "f",
+                        "ɪ",
+                        "ŋ",
+                        "ɡ",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "i",
+                        "ng",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "do",
+                    "meaning": "做",
+                    "phonetic": "/duː/",
+                    "phonemes": [
+                        "d",
+                        "uː"
+                    ],
+                    "phonemes_a": [
+                        "d",
+                        "o"
+                    ]
+                },
+                {
+                    "word": "spell",
+                    "meaning": "拼写",
+                    "phonetic": "/spel/",
+                    "phonemes": [
+                        "s",
+                        "p",
+                        "e",
+                        "l"
+                    ],
+                    "phonemes_a": [
+                        "sp",
+                        "e",
+                        "ll"
+                    ]
+                },
+                {
+                    "word": "that",
+                    "meaning": "那，那个",
+                    "phonetic": "/ðæt/",
+                    "phonemes": [
+                        "ð",
+                        "æ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "a",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "look",
+                    "meaning": "看，瞧，望",
+                    "phonetic": "/lʊk/",
+                    "phonemes": [
+                        "l",
+                        "ʊ",
+                        "k"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "oo",
+                        "k"
+                    ]
+                },
+                {
+                    "word": "cool",
+                    "meaning": "酷的，帅的",
+                    "phonetic": "/kuːl/",
+                    "phonemes": [
+                        "k",
+                        "uː",
+                        "l"
+                    ],
+                    "phonemes_a": [
+                        "c",
+                        "oo",
+                        "l"
+                    ]
+                },
+                {
+                    "word": "teach",
+                    "meaning": "教",
+                    "phonetic": "/tiːtʃ/",
+                    "phonemes": [
+                        "t",
+                        "iː",
+                        "tʃ"
+                    ],
+                    "phonemes_a": [
+                        "t",
+                        "ea",
+                        "ch"
+                    ]
+                },
+                {
+                    "word": "first",
+                    "meaning": "第一的；首先；最初",
+                    "phonetic": "/fɜːst/",
+                    "phonemes": [
+                        "f",
+                        "ɜː",
+                        "s",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "ir",
+                        "s",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "OK",
+                    "meaning": "好，可以",
+                    "phonetic": "/əʊˈkeɪ/",
+                    "phonemes": [
+                        "əʊ",
+                        "k",
+                        "eɪ"
+                    ],
+                    "phonemes_a": [
+                        "O",
+                        "K"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "unit_5",
+            "name": "Unit 5",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 5",
+            "words": [
+                {
+                    "word": "two",
+                    "meaning": "二",
+                    "phonetic": "/tuː/",
+                    "phonemes": [
+                        "t",
+                        "uː"
+                    ],
+                    "phonemes_a": [
+                        "tw",
+                        "o"
+                    ]
+                },
+                {
+                    "word": "three",
+                    "meaning": "三",
+                    "phonetic": "/θriː/",
+                    "phonemes": [
+                        "θ",
+                        "r",
+                        "iː"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "r",
+                        "ee"
+                    ]
+                },
+                {
+                    "word": "four",
+                    "meaning": "四",
+                    "phonetic": "/fɔː/",
+                    "phonemes": [
+                        "f",
+                        "ɔː"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "our"
+                    ]
+                },
+                {
+                    "word": "five",
+                    "meaning": "五",
+                    "phonetic": "/faɪv/",
+                    "phonemes": [
+                        "f",
+                        "aɪ",
+                        "v"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "i",
+                        "ve"
+                    ]
+                },
+                {
+                    "word": "six",
+                    "meaning": "六",
+                    "phonetic": "/sɪks/",
+                    "phonemes": [
+                        "s",
+                        "ɪ",
+                        "k",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "s",
+                        "i",
+                        "x"
+                    ]
+                },
+                {
+                    "word": "seven",
+                    "meaning": "七",
+                    "phonetic": "/ˈsevn/",
+                    "phonemes": [
+                        "s",
+                        "e",
+                        "v",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "s",
+                        "e",
+                        "v",
+                        "e",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "nine",
+                    "meaning": "九",
+                    "phonetic": "/naɪn/",
+                    "phonemes": [
+                        "n",
+                        "aɪ",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "n",
+                        "i",
+                        "ne"
+                    ]
+                },
+                {
+                    "word": "the",
+                    "meaning": "这，那",
+                    "phonetic": "/ðə/",
+                    "phonemes": [
+                        "ð",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "e"
+                    ]
+                },
+                {
+                    "word": "again",
+                    "meaning": "再，再次",
+                    "phonetic": "/əˈɡen/",
+                    "phonemes": [
+                        "ə",
+                        "ɡ",
+                        "e",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "a",
+                        "g",
+                        "ai",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "step",
+                    "meaning": "步骤",
+                    "phonetic": "/step/",
+                    "phonemes": [
+                        "s",
+                        "t",
+                        "e",
+                        "p"
+                    ],
+                    "phonemes_a": [
+                        "st",
+                        "e",
+                        "p"
+                    ]
+                },
+                {
+                    "word": "letter",
+                    "meaning": "字母",
+                    "phonetic": "/ˈletə/",
+                    "phonemes": [
+                        "l",
+                        "e",
+                        "t",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "e",
+                        "tt",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "from",
+                    "meaning": "从",
+                    "phonetic": "/frɒm/",
+                    "phonemes": [
+                        "f",
+                        "r",
+                        "ɒ",
+                        "m"
+                    ],
+                    "phonemes_a": [
+                        "fr",
+                        "o",
+                        "m"
+                    ]
+                },
+                {
+                    "word": "each",
+                    "meaning": "每个",
+                    "phonetic": "/iːtʃ/",
+                    "phonemes": [
+                        "iː",
+                        "tʃ"
+                    ],
+                    "phonemes_a": [
+                        "ea",
+                        "ch"
+                    ]
+                },
+                {
+                    "word": "put",
+                    "meaning": "放",
+                    "phonetic": "/pʊt/",
+                    "phonemes": [
+                        "p",
+                        "ʊ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "p",
+                        "u",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "them",
+                    "meaning": "它们",
+                    "phonetic": "/ðem/",
+                    "phonemes": [
+                        "ð",
+                        "e",
+                        "m"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "e",
+                        "m"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "unit_6",
+            "name": "Unit 6",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 6",
+            "words": [
+                {
+                    "word": "face",
+                    "meaning": "脸，面部",
+                    "phonetic": "/feɪs/",
+                    "phonemes": [
+                        "f",
+                        "eɪ",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "a",
+                        "ce"
+                    ]
+                },
+                {
+                    "word": "ear",
+                    "meaning": "耳朵",
+                    "phonetic": "/ɪə/",
+                    "phonemes": [
+                        "ɪə"
+                    ],
+                    "phonemes_a": [
+                        "ear"
+                    ]
+                },
+                {
+                    "word": "eye",
+                    "meaning": "眼睛",
+                    "phonetic": "/aɪ/",
+                    "phonemes": [
+                        "aɪ"
+                    ],
+                    "phonemes_a": [
+                        "eye"
+                    ]
+                },
+                {
+                    "word": "nose",
+                    "meaning": "鼻子",
+                    "phonetic": "/nəʊz/",
+                    "phonemes": [
+                        "n",
+                        "əʊ",
+                        "z"
+                    ],
+                    "phonemes_a": [
+                        "n",
+                        "o",
+                        "se"
+                    ]
+                },
+                {
+                    "word": "mouth",
+                    "meaning": "嘴巴",
+                    "phonetic": "/maʊθ/",
+                    "phonemes": [
+                        "m",
+                        "aʊ",
+                        "θ"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "ou",
+                        "th"
+                    ]
+                },
+                {
+                    "word": "its",
+                    "meaning": "它的",
+                    "phonetic": "/ɪts/",
+                    "phonemes": [
+                        "ɪ",
+                        "t",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "i",
+                        "t",
+                        "s"
+                    ]
+                },
+                {
+                    "word": "these",
+                    "meaning": "这些",
+                    "phonetic": "/ðiːz/",
+                    "phonemes": [
+                        "ð",
+                        "iː",
+                        "z"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "e",
+                        "se"
+                    ]
+                },
+                {
+                    "word": "hair",
+                    "meaning": "头发",
+                    "phonetic": "/heə/",
+                    "phonemes": [
+                        "h",
+                        "eə"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "air"
+                    ]
+                },
+                {
+                    "word": "write",
+                    "meaning": "写",
+                    "phonetic": "/raɪt/",
+                    "phonemes": [
+                        "r",
+                        "aɪ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "wr",
+                        "i",
+                        "te"
+                    ]
+                },
+                {
+                    "word": "big",
+                    "meaning": "大的",
+                    "phonetic": "/bɪɡ/",
+                    "phonemes": [
+                        "b",
+                        "ɪ",
+                        "ɡ"
+                    ],
+                    "phonemes_a": [
+                        "b",
+                        "i",
+                        "g"
+                    ]
+                },
+                {
+                    "word": "under",
+                    "meaning": "在…… 下面",
+                    "phonetic": "/ˈʌndə/",
+                    "phonemes": [
+                        "ʌ",
+                        "n",
+                        "d",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "u",
+                        "n",
+                        "d",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "his",
+                    "meaning": "他的",
+                    "phonetic": "/hɪz/",
+                    "phonemes": [
+                        "h",
+                        "ɪ",
+                        "z"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "i",
+                        "s"
+                    ]
+                },
+                {
+                    "word": "now",
+                    "meaning": "现在",
+                    "phonetic": "/naʊ/",
+                    "phonemes": [
+                        "n",
+                        "aʊ"
+                    ],
+                    "phonemes_a": [
+                        "n",
+                        "ow"
+                    ]
+                },
+                {
+                    "word": "head",
+                    "meaning": "头",
+                    "phonetic": "/hed/",
+                    "phonemes": [
+                        "h",
+                        "e",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "ea",
+                        "d"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "unit_7",
+            "name": "Unit 7",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 7",
+            "words": [
+                {
+                    "word": "see",
+                    "meaning": "看见；明白",
+                    "phonetic": "/siː/",
+                    "phonemes": [
+                        "s",
+                        "iː"
+                    ],
+                    "phonemes_a": [
+                        "s",
+                        "ee"
+                    ]
+                },
+                {
+                    "word": "nod",
+                    "meaning": "点头",
+                    "phonetic": "/nɒd/",
+                    "phonemes": [
+                        "n",
+                        "ɒ",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "n",
+                        "o",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "keep",
+                    "meaning": "保持",
+                    "phonetic": "/kiːp/",
+                    "phonemes": [
+                        "k",
+                        "iː",
+                        "p"
+                    ],
+                    "phonemes_a": [
+                        "k",
+                        "ee",
+                        "p"
+                    ]
+                },
+                {
+                    "word": "quiet",
+                    "meaning": "安静",
+                    "phonetic": "/ˈkwaɪət/",
+                    "phonemes": [
+                        "k",
+                        "w",
+                        "aɪ",
+                        "ə",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "qu",
+                        "i",
+                        "e",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "listen",
+                    "meaning": "听",
+                    "phonetic": "/ˈlɪsn/",
+                    "phonemes": [
+                        "l",
+                        "ɪ",
+                        "s",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "i",
+                        "st",
+                        "en"
+                    ]
+                },
+                {
+                    "word": "teacher",
+                    "meaning": "老师",
+                    "phonetic": "/ˈtiːtʃə/",
+                    "phonemes": [
+                        "t",
+                        "iː",
+                        "tʃ",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "t",
+                        "ea",
+                        "ch",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "have",
+                    "meaning": "有，拥有",
+                    "phonetic": "/hæv/",
+                    "phonemes": [
+                        "h",
+                        "æ",
+                        "v"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "a",
+                        "ve"
+                    ]
+                },
+                {
+                    "word": "up",
+                    "meaning": "向上",
+                    "phonetic": "/ʌp/",
+                    "phonemes": [
+                        "ʌ",
+                        "p"
+                    ],
+                    "phonemes_a": [
+                        "u",
+                        "p"
+                    ]
+                },
+                {
+                    "word": "they",
+                    "meaning": "他们",
+                    "phonetic": "/ðeɪ/",
+                    "phonemes": [
+                        "ð",
+                        "eɪ"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "ey"
+                    ]
+                },
+                {
+                    "word": "body",
+                    "meaning": "身体",
+                    "phonetic": "/ˈbɒdi/",
+                    "phonemes": [
+                        "b",
+                        "ɒ",
+                        "d",
+                        "i"
+                    ],
+                    "phonemes_a": [
+                        "b",
+                        "o",
+                        "d",
+                        "y"
+                    ]
+                },
+                {
+                    "word": "friend",
+                    "meaning": "朋友",
+                    "phonetic": "/frend/",
+                    "phonemes": [
+                        "f",
+                        "r",
+                        "e",
+                        "n",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "fr",
+                        "i",
+                        "e",
+                        "n",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "myself",
+                    "meaning": "我自己",
+                    "phonetic": "/maɪˈself/",
+                    "phonemes": [
+                        "m",
+                        "aɪ",
+                        "s",
+                        "e",
+                        "l",
+                        "f"
+                    ],
+                    "phonemes_a": [
+                        "my",
+                        "s",
+                        "e",
+                        "l",
+                        "f"
+                    ]
+                },
+                {
+                    "word": "heart",
+                    "meaning": "心，心脏；内心",
+                    "phonetic": "/hɑːt/",
+                    "phonemes": [
+                        "h",
+                        "ɑː",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "ea",
+                        "rt"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "unit_8",
+            "name": "Unit 8",
+            "emoji": "🔤",
+            "description": "三年级上册Unit 8",
+            "words": [
+                {
+                    "word": "bird",
+                    "meaning": "鸟",
+                    "phonetic": "/bɜːd/",
+                    "phonemes": [
+                        "b",
+                        "ɜː",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "b",
+                        "ir",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "horse",
+                    "meaning": "马",
+                    "phonetic": "/hɔːs/",
+                    "phonemes": [
+                        "h",
+                        "ɔː",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "h",
+                        "or",
+                        "se"
+                    ]
+                },
+                {
+                    "word": "monkey",
+                    "meaning": "猴子",
+                    "phonetic": "/ˈmʌŋki/",
+                    "phonemes": [
+                        "m",
+                        "ʌ",
+                        "ŋ",
+                        "k",
+                        "i"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "o",
+                        "nk",
+                        "ey"
+                    ]
+                },
+                {
+                    "word": "fish",
+                    "meaning": "鱼",
+                    "phonetic": "/fɪʃ/",
+                    "phonemes": [
+                        "f",
+                        "ɪ",
+                        "ʃ"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "i",
+                        "sh"
+                    ]
+                },
+                {
+                    "word": "bear",
+                    "meaning": "熊",
+                    "phonetic": "/beə/",
+                    "phonemes": [
+                        "b",
+                        "eə"
+                    ],
+                    "phonemes_a": [
+                        "b",
+                        "ear"
+                    ]
+                },
+                {
+                    "word": "swim",
+                    "meaning": "游泳",
+                    "phonetic": "/swɪm/",
+                    "phonemes": [
+                        "s",
+                        "w",
+                        "ɪ",
+                        "m"
+                    ],
+                    "phonemes_a": [
+                        "sw",
+                        "i",
+                        "m"
+                    ]
+                },
+                {
+                    "word": "walk",
+                    "meaning": "走，走路",
+                    "phonetic": "/wɔːk/",
+                    "phonemes": [
+                        "w",
+                        "ɔː",
+                        "k"
+                    ],
+                    "phonemes_a": [
+                        "w",
+                        "al",
+                        "k"
+                    ]
+                },
+                {
+                    "word": "fly",
+                    "meaning": "飞，飞翔",
+                    "phonetic": "/flaɪ/",
+                    "phonemes": [
+                        "f",
+                        "l",
+                        "aɪ"
+                    ],
+                    "phonemes_a": [
+                        "fl",
+                        "y"
+                    ]
+                },
+                {
+                    "word": "jump",
+                    "meaning": "跳，跳跃",
+                    "phonetic": "/dʒʌmp/",
+                    "phonemes": [
+                        "dʒ",
+                        "ʌ",
+                        "m",
+                        "p"
+                    ],
+                    "phonemes_a": [
+                        "j",
+                        "u",
+                        "m",
+                        "p"
+                    ]
+                },
+                {
+                    "word": "arm",
+                    "meaning": "手臂",
+                    "phonetic": "/ɑːm/",
+                    "phonemes": [
+                        "ɑː",
+                        "m"
+                    ],
+                    "phonemes_a": [
+                        "ar",
+                        "m"
+                    ]
+                },
+                {
+                    "word": "leg",
+                    "meaning": "腿",
+                    "phonetic": "/leɡ/",
+                    "phonemes": [
+                        "l",
+                        "e",
+                        "ɡ"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "e",
+                        "g"
+                    ]
+                },
+                {
+                    "word": "tiger",
+                    "meaning": "老虎",
+                    "phonetic": "/ˈtaɪɡə/",
+                    "phonemes": [
+                        "t",
+                        "aɪ",
+                        "ɡ",
+                        "ə"
+                    ],
+                    "phonemes_a": [
+                        "t",
+                        "i",
+                        "g",
+                        "er"
+                    ]
+                },
+                {
+                    "word": "then",
+                    "meaning": "然后，接下来",
+                    "phonetic": "/ðen/",
+                    "phonemes": [
+                        "ð",
+                        "e",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "e",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "let",
+                    "meaning": "让",
+                    "phonetic": "/let/",
+                    "phonemes": [
+                        "l",
+                        "e",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "l",
+                        "e",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "us",
+                    "meaning": "我们",
+                    "phonetic": "/ʌs/",
+                    "phonemes": [
+                        "ʌ",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "u",
+                        "s"
+                    ]
+                },
+                {
+                    "word": "move",
+                    "meaning": "移动",
+                    "phonetic": "/muːv/",
+                    "phonemes": [
+                        "m",
+                        "uː",
+                        "v"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "o",
+                        "ve"
+                    ]
+                },
+                {
+                    "word": "our",
+                    "meaning": "我们的",
+                    "phonetic": "/aʊə/",
+                    "phonemes": [
+                        "aʊə"
+                    ],
+                    "phonemes_a": [
+                        "our"
+                    ]
+                },
+                {
+                    "word": "foot",
+                    "meaning": "脚",
+                    "phonetic": "/fʊt/",
+                    "phonemes": [
+                        "f",
+                        "ʊ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "oo",
+                        "t"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "review",
+            "name": "Review",
+            "emoji": "🔤",
+            "description": "三年级上册Review",
+            "words": [
+                {
+                    "word": "their",
+                    "meaning": "他们的",
+                    "phonetic": "/ðeə/",
+                    "phonemes": [
+                        "ð",
+                        "eə"
+                    ],
+                    "phonemes_a": [
+                        "th",
+                        "eir"
+                    ]
+                },
+                {
+                    "word": "mum",
+                    "meaning": "妈妈",
+                    "phonetic": "/mʌm/",
+                    "phonemes": [
+                        "m",
+                        "ʌ",
+                        "m"
+                    ],
+                    "phonemes_a": [
+                        "m",
+                        "u",
+                        "m"
+                    ]
+                },
+                {
+                    "word": "dad",
+                    "meaning": "爸爸",
+                    "phonetic": "/dæd/",
+                    "phonemes": [
+                        "d",
+                        "æ",
+                        "d"
+                    ],
+                    "phonemes_a": [
+                        "d",
+                        "a",
+                        "d"
+                    ]
+                },
+                {
+                    "word": "family",
+                    "meaning": "家庭",
+                    "phonetic": "/ˈfæməli/",
+                    "phonemes": [
+                        "f",
+                        "æ",
+                        "m",
+                        "ə",
+                        "l",
+                        "i"
+                    ],
+                    "phonemes_a": [
+                        "f",
+                        "a",
+                        "m",
+                        "i",
+                        "l",
+                        "y"
+                    ]
+                },
+                {
+                    "word": "where",
+                    "meaning": "哪里",
+                    "phonetic": "/weə/",
+                    "phonemes": [
+                        "w",
+                        "eə"
+                    ],
+                    "phonemes_a": [
+                        "wh",
+                        "ere"
+                    ]
+                },
+                {
+                    "word": "when",
+                    "meaning": "什么时候",
+                    "phonetic": "/wen/",
+                    "phonemes": [
+                        "w",
+                        "e",
+                        "n"
+                    ],
+                    "phonemes_a": [
+                        "wh",
+                        "e",
+                        "n"
+                    ]
+                },
+                {
+                    "word": "class",
+                    "meaning": "班级",
+                    "phonetic": "/klɑːs/",
+                    "phonemes": [
+                        "k",
+                        "l",
+                        "ɑː",
+                        "s"
+                    ],
+                    "phonemes_a": [
+                        "cl",
+                        "a",
+                        "ss"
+                    ]
+                },
+                {
+                    "word": "not",
+                    "meaning": "不",
+                    "phonetic": "/nɒt/",
+                    "phonemes": [
+                        "n",
+                        "ɒ",
+                        "t"
+                    ],
+                    "phonemes_a": [
+                        "n",
+                        "o",
+                        "t"
+                    ]
+                },
+                {
+                    "word": "she",
+                    "meaning": "她",
+                    "phonetic": "/ʃiː/",
+                    "phonemes": [
+                        "ʃ",
+                        "iː"
+                    ],
+                    "phonemes_a": [
+                        "sh",
+                        "e"
+                    ]
+                }
+            ]
+        }
+    ]
 }
