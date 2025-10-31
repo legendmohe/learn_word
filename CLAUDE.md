@@ -163,3 +163,4 @@ src/
 - **Static Hosting**: Suitable for GitHub Pages, Netlify, Vercel, etc.
 - **Build Output**: Dist folder contains optimized static assets
 - **PWA Ready**: Can be enhanced with service worker for offline usage
+- 不用每次修改完都检查开发服务器状态了，有编译问题我会提示你。

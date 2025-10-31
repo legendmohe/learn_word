@@ -11,12 +11,12 @@
         />
       </div>
 
-      <div class="text-base text-gray-600 dark:text-gray-400 mb-8">
+      <div class="text-base text-gray-600 dark:text-gray-400">
         点击喇叭按钮听发音，记住这个单词的意思
       </div>
     </div>
 
-    <div class="audio-controls flex justify-center mb-8">
+    <div class="audio-controls flex justify-center">
       <button
         @click="playAudio"
         :disabled="isPlaying"

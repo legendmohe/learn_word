@@ -2,7 +2,17 @@
   <div class="word-card" :class="[`size-${size}`, { 'dark': isDark }]">
     <!-- 英文单词和音频按钮 -->
     <div class="word-header">
-      <div class="english-word">{{ word.word }}</div>
+      <div class="english-word">
+        <span
+          v-for="(phoneme, index) in word.phonemes"
+          :key="index"
+          class="phoneme-group"
+          :class="getPhonemeClass(index)"
+          :style="getPhonemeStyle(index)"
+        >
+          {{ phoneme }}
+        </span>
+      </div>
       <button
         v-if="showAudio"
         @click="playAudio"
@@ -20,7 +30,7 @@
     </div>
 
     <!-- 音素显示 -->
-    <div v-if="showPhonemes && hasPhonemes" class="phonemes-container">
+    <div v-if="showPhonemes && hasPhonemes" class="phonemes-container" :class="{ 'centered': !showAudio }">
       <span class="phoneme-slash">/</span>
       <span
         v-for="(phoneme, index) in displayPhonemes"
@@ -34,7 +44,7 @@
     </div>
 
     <!-- 中文释义 -->
-    <div class="meaning">{{ word.meaning }}</div>
+    <div class="meaning" :class="{ 'centered': !showAudio }">{{ word.meaning }}</div>
   </div>
 </template>
 
@@ -84,6 +94,18 @@ const displayPhonemes = computed(() => {
   return []
 })
 
+// 获取音素组的样式类
+const getPhonemeClass = (index) => {
+  return `phoneme-${index}`
+}
+
+// 获取音素组的样式
+const getPhonemeStyle = (index) => {
+  return {
+    '--phoneme-color': '#1f2937' // 与英文释义相同的颜色
+  }
+}
+
 // 音素颜色方案
 const phonemeColors = [
   '#3b82f6', // 蓝色
@@ -119,6 +141,21 @@ const playAudio = async () => {
     isPlaying.value = false
   }
 }
+
+// 动态生成音素对应的CSS类
+const phonemeStyles = computed(() => {
+  const styles = {}
+  const phonemes = props.word.phonemes || []
+
+  phonemes.forEach((phoneme, index) => {
+    const color = getPhonemeColor(index)
+    styles[`.phoneme-${index}::after`] = {
+      backgroundColor: color
+    }
+  })
+
+  return styles
+})
 
 // 组件挂载时自动播放
 onMounted(() => {
@@ -189,11 +226,36 @@ onMounted(() => {
   word-break: break-word;
   flex: 1;
   text-align: left;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 3px;
 }
 
 .word-header:not(:has(.audio-button)) .english-word {
   flex: none;
   text-align: center;
+  justify-content: center;
+}
+
+.phoneme-group {
+  position: relative;
+  display: inline-block;
+}
+
+/* 为音素组添加下划线 */
+.phoneme-group[class*="phoneme-"]::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--phoneme-color);
+  border-radius: 1px;
+}
+
+.dark .phoneme-group[class*="phoneme-"]::after {
+  background-color: #f9fafb; /* 暗色模式下使用暗色主题的文字颜色 */
 }
 
 .dark .english-word {
@@ -284,6 +346,11 @@ onMounted(() => {
   align-items: center;
   gap: 2px;
   flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.phonemes-container.centered {
+  justify-content: center;
 }
 
 .phoneme {
@@ -332,6 +399,10 @@ onMounted(() => {
   color: #6b7280;
   line-height: 1.4;
   text-align: left;
+}
+
+.meaning.centered {
+  text-align: center;
 }
 
 .dark .meaning {
