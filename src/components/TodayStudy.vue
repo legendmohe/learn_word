@@ -500,10 +500,13 @@ const goToPreviousStep = () => {
 }
 
 const goToNextStep = () => {
-  if (currentStep.value < 4) {
+  if (currentStep.value < 3) {
     // 只能到下一步，不能跳过
     currentStep.value++
-      }
+  } else {
+    // 如果是最后一步，完成当前单词的学习
+    completeCurrentWord()
+  }
 }
 
 

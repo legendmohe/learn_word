@@ -50,10 +50,10 @@
 
       <button
         class="nav-btn next-btn"
-        :disabled="currentStep === steps.length - 1 || !isStepCompleted(currentStep)"
+        :disabled="!isStepCompleted(currentStep)"
         @click="goToNextStep"
       >
-        {{ isLastStep ? '完成学习' : '下一步' }}
+        {{ isLastStep ? '完成学习' : (currentStep === steps.length - 1 ? '下一个单词' : '下一步') }}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
         </svg>
@@ -135,6 +135,10 @@ export default {
   },
     methods: {
     isStepCompleted(index) {
+      // 添加边界检查
+      if (index < 0 || index >= this.steps.length) {
+        return false
+      }
       const stepId = this.steps[index].id
       return this.stepProgress[stepId] === true
     },
@@ -142,12 +146,17 @@ export default {
     canClickStep(index) {
       if (!this.allowStepNavigation) return false
 
+      // 添加安全检查，确保index和currentStep有效
+      if (index < 0 || index >= this.steps.length || typeof this.currentStep !== 'number') {
+        return false
+      }
+
       // 只允许点击：
       // 1. 已完成的步骤（可以回顾）
       // 2. 紧邻的下一步，但前提是当前步骤已完成
       const isNextStep = index === this.currentStep + 1 && this.isStepCompleted(this.currentStep)
       const isCompleted = this.isStepCompleted(index)
-      
+
       return isCompleted || isNextStep
     },
 
@@ -164,9 +173,12 @@ export default {
     },
 
     goToNextStep() {
-      // 只有当前步骤完成时才允许进入下一步
-      if (this.currentStep < this.steps.length - 1 && this.isStepCompleted(this.currentStep)) {
-        this.$emit('next-step')
+      // 添加安全检查，确保currentStep有效
+      if (typeof this.currentStep === 'number' && this.currentStep >= 0 && this.currentStep < this.steps.length) {
+        // 只要当前步骤完成就允许进入下一步
+        if (this.isStepCompleted(this.currentStep)) {
+          this.$emit('next-step')
+        }
       }
     }
   }
