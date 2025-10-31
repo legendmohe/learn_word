@@ -20,17 +20,15 @@
       <button
         @click="playAudio"
         :disabled="isPlaying"
-        class="audio-button p-4 rounded-full bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all duration-200 group"
+        class="audio-button flex items-center justify-center rounded-full transition-all duration-200 group"
+        :class="{ 'playing': isPlaying }"
         title="播放发音"
       >
-        <svg
-          class="w-10 h-10 text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors"
-          :class="{ 'animate-pulse': isPlaying }"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+        <svg v-if="!isPlaying" class="audio-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <svg v-else class="audio-icon animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
         </svg>
       </button>
     </div>
@@ -108,24 +106,60 @@ export default {
   min-height: 400px;
 }
 
+/* 音频按钮 - 与WordCard样式一致，但保持大尺寸 */
 .audio-button {
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;  /* 保持原来大按钮的尺寸 */
+  height: 80px; /* 保持原来大按钮的尺寸 */
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.audio-button:hover {
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+.dark .audio-button {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
-.audio-button:active {
-  transform: scale(0.95);
+.audio-button:hover:not(:disabled) {
+  background: rgba(59, 130, 246, 0.2);
+  transform: scale(1.05);
 }
 
+.dark .audio-button:hover:not(:disabled) {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+.audio-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.audio-button.playing {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+/* 音频图标 - 保持大尺寸 */
+.audio-icon {
+  width: 40px;  /* 保持原来大图标的尺寸 */
+  height: 40px; /* 保持原来大图标的尺寸 */
+}
+
+/* 动画效果 */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
 }
 
 .animate-pulse {
-  animation: pulse 1.5s infinite;
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 </style>
