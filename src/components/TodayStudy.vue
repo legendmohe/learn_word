@@ -182,43 +182,19 @@
     </div>
 
     <!-- 开始学习确认对话框 -->
-    <div v-if="showStartConfirmDialog" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="modal-content bg-white dark:bg-gray-800 rounded-xl p-6 m-4 max-w-sm w-full">
-        <div class="text-center mb-4">
-          <div class="text-5xl mb-4 animate-bounce">🚀</div>
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
-            准备好开始学习了吗？
-          </h3>
-          <p class="text-base text-gray-600 dark:text-gray-400 mb-4">
-            今天的努力是明天成功的基础！<br>
-            让我们一起坚持，每一个单词都是进步！
-          </p>
+    <AppDialog
+      :show="showStartConfirmDialog"
+      title="准备好开始学习了吗？"
+      :message="getStartStudyMessage()"
+      type="info"
+      confirm-text="开始学习！"
+      cancel-text="再想想"
+      @confirm="confirmStartStudy"
+      @cancel="showStartConfirmDialog = false"
+      @close="showStartConfirmDialog = false"
+    />
 
-          <!-- 激励语句 -->
-          <div class="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 rounded-lg p-3 mb-4">
-            <div class="text-sm font-medium text-primary-700 dark:text-primary-300">
-              💪 {{ getMotivationalQuote() }}
-            </div>
-          </div>
-        </div>
-
-        <div class="flex gap-3">
-          <button
-            @click="showStartConfirmDialog = false"
-            class="flex-1 py-3 px-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200 font-medium"
-          >
-            再想想
-          </button>
-          <button
-            @click="confirmStartStudy"
-            class="flex-1 py-3 px-4 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-lg hover:from-primary-600 hover:to-accent-600 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            开始学习！
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script setup>
@@ -227,6 +203,7 @@ import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, add
 import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
 import { playWordAudio, getAudioEngineInfo } from '../utils/audioService'
+import AppDialog from './AppDialog.vue'
 import WelcomeGuide from './WelcomeGuide.vue'
 import StepIndicator from './StepIndicator.vue'
 import ListenStep from './ListenStep.vue'
@@ -345,6 +322,19 @@ const confirmStartStudy = async () => {
   }
 
   proceedToStudy()
+}
+
+// 获取开始学习对话框的消息
+const getStartStudyMessage = () => {
+  return `今天的努力是明天成功的基础！<br>
+让我们一起坚持，每一个单词都是进步！<br><br>
+<div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border-radius: 8px; padding: 12px; margin: 8px 0;">
+  <div style="font-size: 14px; font-weight: 500; color: #3b82f6;">
+    💪 ${getMotivationalQuote()}
+  </div>
+</div>
+<br>
+今日需要学习 <strong>${dailyGoal.value}</strong> 个单词，准备好挑战了吗？`
 }
 
 // 获取激励语句
