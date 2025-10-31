@@ -233,6 +233,7 @@ import ListenStep from './ListenStep.vue'
 import TestStep from './TestStep.vue'
 import PhonicsStep from './PhonicsStep.vue'
 import SpellingStep from './SpellingStep.vue'
+import WordCard from './WordCard.vue'
 
 // 定义事件
 const emit = defineEmits(['completed', 'study-status-changed'])
@@ -244,7 +245,8 @@ const components = {
   ListenStep,
   TestStep,
   PhonicsStep,
-  SpellingStep
+  SpellingStep,
+  WordCard
 }
 
 // 学习状态
