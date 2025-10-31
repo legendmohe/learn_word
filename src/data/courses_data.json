@@ -33,7 +33,7 @@
                     ]
                 },
                 {
-                    "word": "be (am/is/are)",
+                    "word": "be",
                     "meaning": "是",
                     "phonetic": "/biː/",
                     "phonemes_s": [
@@ -43,6 +43,45 @@
                     "phonemes":  [
                         "b",
                         "e"
+                    ]
+                },
+                {
+                    "word": "am",
+                    "meaning": "是",
+                    "phonetic": "/æm/",
+                    "phonemes_s": [
+                        "æ",
+                        "m"
+                    ],
+                    "phonemes": [
+                        "a",
+                        "m"
+                    ]
+                },
+                {
+                    "word": "is",
+                    "meaning": "是",
+                    "phonetic": "/ɪz/",
+                    "phonemes_s": [
+                        "ɪ",
+                        "z"
+                    ],
+                    "phonemes": [
+                        "i",
+                        "s"
+                    ]
+                },
+                {
+                    "word": "are",
+                    "meaning": "是",
+                    "phonetic": "/ɑːr/",
+                    "phonemes_s": [
+                        "ɑː",
+                        "r"
+                    ],
+                    "phonemes": [
+                        "a",
+                        "r"
                     ]
                 },
                 {
@@ -465,7 +504,7 @@
                     ]
                 },
                 {
-                    "word": "a (an)",
+                    "word": "a",
                     "meaning": "一，一个",
                     "phonetic": "/ə/ (/ən/)",
                     "phonemes_s": [
@@ -473,6 +512,19 @@
                     ],
                     "phonemes":  [
                         "a"
+                    ]
+                },
+                {
+                    "word": "an",
+                    "meaning": "一个",
+                    "phonetic": "/æn/",
+                    "phonemes_s": [
+                        "æ",
+                        "n"
+                    ],
+                    "phonemes": [
+                        "a",
+                        "n"
                     ]
                 },
                 {
