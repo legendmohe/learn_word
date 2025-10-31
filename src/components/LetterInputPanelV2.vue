@@ -22,7 +22,7 @@
     </div>
 
     <!-- 字母选择区域 -->
-    <div class="letter-selection-area mb-2">
+    <div v-if="!showResult" class="letter-selection-area mb-2">
       <div class="letter-grid grid gap-3 justify-center">
         <button
           v-for="(letter, index) in shuffledLetters"

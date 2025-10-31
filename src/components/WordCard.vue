@@ -7,7 +7,7 @@
           v-for="(phoneme, index) in word.phonemes"
           :key="index"
           class="phoneme-group"
-          :class="getPhonemeClass(index)"
+          :class="[getPhonemeClass(index), { 'no-underline': word.phonemes.length === 1 }]"
           :style="getPhonemeStyle(index)"
         >
           {{ phoneme }}
@@ -260,6 +260,11 @@ onMounted(() => {
   height: 2px;
   background-color: var(--phoneme-color);
   border-radius: 1px;
+}
+
+/* 单个字母时隐藏下划线 */
+.phoneme-group.no-underline::after {
+  display: none;
 }
 
 .dark .phoneme-group[class*="phoneme-"]::after {
