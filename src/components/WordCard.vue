@@ -4,6 +4,7 @@
     <div class="word-header">
       <div class="english-word">{{ word.word }}</div>
       <button
+        v-if="showAudio"
         @click="playAudio"
         :disabled="isPlaying"
         class="audio-button"
@@ -57,6 +58,10 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  showAudio: {
+    type: Boolean,
+    default: true
+  },
   autoPlay: {
     type: Boolean,
     default: false
@@ -69,15 +74,11 @@ const isDark = useDark()
 
 // 计算属性
 const hasPhonemes = computed(() => {
-  return props.word.phonemes && props.word.phonemes.length > 0
+  return props.word.phonemes_s && props.word.phonemes_s.length > 0
 })
 
 const displayPhonemes = computed(() => {
   if (hasPhonemes.value) {
-    return props.word.phonemes
-  }
-  // 如果没有phonemes，检查phonemes_s
-  if (props.word.phonemes_s && Array.isArray(props.word.phonemes_s)) {
     return props.word.phonemes_s
   }
   return []
@@ -178,12 +179,21 @@ onMounted(() => {
   gap: 12px;
 }
 
+.word-header:not(:has(.audio-button)) {
+  justify-content: center;
+}
+
 .english-word {
   font-weight: 700;
   color: #1f2937;
   word-break: break-word;
   flex: 1;
   text-align: left;
+}
+
+.word-header:not(:has(.audio-button)) .english-word {
+  flex: none;
+  text-align: center;
 }
 
 .dark .english-word {

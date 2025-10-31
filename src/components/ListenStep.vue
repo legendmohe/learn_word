@@ -1,12 +1,14 @@
 <template>
   <div class="listen-step">
     <div class="word-display text-center mb-8">
-      <div class="text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6">
-        {{ word.word }}
-      </div>
-
-      <div class="text-2xl font-medium text-gray-800 dark:text-gray-200 mb-6">
-        {{ word.meaning }}
+      <!-- WordCard 单词显示 -->
+      <div class="flex justify-center mb-6">
+        <WordCard
+          :word="word"
+          size="large"
+          :show-phonemes="true"
+          :show-audio="false"
+        />
       </div>
 
       <div class="text-base text-gray-600 dark:text-gray-400 mb-8">
@@ -33,15 +35,6 @@
       </button>
     </div>
 
-    <div class="phonetic-display text-center" v-if="word.phonetic">
-      <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
-        音标
-      </div>
-      <div class="text-lg font-medium text-gray-700 dark:text-gray-300">
-        {{ word.phonetic }}
-      </div>
-    </div>
-
     <div class="action-buttons flex justify-center mt-8">
       <button
         @click="completeStep"
@@ -56,9 +49,13 @@
 <script>
 import { ref } from 'vue'
 import { playWordAudio } from '../utils/audioService'
+import WordCard from './WordCard.vue'
 
 export default {
   name: 'ListenStep',
+  components: {
+    WordCard
+  },
   props: {
     word: {
       type: Object,
