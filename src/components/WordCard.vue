@@ -44,7 +44,7 @@
     </div>
 
     <!-- 中文释义 -->
-    <div class="meaning" :class="{ 'centered': !showAudio }">{{ word.meaning }}</div>
+    <div v-if="showMeaning" class="meaning" :class="{ 'centered': !showAudio }">{{ word.meaning }}</div>
   </div>
 </template>
 
@@ -69,6 +69,10 @@ const props = defineProps({
     default: true
   },
   showAudio: {
+    type: Boolean,
+    default: true
+  },
+  showMeaning: {
     type: Boolean,
     default: true
   },

@@ -1,9 +1,17 @@
 <template>
   <div class="test-step">
     <div class="question-area text-center mb-8">
-      <div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-6">
-        {{ word.word }}
+      <!-- WordCard 单词显示 -->
+      <div class="flex justify-center mb-6">
+        <WordCard
+          :word="word"
+          size="large"
+          :show-phonemes="true"
+          :show-audio="true"
+          :show-meaning="false"
+        />
       </div>
+
       <div class="text-lg text-gray-600 dark:text-gray-400">
         选择正确的中文意思
       </div>
@@ -79,9 +87,13 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import WordCard from './WordCard.vue'
 
 export default {
   name: 'TestStep',
+  components: {
+    WordCard
+  },
   props: {
     word: {
       type: Object,
