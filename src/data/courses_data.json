@@ -10,11 +10,11 @@
                     "word": "me",
                     "meaning": "我",
                     "phonetic": "/miː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "iː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "e"
                     ]
@@ -23,11 +23,11 @@
                     "word": "it",
                     "meaning": "它",
                     "phonetic": "/ɪt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɪ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "i",
                         "t"
                     ]
@@ -36,11 +36,11 @@
                     "word": "be (am/is/are)",
                     "meaning": "是",
                     "phonetic": "/biː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "iː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "b",
                         "e"
                     ]
@@ -49,11 +49,11 @@
                     "word": "on",
                     "meaning": "在…… 上面",
                     "phonetic": "/ɒn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɒ",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "o",
                         "n"
                     ]
@@ -62,12 +62,12 @@
                     "word": "this",
                     "meaning": "这，这个",
                     "phonetic": "/ðɪs/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "ɪ",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "i",
                         "s"
@@ -77,13 +77,13 @@
                     "word": "ruler",
                     "meaning": "尺子",
                     "phonetic": "/ˈruːlə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "r",
                         "uː",
                         "l",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "r",
                         "u",
                         "l",
@@ -94,11 +94,11 @@
                     "word": "you",
                     "meaning": "你，你们",
                     "phonetic": "/juː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "j",
                         "uː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "y",
                         "ou"
                     ]
@@ -107,10 +107,10 @@
                     "word": "I",
                     "meaning": "我",
                     "phonetic": "/aɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "aɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "I"
                     ]
                 },
@@ -118,13 +118,13 @@
                     "word": "thank",
                     "meaning": "感谢，向…… 表示感谢",
                     "phonetic": "/θæŋk/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "θ",
                         "æ",
                         "ŋ",
                         "k"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "a",
                         "n",
@@ -135,12 +135,12 @@
                     "word": "nice",
                     "meaning": "令人愉快的",
                     "phonetic": "/naɪs/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "aɪ",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "n",
                         "i",
                         "ce"
@@ -150,11 +150,11 @@
                     "word": "to",
                     "meaning": "到，向，往",
                     "phonetic": "/tuː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "t",
                         "uː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "t",
                         "o"
                     ]
@@ -163,12 +163,12 @@
                     "word": "meet",
                     "meaning": "结识；遇见",
                     "phonetic": "/miːt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "iː",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "ee",
                         "t"
@@ -178,11 +178,11 @@
                     "word": "too",
                     "meaning": "也",
                     "phonetic": "/tuː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "t",
                         "uː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "t",
                         "oo"
                     ]
@@ -191,11 +191,11 @@
                     "word": "hi",
                     "meaning": "嗨，喂，你好",
                     "phonetic": "/haɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "aɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "i"
                     ]
@@ -204,12 +204,12 @@
                     "word": "but",
                     "meaning": "但，但是",
                     "phonetic": "/bʌt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "ʌ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "b",
                         "u",
                         "t"
@@ -227,7 +227,7 @@
                     "word": "chocolate",
                     "meaning": "巧克力",
                     "phonetic": "/ˈtʃɒkəlɪt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "tʃ",
                         "ɒ",
                         "k",
@@ -236,7 +236,7 @@
                         "ɪ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "ch",
                         "o",
                         "c",
@@ -250,13 +250,13 @@
                     "word": "coffee",
                     "meaning": "咖啡",
                     "phonetic": "/ˈkɒfi/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "ɒ",
                         "f",
                         "i"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "c",
                         "o",
                         "ff",
@@ -267,14 +267,14 @@
                     "word": "Chinese",
                     "meaning": "中文",
                     "phonetic": "/ˌtʃaɪˈniːz/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "tʃ",
                         "aɪ",
                         "n",
                         "iː",
                         "z"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "Ch",
                         "i",
                         "n",
@@ -286,13 +286,13 @@
                     "word": "sofa",
                     "meaning": "沙发",
                     "phonetic": "/ˈsəʊfə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "əʊ",
                         "f",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "s",
                         "o",
                         "f",
@@ -303,7 +303,7 @@
                     "word": "hamburger",
                     "meaning": "汉堡",
                     "phonetic": "/ˈhæmbɜːɡə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "æ",
                         "m",
@@ -312,7 +312,7 @@
                         "ɡ",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "a",
                         "m",
@@ -326,13 +326,13 @@
                     "word": "cookie",
                     "meaning": "饼干",
                     "phonetic": "/ˈkʊki/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "ʊ",
                         "k",
                         "i"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "c",
                         "oo",
                         "k",
@@ -343,14 +343,14 @@
                     "word": "salad",
                     "meaning": "沙拉",
                     "phonetic": "/ˈsæləd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "æ",
                         "l",
                         "ə",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "s",
                         "a",
                         "l",
@@ -362,12 +362,12 @@
                     "word": "what",
                     "meaning": "什么",
                     "phonetic": "/wɒt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "ɒ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "wh",
                         "a",
                         "t"
@@ -377,11 +377,11 @@
                     "word": "in",
                     "meaning": "在…… 里面",
                     "phonetic": "/ɪn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɪ",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "i",
                         "n"
                     ]
@@ -390,7 +390,7 @@
                     "word": "English",
                     "meaning": "英语",
                     "phonetic": "/ˈɪŋɡlɪʃ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɪ",
                         "ŋ",
                         "ɡ",
@@ -398,7 +398,7 @@
                         "ɪ",
                         "ʃ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "E",
                         "ng",
                         "l",
@@ -410,11 +410,11 @@
                     "word": "know",
                     "meaning": "知道；认识",
                     "phonetic": "/nəʊ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "əʊ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "kn",
                         "ow"
                     ]
@@ -423,12 +423,12 @@
                     "word": "yes",
                     "meaning": "是，对",
                     "phonetic": "/jes/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "j",
                         "e",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "y",
                         "e",
                         "s"
@@ -438,12 +438,12 @@
                     "word": "can",
                     "meaning": "能，可以",
                     "phonetic": "/kæn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "æ",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "c",
                         "a",
                         "n"
@@ -453,12 +453,12 @@
                     "word": "get",
                     "meaning": "得到",
                     "phonetic": "/ɡet/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɡ",
                         "e",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "g",
                         "e",
                         "t"
@@ -468,10 +468,10 @@
                     "word": "a (an)",
                     "meaning": "一，一个",
                     "phonetic": "/ə/ (/ən/)",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "a"
                     ]
                 },
@@ -479,12 +479,12 @@
                     "word": "word",
                     "meaning": "单词",
                     "phonetic": "/wɜːd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "ɜː",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "w",
                         "or",
                         "d"
@@ -494,12 +494,12 @@
                     "word": "guess",
                     "meaning": "猜，猜测",
                     "phonetic": "/ɡes/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɡ",
                         "e",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "gu",
                         "e",
                         "ss"
@@ -509,12 +509,12 @@
                     "word": "one",
                     "meaning": "一",
                     "phonetic": "/wʌn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "ʌ",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "o",
                         "n",
                         "e"
@@ -524,12 +524,12 @@
                     "word": "like",
                     "meaning": "喜欢",
                     "phonetic": "/laɪk/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "aɪ",
                         "k"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "i",
                         "ke"
@@ -547,12 +547,12 @@
                     "word": "good",
                     "meaning": "好的",
                     "phonetic": "/ɡʊd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɡ",
                         "ʊ",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "g",
                         "oo",
                         "d"
@@ -562,14 +562,14 @@
                     "word": "morning",
                     "meaning": "早晨；上午",
                     "phonetic": "/ˈmɔːnɪŋ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "ɔː",
                         "n",
                         "ɪ",
                         "ŋ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "or",
                         "n",
@@ -581,11 +581,11 @@
                     "word": "your",
                     "meaning": "你的；你们的",
                     "phonetic": "/jɔː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "j",
                         "ɔː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "y",
                         "our"
                     ]
@@ -594,12 +594,12 @@
                     "word": "name",
                     "meaning": "名字",
                     "phonetic": "/neɪm/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "eɪ",
                         "m"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "n",
                         "a",
                         "me"
@@ -609,11 +609,11 @@
                     "word": "my",
                     "meaning": "我的",
                     "phonetic": "/maɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "aɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "y"
                     ]
@@ -622,14 +622,14 @@
                     "word": "Mr",
                     "meaning": "先生",
                     "phonetic": "/ˈmɪstə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "ɪ",
                         "s",
                         "t",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "M",
                         "i",
                         "s",
@@ -641,11 +641,11 @@
                     "word": "boy",
                     "meaning": "男孩",
                     "phonetic": "/bɔɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "ɔɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "b",
                         "oy"
                     ]
@@ -654,12 +654,12 @@
                     "word": "and",
                     "meaning": "和",
                     "phonetic": "/ænd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "æ",
                         "n",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "a",
                         "n",
                         "d"
@@ -669,12 +669,12 @@
                     "word": "girl",
                     "meaning": "女孩",
                     "phonetic": "/ɡɜːl/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɡ",
                         "ɜː",
                         "l"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "g",
                         "ir",
                         "l"
@@ -684,13 +684,13 @@
                     "word": "hello",
                     "meaning": "你好",
                     "phonetic": "/həˈləʊ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "ə",
                         "l",
                         "əʊ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "e",
                         "ll",
@@ -701,7 +701,7 @@
                     "word": "everyone",
                     "meaning": "每个人，人人",
                     "phonetic": "/ˈevriwʌn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "e",
                         "v",
                         "r",
@@ -710,7 +710,7 @@
                         "ʌ",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "e",
                         "v",
                         "e",
@@ -724,12 +724,12 @@
                     "word": "card",
                     "meaning": "卡片",
                     "phonetic": "/kɑːd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "ɑː",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "c",
                         "ar",
                         "d"
@@ -739,7 +739,7 @@
                     "word": "student",
                     "meaning": "学生",
                     "phonetic": "/ˈstjuːdnt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "t",
                         "j",
@@ -748,7 +748,7 @@
                         "n",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "s",
                         "t",
                         "u",
@@ -762,13 +762,13 @@
                     "word": "want",
                     "meaning": "想要",
                     "phonetic": "/wɒnt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "ɒ",
                         "n",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "w",
                         "a",
                         "n",
@@ -779,13 +779,13 @@
                     "word": "help",
                     "meaning": "帮助，帮忙",
                     "phonetic": "/help/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "e",
                         "l",
                         "p"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "e",
                         "l",
@@ -796,11 +796,11 @@
                     "word": "how",
                     "meaning": "多少；怎样，如何",
                     "phonetic": "/haʊ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "aʊ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "ow"
                     ]
@@ -809,13 +809,13 @@
                     "word": "last",
                     "meaning": "最后",
                     "phonetic": "/lɑːst/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "ɑː",
                         "s",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "a",
                         "s",
@@ -826,11 +826,11 @@
                     "word": "of",
                     "meaning": "…… 的",
                     "phonetic": "/ɒv/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɒ",
                         "v"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "o",
                         "f"
                     ]
@@ -839,11 +839,11 @@
                     "word": "for",
                     "meaning": "为了",
                     "phonetic": "/fɔː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "ɔː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "or"
                     ]
@@ -852,12 +852,12 @@
                     "word": "Ms",
                     "meaning": "女士",
                     "phonetic": "/mɪz/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "ɪ",
                         "z"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "M",
                         "s"
                     ]
@@ -866,12 +866,12 @@
                     "word": "Miss",
                     "meaning": "小姐",
                     "phonetic": "/mɪs/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "ɪ",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "M",
                         "i",
                         "ss"
@@ -881,14 +881,14 @@
                     "word": "Mrs",
                     "meaning": "女士，夫人",
                     "phonetic": "/ˈmɪsɪz/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "ɪ",
                         "s",
                         "ɪ",
                         "z"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "M",
                         "r",
                         "s"
@@ -906,12 +906,12 @@
                     "word": "red",
                     "meaning": "红色",
                     "phonetic": "/red/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "r",
                         "e",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "r",
                         "e",
                         "d"
@@ -921,13 +921,13 @@
                     "word": "yellow",
                     "meaning": "黄色",
                     "phonetic": "/ˈjeləʊ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "j",
                         "e",
                         "l",
                         "əʊ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "y",
                         "e",
                         "ll",
@@ -938,13 +938,13 @@
                     "word": "green",
                     "meaning": "绿色",
                     "phonetic": "/ɡriːn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɡ",
                         "r",
                         "iː",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "gr",
                         "ee",
                         "n"
@@ -954,12 +954,12 @@
                     "word": "blue",
                     "meaning": "蓝色",
                     "phonetic": "/bluː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "l",
                         "uː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "bl",
                         "ue"
                     ]
@@ -968,12 +968,12 @@
                     "word": "white",
                     "meaning": "白色",
                     "phonetic": "/waɪt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "aɪ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "wh",
                         "i",
                         "te"
@@ -983,13 +983,13 @@
                     "word": "colour",
                     "meaning": "颜色",
                     "phonetic": "/ˈkʌlə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "ʌ",
                         "l",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "c",
                         "o",
                         "l",
@@ -1000,14 +1000,14 @@
                     "word": "pencil",
                     "meaning": "铅笔",
                     "phonetic": "/ˈpensl/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "p",
                         "e",
                         "n",
                         "s",
                         "l"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "p",
                         "e",
                         "n",
@@ -1019,13 +1019,13 @@
                     "word": "left",
                     "meaning": "左边",
                     "phonetic": "/left/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "e",
                         "f",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "e",
                         "f",
@@ -1036,13 +1036,13 @@
                     "word": "hand",
                     "meaning": "手",
                     "phonetic": "/hænd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "æ",
                         "n",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "a",
                         "n",
@@ -1053,12 +1053,12 @@
                     "word": "right",
                     "meaning": "右边",
                     "phonetic": "/raɪt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "r",
                         "aɪ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "r",
                         "igh",
                         "t"
@@ -1068,14 +1068,14 @@
                     "word": "finger",
                     "meaning": "手指",
                     "phonetic": "/ˈfɪŋɡə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "ɪ",
                         "ŋ",
                         "ɡ",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "i",
                         "ng",
@@ -1086,11 +1086,11 @@
                     "word": "do",
                     "meaning": "做",
                     "phonetic": "/duː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "d",
                         "uː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "d",
                         "o"
                     ]
@@ -1099,13 +1099,13 @@
                     "word": "spell",
                     "meaning": "拼写",
                     "phonetic": "/spel/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "p",
                         "e",
                         "l"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "sp",
                         "e",
                         "ll"
@@ -1115,12 +1115,12 @@
                     "word": "that",
                     "meaning": "那，那个",
                     "phonetic": "/ðæt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "æ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "a",
                         "t"
@@ -1130,12 +1130,12 @@
                     "word": "look",
                     "meaning": "看，瞧，望",
                     "phonetic": "/lʊk/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "ʊ",
                         "k"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "oo",
                         "k"
@@ -1145,12 +1145,12 @@
                     "word": "cool",
                     "meaning": "酷的，帅的",
                     "phonetic": "/kuːl/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "uː",
                         "l"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "c",
                         "oo",
                         "l"
@@ -1160,12 +1160,12 @@
                     "word": "teach",
                     "meaning": "教",
                     "phonetic": "/tiːtʃ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "t",
                         "iː",
                         "tʃ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "t",
                         "ea",
                         "ch"
@@ -1175,13 +1175,13 @@
                     "word": "first",
                     "meaning": "第一的；首先；最初",
                     "phonetic": "/fɜːst/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "ɜː",
                         "s",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "ir",
                         "s",
@@ -1192,12 +1192,12 @@
                     "word": "OK",
                     "meaning": "好，可以",
                     "phonetic": "/əʊˈkeɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "əʊ",
                         "k",
                         "eɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "O",
                         "K"
                     ]
@@ -1214,11 +1214,11 @@
                     "word": "two",
                     "meaning": "二",
                     "phonetic": "/tuː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "t",
                         "uː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "tw",
                         "o"
                     ]
@@ -1227,12 +1227,12 @@
                     "word": "three",
                     "meaning": "三",
                     "phonetic": "/θriː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "θ",
                         "r",
                         "iː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "r",
                         "ee"
@@ -1242,11 +1242,11 @@
                     "word": "four",
                     "meaning": "四",
                     "phonetic": "/fɔː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "ɔː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "our"
                     ]
@@ -1255,12 +1255,12 @@
                     "word": "five",
                     "meaning": "五",
                     "phonetic": "/faɪv/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "aɪ",
                         "v"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "i",
                         "ve"
@@ -1270,13 +1270,13 @@
                     "word": "six",
                     "meaning": "六",
                     "phonetic": "/sɪks/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "ɪ",
                         "k",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "s",
                         "i",
                         "x"
@@ -1286,13 +1286,13 @@
                     "word": "seven",
                     "meaning": "七",
                     "phonetic": "/ˈsevn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "e",
                         "v",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "s",
                         "e",
                         "v",
@@ -1304,12 +1304,12 @@
                     "word": "nine",
                     "meaning": "九",
                     "phonetic": "/naɪn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "aɪ",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "n",
                         "i",
                         "ne"
@@ -1319,11 +1319,11 @@
                     "word": "the",
                     "meaning": "这，那",
                     "phonetic": "/ðə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "e"
                     ]
@@ -1332,13 +1332,13 @@
                     "word": "again",
                     "meaning": "再，再次",
                     "phonetic": "/əˈɡen/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ə",
                         "ɡ",
                         "e",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "a",
                         "g",
                         "ai",
@@ -1349,13 +1349,13 @@
                     "word": "step",
                     "meaning": "步骤",
                     "phonetic": "/step/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "t",
                         "e",
                         "p"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "st",
                         "e",
                         "p"
@@ -1365,13 +1365,13 @@
                     "word": "letter",
                     "meaning": "字母",
                     "phonetic": "/ˈletə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "e",
                         "t",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "e",
                         "tt",
@@ -1382,13 +1382,13 @@
                     "word": "from",
                     "meaning": "从",
                     "phonetic": "/frɒm/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "r",
                         "ɒ",
                         "m"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "fr",
                         "o",
                         "m"
@@ -1398,11 +1398,11 @@
                     "word": "each",
                     "meaning": "每个",
                     "phonetic": "/iːtʃ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "iː",
                         "tʃ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "ea",
                         "ch"
                     ]
@@ -1411,12 +1411,12 @@
                     "word": "put",
                     "meaning": "放",
                     "phonetic": "/pʊt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "p",
                         "ʊ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "p",
                         "u",
                         "t"
@@ -1426,12 +1426,12 @@
                     "word": "them",
                     "meaning": "它们",
                     "phonetic": "/ðem/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "e",
                         "m"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "e",
                         "m"
@@ -1449,12 +1449,12 @@
                     "word": "face",
                     "meaning": "脸，面部",
                     "phonetic": "/feɪs/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "eɪ",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "a",
                         "ce"
@@ -1464,10 +1464,10 @@
                     "word": "ear",
                     "meaning": "耳朵",
                     "phonetic": "/ɪə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɪə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "ear"
                     ]
                 },
@@ -1475,10 +1475,10 @@
                     "word": "eye",
                     "meaning": "眼睛",
                     "phonetic": "/aɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "aɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "eye"
                     ]
                 },
@@ -1486,12 +1486,12 @@
                     "word": "nose",
                     "meaning": "鼻子",
                     "phonetic": "/nəʊz/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "əʊ",
                         "z"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "n",
                         "o",
                         "se"
@@ -1501,12 +1501,12 @@
                     "word": "mouth",
                     "meaning": "嘴巴",
                     "phonetic": "/maʊθ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "aʊ",
                         "θ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "ou",
                         "th"
@@ -1516,12 +1516,12 @@
                     "word": "its",
                     "meaning": "它的",
                     "phonetic": "/ɪts/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɪ",
                         "t",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "i",
                         "t",
                         "s"
@@ -1531,12 +1531,12 @@
                     "word": "these",
                     "meaning": "这些",
                     "phonetic": "/ðiːz/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "iː",
                         "z"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "e",
                         "se"
@@ -1546,11 +1546,11 @@
                     "word": "hair",
                     "meaning": "头发",
                     "phonetic": "/heə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "eə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "air"
                     ]
@@ -1559,12 +1559,12 @@
                     "word": "write",
                     "meaning": "写",
                     "phonetic": "/raɪt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "r",
                         "aɪ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "wr",
                         "i",
                         "te"
@@ -1574,12 +1574,12 @@
                     "word": "big",
                     "meaning": "大的",
                     "phonetic": "/bɪɡ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "ɪ",
                         "ɡ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "b",
                         "i",
                         "g"
@@ -1589,13 +1589,13 @@
                     "word": "under",
                     "meaning": "在…… 下面",
                     "phonetic": "/ˈʌndə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ʌ",
                         "n",
                         "d",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "u",
                         "n",
                         "d",
@@ -1606,12 +1606,12 @@
                     "word": "his",
                     "meaning": "他的",
                     "phonetic": "/hɪz/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "ɪ",
                         "z"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "i",
                         "s"
@@ -1621,11 +1621,11 @@
                     "word": "now",
                     "meaning": "现在",
                     "phonetic": "/naʊ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "aʊ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "n",
                         "ow"
                     ]
@@ -1634,12 +1634,12 @@
                     "word": "head",
                     "meaning": "头",
                     "phonetic": "/hed/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "e",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "ea",
                         "d"
@@ -1657,11 +1657,11 @@
                     "word": "see",
                     "meaning": "看见；明白",
                     "phonetic": "/siː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "iː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "s",
                         "ee"
                     ]
@@ -1670,12 +1670,12 @@
                     "word": "nod",
                     "meaning": "点头",
                     "phonetic": "/nɒd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "ɒ",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "n",
                         "o",
                         "d"
@@ -1685,12 +1685,12 @@
                     "word": "keep",
                     "meaning": "保持",
                     "phonetic": "/kiːp/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "iː",
                         "p"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "k",
                         "ee",
                         "p"
@@ -1700,14 +1700,14 @@
                     "word": "quiet",
                     "meaning": "安静",
                     "phonetic": "/ˈkwaɪət/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "w",
                         "aɪ",
                         "ə",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "qu",
                         "i",
                         "e",
@@ -1718,13 +1718,13 @@
                     "word": "listen",
                     "meaning": "听",
                     "phonetic": "/ˈlɪsn/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "ɪ",
                         "s",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "i",
                         "st",
@@ -1735,13 +1735,13 @@
                     "word": "teacher",
                     "meaning": "老师",
                     "phonetic": "/ˈtiːtʃə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "t",
                         "iː",
                         "tʃ",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "t",
                         "ea",
                         "ch",
@@ -1752,12 +1752,12 @@
                     "word": "have",
                     "meaning": "有，拥有",
                     "phonetic": "/hæv/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "æ",
                         "v"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "a",
                         "ve"
@@ -1767,11 +1767,11 @@
                     "word": "up",
                     "meaning": "向上",
                     "phonetic": "/ʌp/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ʌ",
                         "p"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "u",
                         "p"
                     ]
@@ -1780,11 +1780,11 @@
                     "word": "they",
                     "meaning": "他们",
                     "phonetic": "/ðeɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "eɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "ey"
                     ]
@@ -1793,13 +1793,13 @@
                     "word": "body",
                     "meaning": "身体",
                     "phonetic": "/ˈbɒdi/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "ɒ",
                         "d",
                         "i"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "b",
                         "o",
                         "d",
@@ -1810,14 +1810,14 @@
                     "word": "friend",
                     "meaning": "朋友",
                     "phonetic": "/frend/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "r",
                         "e",
                         "n",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "fr",
                         "i",
                         "e",
@@ -1829,7 +1829,7 @@
                     "word": "myself",
                     "meaning": "我自己",
                     "phonetic": "/maɪˈself/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "aɪ",
                         "s",
@@ -1837,7 +1837,7 @@
                         "l",
                         "f"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "my",
                         "s",
                         "e",
@@ -1849,12 +1849,12 @@
                     "word": "heart",
                     "meaning": "心，心脏；内心",
                     "phonetic": "/hɑːt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "ɑː",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "ea",
                         "rt"
@@ -1872,12 +1872,12 @@
                     "word": "bird",
                     "meaning": "鸟",
                     "phonetic": "/bɜːd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "ɜː",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "b",
                         "ir",
                         "d"
@@ -1887,12 +1887,12 @@
                     "word": "horse",
                     "meaning": "马",
                     "phonetic": "/hɔːs/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "h",
                         "ɔː",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "h",
                         "or",
                         "se"
@@ -1902,14 +1902,14 @@
                     "word": "monkey",
                     "meaning": "猴子",
                     "phonetic": "/ˈmʌŋki/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "ʌ",
                         "ŋ",
                         "k",
                         "i"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "o",
                         "nk",
@@ -1920,12 +1920,12 @@
                     "word": "fish",
                     "meaning": "鱼",
                     "phonetic": "/fɪʃ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "ɪ",
                         "ʃ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "i",
                         "sh"
@@ -1935,11 +1935,11 @@
                     "word": "bear",
                     "meaning": "熊",
                     "phonetic": "/beə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "b",
                         "eə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "b",
                         "ear"
                     ]
@@ -1948,13 +1948,13 @@
                     "word": "swim",
                     "meaning": "游泳",
                     "phonetic": "/swɪm/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "s",
                         "w",
                         "ɪ",
                         "m"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "sw",
                         "i",
                         "m"
@@ -1964,12 +1964,12 @@
                     "word": "walk",
                     "meaning": "走，走路",
                     "phonetic": "/wɔːk/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "ɔː",
                         "k"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "w",
                         "al",
                         "k"
@@ -1979,12 +1979,12 @@
                     "word": "fly",
                     "meaning": "飞，飞翔",
                     "phonetic": "/flaɪ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "l",
                         "aɪ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "fl",
                         "y"
                     ]
@@ -1993,13 +1993,13 @@
                     "word": "jump",
                     "meaning": "跳，跳跃",
                     "phonetic": "/dʒʌmp/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "dʒ",
                         "ʌ",
                         "m",
                         "p"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "j",
                         "u",
                         "m",
@@ -2010,11 +2010,11 @@
                     "word": "arm",
                     "meaning": "手臂",
                     "phonetic": "/ɑːm/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ɑː",
                         "m"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "ar",
                         "m"
                     ]
@@ -2023,12 +2023,12 @@
                     "word": "leg",
                     "meaning": "腿",
                     "phonetic": "/leɡ/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "e",
                         "ɡ"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "e",
                         "g"
@@ -2038,13 +2038,13 @@
                     "word": "tiger",
                     "meaning": "老虎",
                     "phonetic": "/ˈtaɪɡə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "t",
                         "aɪ",
                         "ɡ",
                         "ə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "t",
                         "i",
                         "g",
@@ -2055,12 +2055,12 @@
                     "word": "then",
                     "meaning": "然后，接下来",
                     "phonetic": "/ðen/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "e",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "e",
                         "n"
@@ -2070,12 +2070,12 @@
                     "word": "let",
                     "meaning": "让",
                     "phonetic": "/let/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "l",
                         "e",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "l",
                         "e",
                         "t"
@@ -2085,11 +2085,11 @@
                     "word": "us",
                     "meaning": "我们",
                     "phonetic": "/ʌs/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ʌ",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "u",
                         "s"
                     ]
@@ -2098,12 +2098,12 @@
                     "word": "move",
                     "meaning": "移动",
                     "phonetic": "/muːv/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "uː",
                         "v"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "o",
                         "ve"
@@ -2113,10 +2113,10 @@
                     "word": "our",
                     "meaning": "我们的",
                     "phonetic": "/aʊə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "aʊə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "our"
                     ]
                 },
@@ -2124,12 +2124,12 @@
                     "word": "foot",
                     "meaning": "脚",
                     "phonetic": "/fʊt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "ʊ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "oo",
                         "t"
@@ -2147,11 +2147,11 @@
                     "word": "their",
                     "meaning": "他们的",
                     "phonetic": "/ðeə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ð",
                         "eə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "th",
                         "eir"
                     ]
@@ -2160,12 +2160,12 @@
                     "word": "mum",
                     "meaning": "妈妈",
                     "phonetic": "/mʌm/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "m",
                         "ʌ",
                         "m"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "m",
                         "u",
                         "m"
@@ -2175,12 +2175,12 @@
                     "word": "dad",
                     "meaning": "爸爸",
                     "phonetic": "/dæd/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "d",
                         "æ",
                         "d"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "d",
                         "a",
                         "d"
@@ -2190,7 +2190,7 @@
                     "word": "family",
                     "meaning": "家庭",
                     "phonetic": "/ˈfæməli/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "f",
                         "æ",
                         "m",
@@ -2198,7 +2198,7 @@
                         "l",
                         "i"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "f",
                         "a",
                         "m",
@@ -2211,11 +2211,11 @@
                     "word": "where",
                     "meaning": "哪里",
                     "phonetic": "/weə/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "eə"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "wh",
                         "ere"
                     ]
@@ -2224,12 +2224,12 @@
                     "word": "when",
                     "meaning": "什么时候",
                     "phonetic": "/wen/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "w",
                         "e",
                         "n"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "wh",
                         "e",
                         "n"
@@ -2239,13 +2239,13 @@
                     "word": "class",
                     "meaning": "班级",
                     "phonetic": "/klɑːs/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "k",
                         "l",
                         "ɑː",
                         "s"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "cl",
                         "a",
                         "ss"
@@ -2255,12 +2255,12 @@
                     "word": "not",
                     "meaning": "不",
                     "phonetic": "/nɒt/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "n",
                         "ɒ",
                         "t"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "n",
                         "o",
                         "t"
@@ -2270,11 +2270,11 @@
                     "word": "she",
                     "meaning": "她",
                     "phonetic": "/ʃiː/",
-                    "phonemes": [
+                    "phonemes_s": [
                         "ʃ",
                         "iː"
                     ],
-                    "phonemes_a": [
+                    "phonemes":  [
                         "sh",
                         "e"
                     ]
