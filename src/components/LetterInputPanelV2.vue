@@ -74,7 +74,7 @@
     <div v-if="showResult" class="result-feedback text-center mb-8">
       <div class="mb-4">
         <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
-          {{ word }}
+          {{ word.toLowerCase() }}
         </div>
         <div class="text-xl font-medium text-gray-800 dark:text-gray-200">
           {{ meaning }}
@@ -91,7 +91,7 @@
           错了~
         </div>
         <div class="text-gray-600 dark:text-gray-400">
-          正确答案是：{{ word }}
+          正确答案是：{{ word.toLowerCase() }}
         </div>
       </div>
     </div>
@@ -132,14 +132,14 @@ const shuffledLetters = ref([])
 
 // 计算属性
 const wordLetters = computed(() => {
-  return props.word.toUpperCase().split('')
+  return props.word.toLowerCase().split('')
 })
 
 // 打乱字母顺序
 const shuffleLetters = () => {
   const letters = [...wordLetters.value]
   // 添加一些干扰字母
-  const extraLetters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'H', 'R', 'D']
+  const extraLetters = ['e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r', 'd']
   const shuffledExtra = extraLetters
     .filter(letter => !letters.includes(letter))
     .sort(() => Math.random() - 0.5)
@@ -181,7 +181,7 @@ const submitAnswer = () => {
   if (currentInput.value.length !== wordLetters.value.length) return
 
   const userAnswer = currentInput.value.join('')
-  const correctAnswer = props.word.toUpperCase()
+  const correctAnswer = props.word.toLowerCase()
 
   isCorrect.value = userAnswer === correctAnswer
 

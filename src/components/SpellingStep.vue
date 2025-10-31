@@ -29,7 +29,7 @@
     </div>
     
     <div v-if="showResult" class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">
-        {{ word.word }}
+        {{ word.word.toLowerCase() }}
     </div>
 
     <div v-if="!showResult" class="spelling-info text-center mb-8">
@@ -64,7 +64,7 @@
           错了~
         </div>
         <div class="text-gray-600 dark:text-gray-400">
-          正确答案是：{{ word.word }}
+          正确答案是：{{ word.word.toLowerCase() }}
         </div>
       </div>
     </div>
