@@ -80,7 +80,7 @@
       </div>
       <div v-else class="error-message">
         <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
-          哎呀！
+          错了~
         </div>
         <div class="text-gray-600 dark:text-gray-400">
           正确顺序：{{ word.phonemes.join(' + ') }} = {{ word.word }}

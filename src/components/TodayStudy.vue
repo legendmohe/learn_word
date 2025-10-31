@@ -67,16 +67,9 @@
               @completed="handleStepCompleted"
             />
 
-            <!-- 步骤2: 边读边学 -->
-            <RecordStep
-              v-else-if="currentStep === 1"
-              :word="currentWord"
-              @completed="handleStepCompleted"
-            />
-
-            <!-- 步骤3: 小测试 -->
+            <!-- 步骤2: 小测试 -->
             <TestStep
-              v-else-if="currentStep === 2"
+              v-else-if="currentStep === 1"
               :word="currentWord"
               :other-words="otherWordsForTest"
               :initial-state="currentWord?.stepStates?.test || { selectedIndex: null, showResult: false, completed: false, options: [] }"
@@ -84,18 +77,18 @@
               @answer="handleStepAnswer"
             />
 
-            <!-- 步骤4: 拆分拼写 -->
+            <!-- 步骤3: 拆分拼写 -->
             <PhonicsStep
-              v-else-if="currentStep === 3"
+              v-else-if="currentStep === 2"
               :word="currentWord"
               :initial-state="currentWord?.stepStates?.phonics || { selectedPhonemes: [], showResult: false, completed: false }"
               @completed="handleStepCompleted"
               @answer="handleStepAnswer"
             />
 
-            <!-- 步骤5: 全字母拼 -->
+            <!-- 步骤4: 全字母拼 -->
             <SpellingStep
-              v-else-if="currentStep === 4"
+              v-else-if="currentStep === 3"
               :word="currentWord"
               :is-last-step="currentWordIndex >= studyWords.length - 1"
               :initial-state="currentWord?.stepStates?.spelling || { attempts: 0, showResult: false, completed: false }"
@@ -236,7 +229,6 @@ import { playWordAudio, getAudioEngineInfo } from '../utils/audioService'
 import WelcomeGuide from './WelcomeGuide.vue'
 import StepIndicator from './StepIndicator.vue'
 import ListenStep from './ListenStep.vue'
-import RecordStep from './RecordStep.vue'
 import TestStep from './TestStep.vue'
 import PhonicsStep from './PhonicsStep.vue'
 import SpellingStep from './SpellingStep.vue'
@@ -249,7 +241,6 @@ const components = {
   WelcomeGuide,
   StepIndicator,
   ListenStep,
-  RecordStep,
   TestStep,
   PhonicsStep,
   SpellingStep
@@ -320,7 +311,6 @@ const currentStepProgress = computed(() => {
   if (!currentWord.value?.stepProgress) {
     return {
       listen: false,
-      record: false,
       test: false,
       phonics: false,
       spelling: false
@@ -453,7 +443,6 @@ const resetWordStepProgress = () => {
     // 只重置步骤进度，不重置步骤状态
     studyWords.value[currentWordIndex.value].stepProgress = {
       listen: false,
-      record: false,
       test: false,
       phonics: false,
       spelling: false
@@ -463,7 +452,6 @@ const resetWordStepProgress = () => {
     if (!studyWords.value[currentWordIndex.value].stepStates) {
       studyWords.value[currentWordIndex.value].stepStates = {
         listen: { completed: false },
-        record: { completed: false },
         test: { selectedIndex: null, showResult: false, completed: false },
         phonics: { selectedPhonemes: [], showResult: false, completed: false },
         spelling: { attempts: 0, showResult: false, completed: false }
@@ -480,9 +468,9 @@ const resetWordStepProgress = () => {
 
 // 步骤导航相关方法
 const handleStepChange = (newStep) => {
-  if (newStep < 0 || newStep > 4) return
+  if (newStep < 0 || newStep > 3) return
 
-  const stepNames = ['listen', 'record', 'test', 'phonics', 'spelling']
+  const stepNames = ['listen', 'test', 'phonics', 'spelling']
   const currentWordData = studyWords.value[currentWordIndex.value]
 
   // 检查是否可以导航到目标步骤
@@ -517,30 +505,29 @@ const goToNextStep = () => {
 const getStepHint = () => {
   const hints = {
     0: '点击喇叭按钮，仔细听单词的发音',
-    1: '长按录音按钮，录下你的读音',
-    2: '选择正确的中文意思',
-    3: '按照音素顺序拼写出单词',
-    4: '使用所有字母完整拼写出单词'
+    1: '选择正确的中文意思',
+    2: '按照音素顺序拼写出单词',
+    3: '使用所有字母完整拼写出单词'
   }
   return hints[currentStep.value] || '继续学习...'
 }
 
 // 处理步骤完成
 const handleStepCompleted = (stepData = {}) => {
-  const stepNames = ['listen', 'record', 'test', 'phonics', 'spelling']
+  const stepNames = ['listen', 'test', 'phonics', 'spelling']
   const currentStepName = stepNames[currentStep.value]
 
-  // 标记当前步骤为完成（如果是listen或record步骤）
+  // 标记当前步骤为完成（如果是listen步骤）
   if (studyWords.value[currentWordIndex.value]) {
-    // 对于不需要answer事件的步骤（listen, record），在这里标记完成
-    if (currentStepName === 'listen' || currentStepName === 'record') {
+    // 对于不需要answer事件的步骤（listen），在这里标记完成
+    if (currentStepName === 'listen') {
       studyWords.value[currentWordIndex.value].stepProgress[currentStepName] = true
       studyWords.value[currentWordIndex.value].stepStates[currentStepName].completed = true
     }
   }
 
   // 如果不是最后一步，自动进入下一步
-  if (currentStep.value < 4) {
+  if (currentStep.value < 3) {
     currentStep.value++
   } else {
     // 如果是最后一步，完成当前单词的学习
@@ -550,7 +537,7 @@ const handleStepCompleted = (stepData = {}) => {
 
 // 处理步骤答案（用于测试和拼写步骤）
 const handleStepAnswer = (answerData) => {
-  const stepNames = ['listen', 'record', 'test', 'phonics', 'spelling']
+  const stepNames = ['listen', 'test', 'phonics', 'spelling']
   const stepType = answerData.type
   const stepIndex = stepNames.indexOf(stepType)
 

@@ -70,13 +70,12 @@ export default {
     currentStep: {
       type: Number,
       default: 0,
-      validator: (value) => value >= 0 && value <= 4
+      validator: (value) => value >= 0 && value <= 3
     },
     stepProgress: {
       type: Object,
       default: () => ({
         listen: false,
-        record: false,
         test: false,
         phonics: false,
         spelling: false
@@ -103,11 +102,6 @@ export default {
           id: 'listen',
           label: '听音学义',
           description: '听发音，记词义'
-        },
-        {
-          id: 'record',
-          label: '边读边学',
-          description: '录发音，练口语'
         },
         {
           id: 'test',
