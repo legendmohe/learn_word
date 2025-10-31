@@ -344,7 +344,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
 import {
   getStudyProgress,
@@ -406,6 +406,14 @@ const accuracyRate = computed(() => {
 onMounted(() => {
   loadData()
   loadSettings()
+})
+
+// 监听WordList页面的显示状态，当从WordList返回时重新加载数据
+watch(showWordList, (newValue, oldValue) => {
+  // 当从WordList页面返回时（从true变为false），重新加载数据
+  if (oldValue === true && newValue === false) {
+    loadData()
+  }
 })
 
 // 加载数据
