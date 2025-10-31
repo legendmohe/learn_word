@@ -22,7 +22,7 @@
     </div>
 
     <!-- 字母选择区域 -->
-    <div class="letter-selection-area mb-8">
+    <div class="letter-selection-area mb-2">
       <div class="letter-grid grid gap-3 justify-center">
         <button
           v-for="(letter, index) in shuffledLetters"
@@ -33,8 +33,8 @@
           :class="{
             'border-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 hover:border-indigo-400 hover:shadow-md': !usedLetters.includes(index) && !showResult,
             'border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed': usedLetters.includes(index) && !showResult,
-            'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400': showResult && isCorrect,
-            'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400': showResult && !isCorrect
+            'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400': showResult && props.isCorrect,
+            'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400': showResult && !props.isCorrect
           }"
         >
           {{ letter }}
@@ -81,6 +81,21 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  isCorrect: {
+    type: Boolean,
+    default: false
+  },
+  // 初始状态（用于恢复用户的选择）
+  initialState: {
+    type: Object,
+    default: () => ({
+      currentInput: [],
+      usedLetters: [],
+      showResult: false,
+      isCorrect: false,
+      completed: false
+    })
+  },
   isLastStep: {
     type: Boolean,
     default: false
@@ -91,9 +106,9 @@ const props = defineProps({
 const emit = defineEmits(['answer', 'completed'])
 
 // 响应式数据
-const currentInput = ref([])
-const usedLetters = ref([])
-const isCorrect = ref(false)
+const currentInput = ref(props.initialState?.currentInput || [])
+const usedLetters = ref(props.initialState?.usedLetters || [])
+const isCorrect = ref(props.isCorrect || props.initialState?.isCorrect || false)
 const shuffledLetters = ref([])
 
 // 计算属性
@@ -158,7 +173,9 @@ const submitAnswer = () => {
     selectedAnswer: userAnswer,
     correctAnswer: correctAnswer,
     attempts: 1,
-    type: 'spelling'
+    type: 'spelling',
+    currentInput: [...currentInput.value], // 保存用户输入的字母
+    usedLetters: [...usedLetters.value]    // 保存已使用的字母索引
   })
 }
 
@@ -180,6 +197,11 @@ watch(() => props.showResult, (newVal) => {
   }
 })
 
+// 监听props.isCorrect变化
+watch(() => props.isCorrect, (newVal) => {
+  isCorrect.value = newVal
+})
+
 // 监听word变化
 watch(() => props.word, () => {
   clearAll()
@@ -189,6 +211,10 @@ watch(() => props.word, () => {
 
 onMounted(() => {
   shuffleLetters()
+  // 恢复isCorrect状态
+  if (props.initialState?.isCorrect !== undefined) {
+    isCorrect.value = props.initialState.isCorrect
+  }
 })
 </script>
 

@@ -27,6 +27,8 @@
         :word="word.word"
         :meaning="word.meaning"
         :show-result="showResult"
+        :is-correct="isCorrect"
+        :initial-state="spellingState"
         :is-last-step="isLastStep"
         @answer="handleAnswer"
         @completed="completeStep"
@@ -94,15 +96,28 @@ export default {
       default: () => ({
         attempts: 0,
         showResult: false,
+        isCorrect: false,
         completed: false
       })
     }
   },
   emits: ['completed', 'answer'],
+  computed: {
+    // 计算拼写状态，用于传递给LetterInputPanelV2
+    spellingState() {
+      return {
+        currentInput: this.initialState?.currentInput || [],
+        usedLetters: this.initialState?.usedLetters || [],
+        showResult: this.showResult,
+        isCorrect: this.isCorrect,
+        completed: false
+      }
+    }
+  },
   setup(props, { emit }) {
     const letterInputPanel = ref(null)
     const showResult = ref(props.initialState?.showResult || false)
-    const isCorrect = ref(false)
+    const isCorrect = ref(props.initialState?.isCorrect || false)
     const attempts = ref(props.initialState?.attempts || 0)
     const maxAttempts = 2
 
@@ -130,6 +145,7 @@ export default {
       })
     }
 
+  
     return {
       letterInputPanel,
       showResult,

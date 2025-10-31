@@ -92,7 +92,7 @@
               v-else-if="currentStep === 3"
               :word="currentWord"
               :is-last-step="currentWordIndex >= studyWords.length - 1"
-              :initial-state="currentWord?.stepStates?.spelling || { attempts: 0, showResult: false, completed: false }"
+              :initial-state="currentWord?.stepStates?.spelling || { attempts: 0, showResult: false, isCorrect: false, completed: false }"
               @completed="handleStepCompleted"
               @answer="handleStepAnswer"
             />
@@ -462,7 +462,7 @@ const resetWordStepProgress = () => {
         listen: { completed: false },
         test: { selectedIndex: null, showResult: false, completed: false },
         phonics: { selectedPhonemes: [], showResult: false, completed: false, skipped: false },
-        spelling: { attempts: 0, showResult: false, completed: false }
+        spelling: { attempts: 0, showResult: false, isCorrect: false, completed: false }
       }
     }
   }
@@ -576,6 +576,9 @@ const handleStepAnswer = (answerData) => {
       studyWords.value[currentWordIndex.value].stepStates.spelling = {
         attempts: answerData.attempts || 1,
         showResult: true,
+        isCorrect: answerData.correct || false,
+        currentInput: answerData.currentInput || [],
+        usedLetters: answerData.usedLetters || [],
         completed: true // 立即标记为完成
       }
     }
