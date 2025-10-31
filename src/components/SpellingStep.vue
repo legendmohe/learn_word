@@ -73,7 +73,7 @@
 <script>
 import { ref, nextTick } from 'vue'
 import LetterInputPanelV2 from './LetterInputPanelV2.vue'
-import WordCard from './WordCard.vue'
+import WordCard from './common/WordCard.vue'
 
 export default {
   name: 'SpellingStep',

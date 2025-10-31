@@ -47,7 +47,7 @@
 <script>
 import { ref } from 'vue'
 import { playWordAudio } from '../utils/audioService'
-import WordCard from './WordCard.vue'
+import WordCard from './common/WordCard.vue'
 
 export default {
   name: 'ListenStep',

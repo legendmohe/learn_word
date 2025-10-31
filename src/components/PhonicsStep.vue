@@ -136,7 +136,7 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import WordCard from './WordCard.vue'
+import WordCard from './common/WordCard.vue'
 
 export default {
   name: 'PhonicsStep',

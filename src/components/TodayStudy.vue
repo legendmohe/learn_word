@@ -203,14 +203,14 @@ import { getDailyGoal, getSelectedCourse, updateStudyProgress, addErrorWord, add
 import { getTodayWords } from '../utils/studyData'
 import { getRandomWords } from '../utils/coursesParser'
 import { playWordAudio, getAudioEngineInfo } from '../utils/audioService'
-import AppDialog from './AppDialog.vue'
+import AppDialog from './common/AppDialog.vue'
 import WelcomeGuide from './WelcomeGuide.vue'
 import StepIndicator from './StepIndicator.vue'
 import ListenStep from './ListenStep.vue'
 import TestStep from './TestStep.vue'
 import PhonicsStep from './PhonicsStep.vue'
 import SpellingStep from './SpellingStep.vue'
-import WordCard from './WordCard.vue'
+import WordCard from './common/WordCard.vue'
 
 // 定义事件
 const emit = defineEmits(['completed', 'study-status-changed'])

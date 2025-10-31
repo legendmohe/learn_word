@@ -50,7 +50,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { playWordAudio } from '../utils/audioService'
+import { playWordAudio } from '../../utils/audioService'
 import { useDark } from '@vueuse/core'
 
 // Props定义
