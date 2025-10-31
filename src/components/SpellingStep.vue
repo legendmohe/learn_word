@@ -1,35 +1,17 @@
 <template>
   <div class="spelling-step">
     <div class="word-display text-center mb-2">
-      <div class="flex items-center justify-center gap-1">
-        <div class="text-center">
-          <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
-            {{ word.meaning }}
-          </div>
-        </div>
-
-        <!-- 语音播放按钮 -->
-        <button
-          @click="playAudio"
-          :disabled="isPlaying"
-          class="p-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-all duration-200 group"
-          title="播放发音"
-        >
-          <svg
-            class="w-4 h-4 text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors"
-            :class="{ 'animate-pulse': isPlaying }"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
-          </svg>
-        </button>
+      <!-- WordCard 单词显示 -->
+      <div class="flex justify-center">
+        <WordCard
+          :word="word"
+          size="large"
+          :show-phonemes="true"
+          :show-audio="true"
+          :show-meaning="true"
+          :show-english-word="showResult"
+        />
       </div>
-    </div>
-    
-    <div v-if="showResult" class="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">
-        {{ word.word.toLowerCase() }}
     </div>
 
     <div v-if="!showResult" class="spelling-info text-center mb-8">
@@ -63,9 +45,6 @@
         <div class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
           错了~
         </div>
-        <div class="text-gray-600 dark:text-gray-400">
-          正确答案是：{{ word.word }}
-        </div>
       </div>
     </div>
 
@@ -92,12 +71,13 @@
 <script>
 import { ref, nextTick } from 'vue'
 import LetterInputPanelV2 from './LetterInputPanelV2.vue'
-import { playWordAudio } from '../utils/audioService'
+import WordCard from './WordCard.vue'
 
 export default {
   name: 'SpellingStep',
   components: {
-    LetterInputPanelV2
+    LetterInputPanelV2,
+    WordCard
   },
   props: {
     word: {
@@ -121,31 +101,10 @@ export default {
   emits: ['completed', 'answer'],
   setup(props, { emit }) {
     const letterInputPanel = ref(null)
-    const isPlaying = ref(false)
     const showResult = ref(props.initialState?.showResult || false)
     const isCorrect = ref(false)
     const attempts = ref(props.initialState?.attempts || 0)
     const maxAttempts = 2
-
-    const playAudio = async () => {
-      if (isPlaying.value) return
-
-      try {
-        isPlaying.value = true
-        const success = await playWordAudio(props.word.word, {
-          lang: 'en-US',
-          rate: 0.8
-        })
-
-        if (!success) {
-          console.warn('语音播放失败')
-        }
-      } catch (error) {
-        console.error('语音播放错误:', error)
-      } finally {
-        isPlaying.value = false
-      }
-    }
 
     const handleAnswer = (answerData) => {
       attempts.value++
@@ -173,12 +132,10 @@ export default {
 
     return {
       letterInputPanel,
-      isPlaying,
       showResult,
       isCorrect,
       attempts,
       maxAttempts,
-      playAudio,
       handleAnswer,
       handleInputChange,
       completeStep
