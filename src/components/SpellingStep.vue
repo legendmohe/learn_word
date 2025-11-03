@@ -74,6 +74,7 @@
 import { ref, nextTick } from 'vue'
 import LetterInputPanelV2 from './LetterInputPanelV2.vue'
 import WordCard from './common/WordCard.vue'
+import { LIMITS } from '../config/constants'
 
 export default {
   name: 'SpellingStep',
@@ -139,11 +140,22 @@ export default {
     }
 
     const completeStep = () => {
+      const startTime = performance.now()
+      console.log('🔄 [SpellingStep] completeStep 开始:', {
+        word: props.word.word,
+        correct: isCorrect.value,
+        attempts: attempts.value,
+        timestamp: Date.now()
+      })
+
       emit('completed', {
         word: props.word.word,
         correct: isCorrect.value,
         attempts: attempts.value
       })
+
+      const endTime = performance.now()
+      console.log('✅ [SpellingStep] completeStep 事件已发送，耗时:', (endTime - startTime).toFixed(2) + 'ms')
     }
 
   

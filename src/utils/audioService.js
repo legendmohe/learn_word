@@ -1,6 +1,8 @@
 // 语音服务工具模块
 // 提供多种免费的语音合成方案，带fallback机制
 
+import { AUDIO, TIMING } from '../config/constants'
+
 class AudioService {
   constructor() {
     this.currentEngine = null
@@ -132,7 +134,7 @@ class HowjsayEngine {
         // 设置超时
         setTimeout(() => {
           reject(new Error('Howjsay请求超时'))
-        }, 5000)
+        }, TIMING.AUDIO_TIMEOUT)
 
         audio.src = audioUrl
       })
@@ -289,9 +291,9 @@ class SpeechSynthesisEngine {
 
       // 优化参数设置
       utterance.lang = 'en-US'
-      utterance.rate = 0.75  // 稍慢一点，便于学习
-      utterance.pitch = 1.0
-      utterance.volume = 1.0
+      utterance.rate = AUDIO.SPEECH_RATE  // 稍慢一点，便于学习
+      utterance.pitch = AUDIO.SPEECH_PITCH
+      utterance.volume = AUDIO.SPEECH_VOLUME
 
       utterance.onend = () => resolve(true)
       utterance.onerror = (event) => reject(new Error(`Speech synthesis error: ${event.error}`))

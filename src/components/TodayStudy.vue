@@ -175,6 +175,14 @@ import TestStep from './TestStep.vue'
 import PhonicsStep from './PhonicsStep.vue'
 import SpellingStep from './SpellingStep.vue'
 import WordCard from './common/WordCard.vue'
+import {
+  TIMING,
+  AUDIO,
+  LIMITS,
+  MESSAGES,
+  VIBRATION,
+  ANIMATION
+} from '../config/constants'
 
 // 定义事件
 const emit = defineEmits(['completed', 'study-status-changed'])
@@ -307,18 +315,7 @@ const getStartStudyMessage = () => {
 
 // 获取激励语句
 const getMotivationalQuote = () => {
-  const quotes = [
-    "学习是通向成功的阶梯！",
-    "每一个单词都让你更接近目标！",
-    "坚持就是胜利，加油！",
-    "今天的努力，明天的收获！",
-    "相信自己，你一定能做到！",
-    "知识改变命运，学习成就未来！",
-    "积累的力量是无穷的！",
-    "每学一个单词，世界就大一点！",
-    "学习让生活更精彩！",
-    "你的努力终将绽放光芒！"
-  ]
+  const quotes = MESSAGES.MOTIVATIONAL_QUOTES
   return quotes[Math.floor(Math.random() * quotes.length)]
 }
 
@@ -336,7 +333,7 @@ const handlePlayWordAudio = async () => {
     isPlayingAudio.value = true
     const success = await playWordAudio(currentWord.value.word, {
       lang: 'en-US',
-      rate: 0.75,
+      rate: AUDIO.SPEECH_RATE,
       // 可以添加其他选项
     })
 
@@ -405,6 +402,11 @@ const proceedToStudy = async () => {
 
 // 重置当前单词的步骤进度
 const resetWordStepProgress = () => {
+  console.log('🔄 [TodayStudy] resetWordStepProgress 开始:', {
+    currentWordIndex: currentWordIndex.value,
+    timestamp: Date.now()
+  })
+
   if (studyWords.value[currentWordIndex.value]) {
     // 只重置步骤进度，不重置步骤状态
     studyWords.value[currentWordIndex.value].stepProgress = {
@@ -416,6 +418,7 @@ const resetWordStepProgress = () => {
 
     // 确保stepStates存在
     if (!studyWords.value[currentWordIndex.value].stepStates) {
+      console.log('🔧 [TodayStudy] 创建新单词的 stepStates')
       studyWords.value[currentWordIndex.value].stepStates = {
         listen: { completed: false },
         test: { selectedIndex: null, showResult: false, completed: false },
@@ -430,11 +433,13 @@ const resetWordStepProgress = () => {
     phonics: false,
     spelling: false
   }
+
+  console.log('✅ [TodayStudy] resetWordStepProgress 完成')
 }
 
 // 步骤导航相关方法
 const handleStepChange = (newStep) => {
-  if (newStep < 0 || newStep > 3) return
+  if (newStep < 0 || newStep > LIMITS.MAX_LEARNING_STEPS - 1) return
 
   const stepNames = ['listen', 'test', 'phonics', 'spelling']
   const currentWordData = studyWords.value[currentWordIndex.value]
@@ -460,7 +465,7 @@ const goToPreviousStep = () => {
 }
 
 const goToNextStep = () => {
-  if (currentStep.value < 3) {
+  if (currentStep.value < LIMITS.MAX_LEARNING_STEPS - 1) {
     // 只能到下一步，不能跳过
     currentStep.value++
   } else {
@@ -476,13 +481,20 @@ const getStepHint = () => {
     0: '点击喇叭按钮，仔细听单词的发音',
     1: '选择正确的中文意思',
     2: '按照音素顺序拼写出单词',
-    3: '使用所有字母完整拼写出单词'
   }
+  hints[LIMITS.MAX_LEARNING_STEPS - 1] = '使用所有字母完整拼写出单词'
   return hints[currentStep.value] || '继续学习...'
 }
 
 // 处理步骤完成
 const handleStepCompleted = (stepData = {}) => {
+  console.log('🔄 [TodayStudy] handleStepCompleted 开始:', {
+    stepData,
+    currentStep: currentStep.value,
+    currentWordIndex: currentWordIndex.value,
+    timestamp: Date.now()
+  })
+
   const stepNames = ['listen', 'test', 'phonics', 'spelling']
   const currentStepName = stepNames[currentStep.value]
 
@@ -496,9 +508,12 @@ const handleStepCompleted = (stepData = {}) => {
   }
 
   // 如果不是最后一步，自动进入下一步
-  if (currentStep.value < 3) {
+  if (currentStep.value < LIMITS.MAX_LEARNING_STEPS - 1) {
+    console.log('📈 [TodayStudy] 进入下一步:', currentStep.value, '->', currentStep.value + 1)
     currentStep.value++
+    console.log('✅ [TodayStudy] 步骤更新完成')
   } else {
+    console.log('🏁 [TodayStudy] 当前单词学习完成，调用 completeCurrentWord')
     // 如果是最后一步，完成当前单词的学习
     completeCurrentWord()
   }
@@ -570,26 +585,33 @@ const handleStepAnswer = (answerData) => {
     })
   }
 
-  // 更新学习进度
-  updateStudyProgress(answerData.correct)
+  // 使用 setTimeout 将 localStorage 操作异步化，避免阻塞 UI
+  setTimeout(() => {
+    console.log('📊 [TodayStudy] 开始异步更新学习进度')
+    // 更新学习进度
+    updateStudyProgress(answerData.correct)
 
-  // 计算正确率
-  const total = studyStats.value.correct + studyStats.value.wrong
-  studyStats.value.accuracy = Math.round((studyStats.value.correct / total) * 100)
+    // 计算正确率
+    const total = studyStats.value.correct + studyStats.value.wrong
+    studyStats.value.accuracy = Math.round((studyStats.value.correct / total) * 100)
 
-  // 触觉反馈
+    console.log('✅ [TodayStudy] 学习进度更新完成')
+  }, TIMING.ASYNC_SAVE_DELAY)
+
+  // 触觉反馈（立即执行）
   if (navigator.vibrate) {
-    navigator.vibrate(answerData.correct ? 100 : [50, 50, 50])
+    navigator.vibrate(answerData.correct ? VIBRATION.SUCCESS : VIBRATION.ERROR)
   }
 }
 
 // 完成当前单词的学习
 const completeCurrentWord = () => {
-  console.log('🎯 完成当前单词:', {
+  console.log('🎯 [TodayStudy] completeCurrentWord 开始:', {
     currentWordIndex: currentWordIndex.value,
     totalWords: studyWords.value.length,
     isLastWord: currentWordIndex.value >= studyWords.value.length - 1,
-    currentWord: studyWords.value[currentWordIndex.value]?.word
+    currentWord: studyWords.value[currentWordIndex.value]?.word,
+    timestamp: Date.now()
   })
 
   // 标记拼写步骤完成
@@ -599,10 +621,13 @@ const completeCurrentWord = () => {
 
   // 如果不是最后一个单词，进入下一个单词
   if (currentWordIndex.value < studyWords.value.length - 1) {
+    console.log('⏰ [TodayStudy] 准备延迟跳转到下一个单词，延迟:', TIMING.WORD_COMPLETION_DELAY + 'ms')
     setTimeout(() => {
+      console.log('🚀 [TodayStudy] 延迟结束，开始执行 nextWord()')
       nextWord()
-    }, 1500)
+    }, TIMING.WORD_COMPLETION_DELAY)
   } else {
+    console.log('🏆 [TodayStudy] 所有单词学习完成')
     // 学习完成
     setTimeout(() => {
       studyStatus.value = 'completed'
@@ -620,31 +645,39 @@ const completeCurrentWord = () => {
 
       // 发送学习完成事件
       emit('completed')
-    }, 1500)
+    }, TIMING.WORD_COMPLETION_DELAY)
   }
 }
 
 
 // 下一个单词
 const nextWord = () => {
-  console.log('➡️ 进入下一个单词:', {
+  console.log('➡️ [TodayStudy] nextWord 开始:', {
     currentIndex: currentWordIndex.value,
     nextIndex: currentWordIndex.value + 1,
     totalWords: studyWords.value.length,
     currentWord: studyWords.value[currentWordIndex.value]?.word,
-    nextWord: studyWords.value[currentWordIndex.value + 1]?.word
+    nextWord: studyWords.value[currentWordIndex.value + 1]?.word,
+    timestamp: Date.now()
   })
 
   if (currentWordIndex.value < studyWords.value.length - 1) {
+    console.log('📈 [TodayStudy] 更新 currentWordIndex:', currentWordIndex.value, '->', currentWordIndex.value + 1)
     currentWordIndex.value++
     currentStep.value = 0 // 重置到第一步
     spellingAttempts.value = 0 // 重置拼写尝试次数
 
+    console.log('🔄 [TodayStudy] 重置新单词的步骤进度')
     // 重置新单词的步骤进度
     resetWordStepProgress()
 
-    // 保存当前学习会话状态
-    saveStudySession()
+    console.log('💾 [TodayStudy] 异步保存学习会话状态')
+    // 异步保存当前学习会话状态，避免阻塞UI
+    setTimeout(() => {
+      saveStudySession()
+    }, TIMING.ASYNC_SAVE_DELAY)
+
+    console.log('✅ [TodayStudy] nextWord 完成')
   } else {
     // 学习完成
     studyStatus.value = 'completed'
@@ -867,17 +900,33 @@ const saveCurrentStudyTime = () => {
 
 // 保存学习会话状态
 const saveStudySession = () => {
+  console.log('💾 [TodayStudy] saveStudySession 开始:', {
+    studyStatus: studyStatus.value,
+    studyWordsCount: studyWords.value?.length,
+    currentWordIndex: currentWordIndex.value,
+    currentStep: currentStep.value,
+    timestamp: Date.now()
+  })
+
   if (studyStatus.value === 'studying') {
+    // 优化：只保存必要的数据，减少序列化开销
     const sessionData = {
-      studyWords: studyWords.value,
-      currentWordIndex: currentWordIndex.value,
+      // 只保存当前单词和后续单词，而不是全部
+      studyWords: studyWords.value.slice(currentWordIndex.value),
+      currentWordIndex: 0, // 重新设置索引，因为我们已经切片了
       currentStep: currentStep.value,
       studyStats: studyStats.value,
       studyStartTime: studyStartTime.value,
       timestamp: Date.now()
     }
+
+    const startTime = performance.now()
     localStorage.setItem('learn_word_study_session', JSON.stringify(sessionData))
-    console.log('学习会话状态已保存')
+    const endTime = performance.now()
+
+    console.log('✅ [TodayStudy] 学习会话状态已保存（优化版），耗时:', (endTime - startTime).toFixed(2) + 'ms，数据大小:', JSON.stringify(sessionData).length + '字符')
+  } else {
+    console.log('⚠️ [TodayStudy] 不是学习状态，跳过保存')
   }
 }
 
@@ -890,7 +939,7 @@ const restoreStudySession = () => {
       const sessionAge = Date.now() - session.timestamp
 
       // 如果会话超过2小时，则不恢复（避免过期的会话）
-      if (sessionAge > 2 * 60 * 60 * 1000) {
+      if (sessionAge > TIMING.SESSION_TIMEOUT) {
         localStorage.removeItem('learn_word_study_session')
         console.log('学习会话已过期，不恢复')
         return false

@@ -54,6 +54,7 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import { TIMING, TOUCH, ANIMATION } from '../../config/constants'
 
 // Props 定义
 const props = defineProps({
@@ -128,7 +129,7 @@ watch(() => props.show, (newVal) => {
     // 下一个渲染帧后添加动画类
     setTimeout(() => {
       isEntering.value = true
-    }, 10)
+    }, TIMING.ANIMATION_FRAME_DELAY)
   } else {
     isEntering.value = false
   }
@@ -139,7 +140,7 @@ onMounted(() => {
   if (props.show) {
     setTimeout(() => {
       isEntering.value = true
-    }, 10)
+    }, TIMING.ANIMATION_FRAME_DELAY)
   }
 })
 </script>

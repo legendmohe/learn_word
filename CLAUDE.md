@@ -68,6 +68,8 @@ src/
 │   └── WordList.vue            # Error/Learned words lists
 ├── composables/        # Vue composables
 │   └── useDialog.js           # Dialog management composable
+├── config/              # Configuration constants
+│   └── constants.js           # Centralized application constants
 ├── data/                # Static data files
 │   ├── app_settings.json      # Application settings
 │   └── courses_data.json      # Course vocabulary data
@@ -116,6 +118,7 @@ src/
 - **Session Persistence**: Resume learning sessions seamlessly
 - **Progress Statistics**: Track learning time, accuracy, and streaks
 - **Error Tracking**: Separate lists for learned and error words
+- **Centralized Configuration**: All constants managed in `config/constants.js` for easy maintenance
 
 ### User Experience
 - **Responsive Design**: Optimized for mobile devices
@@ -217,6 +220,7 @@ src/
 - **Dialog Conflicts**: Use DialogManager for multiple dialogs to avoid key conflicts
 - **Step Navigation**: Use proper step state management in multi-step learning flows
 - **Component Naming**: Maintain clear distinction between step components (ListenStep, PhonicsStep, etc.)
+- **Constants Management**: All hardcoded values are centralized in `config/constants.js` - use these instead of magic numbers
 
 ## Deployment Notes
 
@@ -225,3 +229,4 @@ src/
 - **PWA Ready**: Can be enhanced with service worker for offline usage
 - 不用每次修改完都检查开发服务器状态了，有编译问题我会提示你。
 - 命名变量、方法等要素的时候，要注意当前元素在上下文的区分度，避免命名冲突。
+- 除CSS外，使用配置常量替代硬编码值，参考src\config\constants.js

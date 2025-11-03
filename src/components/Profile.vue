@@ -349,6 +349,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
+import { TIMING } from '../config/constants'
 import {
   getStudyProgress,
   getErrorWords,
@@ -645,7 +646,7 @@ const showNotification = (message, type = 'info') => {
     setTimeout(() => {
       document.body.removeChild(toast)
     }, 300)
-  }, 3000)
+  }, TIMING.TOAST_DURATION)
 }
 
 </script>

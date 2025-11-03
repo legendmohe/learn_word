@@ -215,7 +215,7 @@
             单词列表
           </h3>
           <div class="text-sm text-gray-500 dark:text-gray-400">
-            显示前 {{ Math.min(learnedWords.length, 50) }} 个
+            显示前 {{ Math.min(learnedWords.length, LIMITS.MAX_LEARNED_WORDS_DISPLAY) }} 个
           </div>
         </div>
 
@@ -246,7 +246,7 @@
       <!-- 单词列表 -->
       <div class="space-y-3">
         <div
-          v-for="word in filteredLearnedWords.slice(0, 50)"
+          v-for="word in filteredLearnedWords.slice(0, LIMITS.MAX_LEARNED_WORDS_DISPLAY)"
           :key="word.word"
           class="learned-word-item glass-effect rounded-lg p-4 card-shadow transform transition-all duration-200 hover:scale-102"
         >
@@ -281,9 +281,9 @@
         </div>
 
         <!-- 更多单词提示 -->
-        <div v-if="learnedWords.length > 50" class="text-center mt-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+        <div v-if="learnedWords.length > LIMITS.MAX_LEARNED_WORDS_DISPLAY" class="text-center mt-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
           <p class="text-sm text-gray-600 dark:text-gray-400">
-            还有 {{ learnedWords.length - 50 }} 个已掌握单词
+            还有 {{ learnedWords.length - LIMITS.MAX_LEARNED_WORDS_DISPLAY }} 个已掌握单词
           </p>
         </div>
       </div>
@@ -297,6 +297,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
+import { TIMING, LIMITS, COLORS } from '../config/constants'
 import {
   getErrorWords,
   getLearnedWords,
@@ -471,7 +472,7 @@ const clearSearch = () => {
 const handleSearch = debounce((query) => {
   debouncedSearch.value = query
   searchLoading.value = false
-}, 300)
+}, TIMING.DEBOUNCE_DELAY)
 
 // 监听搜索输入变化
 watch(searchQuery, (newValue) => {
@@ -531,7 +532,7 @@ const formatDate = (dateString) => {
 // 显示通知
 const showNotification = (message, type = 'info') => {
   const toast = document.createElement('div')
-  const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+  const bgColor = type === 'success' ? COLORS.SUCCESS : type === 'error' ? COLORS.ERROR : COLORS.INFO
 
   toast.className = `fixed top-4 right-4 ${bgColor} text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full`
   toast.textContent = message
@@ -545,8 +546,8 @@ const showNotification = (message, type = 'info') => {
     toast.style.transform = 'translateX(200%)'
     setTimeout(() => {
       document.body.removeChild(toast)
-    }, 300)
-  }, 3000)
+    }, TIMING.DEBOUNCE_DELAY)
+  }, TIMING.TOAST_DURATION)
 }
 </script>
 

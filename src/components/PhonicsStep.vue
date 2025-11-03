@@ -137,6 +137,7 @@
 <script>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import WordCard from './common/WordCard.vue'
+import { TIMING, LIMITS } from '../config/constants'
 
 export default {
   name: 'PhonicsStep',
@@ -233,7 +234,7 @@ export default {
     // 开始倒计时
     const startCountdown = () => {
       // 答对时2秒自动跳转，答错时不跳转（只显示提示）
-      const autoJumpTime = isCorrect.value ? 2 : null
+      const autoJumpTime = isCorrect.value ? TIMING.CORRECT_ANSWER_DELAY : null
       countdown.value = autoJumpTime || 0
 
       if (autoJumpTime) {

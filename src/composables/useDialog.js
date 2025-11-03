@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { TIMING } from '../config/constants'
 
 /**
  * 简化 AppDialog 使用的组合式函数
@@ -173,7 +174,7 @@ export function useDialog() {
       // 延迟删除，等待动画完成
       setTimeout(() => {
         delete dialogs.value[key]
-      }, 300)
+      }, TIMING.DIALOG_ANIMATION_DELAY)
     }
   }
 

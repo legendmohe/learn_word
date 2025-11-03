@@ -66,6 +66,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { LIMITS, TOUCH, ALPHABET, FACTORS } from '../config/constants'
 
 // Props
 const props = defineProps({
@@ -121,14 +122,14 @@ const wordLetters = computed(() => {
 const shuffleLetters = () => {
   const letters = [...wordLetters.value]
   // 添加一些干扰字母
-  const extraLetters = ['e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r', 'd']
+  const extraLetters = ALPHABET.EXTRA_LETTERS
   const shuffledExtra = extraLetters
     .filter(letter => !letters.includes(letter))
-    .sort(() => Math.random() - 0.5)
-    .slice(0, Math.min(5, letters.length))
+    .sort(() => Math.random() - FACTORS.SHUFFLE_FACTOR)
+    .slice(0, Math.min(LIMITS.MAX_EXTRA_LETTERS, letters.length))
 
   const allLetters = [...letters, ...shuffledExtra]
-  shuffledLetters.value = allLetters.sort(() => Math.random() - 0.5)
+  shuffledLetters.value = allLetters.sort(() => Math.random() - FACTORS.SHUFFLE_FACTOR)
 }
 
 // 选择字母
@@ -264,7 +265,7 @@ onMounted(() => {
   transition: all 0.2s ease;
   user-select: none;
   min-height: 45px;
-  min-width: 35px;
+  min-width: 40px;
   max-width: 45px;
   flex: 0 0 auto;
 }

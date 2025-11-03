@@ -88,6 +88,7 @@
 <script>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import WordCard from './common/WordCard.vue'
+import { TIMING, LIMITS, ALPHABET } from '../config/constants'
 
 export default {
   name: 'TestStep',
@@ -138,8 +139,8 @@ export default {
       if (props.otherWords && props.otherWords.length > 0) {
         const availableWords = props.otherWords.filter(w => w.meaning !== correctAnswer)
 
-        // 随机选择3个干扰项
-        for (let i = 0; i < Math.min(3, availableWords.length); i++) {
+        // 随机选择干扰项
+        for (let i = 0; i < Math.min(LIMITS.TEST_OPTIONS_COUNT, availableWords.length); i++) {
           const randomIndex = Math.floor(Math.random() * availableWords.length)
           distractors.push(availableWords[randomIndex].meaning)
           availableWords.splice(randomIndex, 1)
@@ -148,7 +149,7 @@ export default {
 
       // 如果没有足够的干扰项，使用一些常见的干扰词
       const commonDistractors = ['书', '桌子', '椅子', '电脑', '手机', '房子', '汽车', '食物']
-      while (distractors.length < 3) {
+      while (distractors.length < LIMITS.TEST_OPTIONS_COUNT) {
         const randomWord = commonDistractors[Math.floor(Math.random() * commonDistractors.length)]
         if (!distractors.includes(randomWord) && randomWord !== correctAnswer) {
           distractors.push(randomWord)
@@ -156,7 +157,7 @@ export default {
       }
 
       // 组合正确答案和干扰项
-      const allOptions = [correctAnswer, ...distractors.slice(0, 3)]
+      const allOptions = [correctAnswer, ...distractors.slice(0, LIMITS.TEST_OPTIONS_COUNT)]
 
       // 随机排序
       for (let i = allOptions.length - 1; i > 0; i--) {
@@ -201,7 +202,7 @@ export default {
 
     const startCountdown = () => {
       // 答对时2秒自动跳转，答错时不跳转（只显示提示）
-      const autoJumpTime = isCorrect.value ? 2 : null
+      const autoJumpTime = isCorrect.value ? TIMING.CORRECT_ANSWER_DELAY : null
       countdown.value = autoJumpTime || 0
 
       if (autoJumpTime) {
