@@ -5,7 +5,15 @@
       <!-- 主内容区域 -->
       <main class="flex-1 relative z-10 pb-20">
         <div class="px-4 pt-2 pb-2 h-full">
-          <router-view />
+          <router-view v-slot="{ Component, route }">
+            <transition
+              :name="getTransitionName(route)"
+              mode="out-in"
+              appear
+            >
+              <component :is="Component" :key="route.path" />
+            </transition>
+          </router-view>
         </div>
       </main>
 
@@ -15,7 +23,15 @@
 
     <!-- 无导航栏的页面布局（如学习页面） -->
     <div v-else class="w-full h-screen">
-      <router-view />
+      <router-view v-slot="{ Component, route }">
+        <transition
+          :name="getTransitionName(route)"
+          mode="out-in"
+          appear
+        >
+          <component :is="Component" :key="route.path" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
@@ -33,6 +49,12 @@ const route = useRoute()
 const hideNavigation = computed(() => {
   return route.meta?.hideNavigation || false
 })
+
+// 获取过渡动画名称
+const getTransitionName = (route) => {
+  // 所有页面都使用简单的淡入淡出效果
+  return 'fade'
+}
 
 // 深色模式状态管理
 const isDark = useDark({
@@ -62,5 +84,16 @@ onMounted(() => {
   #app {
     font-size: 14px;
   }
+}
+
+/* 页面过渡动画 - 简单的淡入淡出效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
