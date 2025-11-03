@@ -12,7 +12,8 @@ const STORAGE_KEYS = {
   DAILY_GOAL: 'learn_word_daily_goal',
   SELECTED_COURSE: 'learn_word_selected_course',
   STUDY_TIME: 'learn_word_study_time',
-  DARK_MODE: 'learn_word_dark_mode'
+  DARK_MODE: 'learn_word_dark_mode',
+  STUDY_SESSION: 'learn_word_study_session'
 }
 
 // 获取默认设置
@@ -433,6 +434,21 @@ export function importData(data) {
       imported: [],
       errors: [error.message]
     }
+  }
+}
+
+/**
+ * 清理学习会话数据（用于退出学习时不保存进度）
+ * @returns {boolean} 是否成功清理
+ */
+export function clearStudySession() {
+  try {
+    localStorage.removeItem(STORAGE_KEYS.STUDY_SESSION)
+    console.log('学习会话数据已清理')
+    return true
+  } catch (error) {
+    console.error('清理学习会话失败:', error)
+    return false
   }
 }
 

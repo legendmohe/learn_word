@@ -184,8 +184,24 @@ import {
   ANIMATION
 } from '../config/constants'
 
+// Props
+const props = defineProps({
+  courseId: {
+    type: String,
+    default: null
+  },
+  autoStart: {
+    type: Boolean,
+    default: false
+  },
+  showWelcome: {
+    type: Boolean,
+    default: false
+  }
+})
+
 // 定义事件
-const emit = defineEmits(['completed', 'study-status-changed'])
+const emit = defineEmits(['completed', 'study-status-changed', 'progress-update'])
 
 // 注册组件
 const components = {
@@ -987,7 +1003,20 @@ onMounted(() => {
   // 尝试恢复之前的学习会话
   restoreStudySession()
 
-  })
+  // 检查是否需要自动开始学习
+  if (props.autoStart && studyStatus.value === 'ready') {
+    console.log('🚀 [TodayStudy] 自动开始学习')
+    // 延迟一下，让页面先渲染完成
+    setTimeout(() => {
+      proceedToStudy()
+    }, 500)
+  }
+
+  // 检查是否需要显示欢迎引导
+  if (props.showWelcome) {
+    showWelcomeGuide.value = true
+  }
+})
 
 // 组件卸载时保存学习时长和当前学习状态
 onUnmounted(() => {
