@@ -13,7 +13,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Styling**: Tailwind CSS
 - **Dark Mode**: VueUse/useDark
 - **Icons**: SVG icons embedded in components
+- **Audio**: Web Speech API with dedicated audio service
+- **Dialog System**: Custom dialog management with AppDialog and DialogManager
+- **Composables**: Vue 3 composables for reusable logic (useDialog)
 - **Storage**: LocalStorage for data persistence
+- **Data Structure**: JSON-based course and settings management
 - **Deployment**: Static web hosting ready
 
 ## Development Setup
@@ -43,15 +47,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 src/
 ├── components/           # Vue components
+│   ├── common/                  # Shared components
+│   │   ├── AppDialog.vue       # Reusable dialog component
+│   │   ├── DialogManager.vue   # Multi-dialog management
+│   │   └── WordCard.vue        # Word display card with audio
 │   ├── BottomNavigation.vue    # Main navigation
 │   ├── Courses.vue             # Course management
 │   ├── CourseSelection.vue     # Course picker
 │   ├── LetterInputPanel.vue    # Keyboard input for spelling
+│   ├── LetterInputPanelV2.vue  # Enhanced keyboard input
+│   ├── ListenStep.vue          # Listening comprehension step
+│   ├── PhonicsStep.vue         # Phonics learning step
 │   ├── Profile.vue             # User profile and settings
+│   ├── RecordStep.vue          # Recording practice step
+│   ├── SpellingStep.vue        # Spelling practice step
+│   ├── StepIndicator.vue       # Learning progress indicator
+│   ├── TestStep.vue            # Testing step
 │   ├── TodayStudy.vue          # Main learning interface
 │   ├── WelcomeGuide.vue        # First-time user guide
 │   └── WordList.vue            # Error/Learned words lists
+├── composables/        # Vue composables
+│   └── useDialog.js           # Dialog management composable
+├── data/                # Static data files
+│   ├── app_settings.json      # Application settings
+│   └── courses_data.json      # Course vocabulary data
+├── examples/            # Example code
+│   └── dialog-examples.js     # Dialog usage examples
 ├── utils/               # Utility functions
+│   ├── audioService.js        # Audio playback service
+│   ├── coursesParser.js       # Course data parsing
 │   └── studyData.js           # Data management and persistence
 ├── views/               # Page components
 │   └── Home.vue                # Main application container
@@ -63,14 +87,21 @@ src/
 ## Key Features
 
 ### Learning System
+- **Multi-Step Learning**: Comprehensive 5-step learning process for each word
+  - **Listen Step**: Audio comprehension and pronunciation practice
+  - **Phonics Step**: Phonetic breakdown and sound patterns
+  - **Spelling Step**: Interactive spelling with smart keyboard
+  - **Test Step**: Knowledge assessment and recall testing
+  - **Record Step**: Voice recording and comparison practice
 - **Daily Goals**: Configurable daily word targets with progress tracking
 - **Smart Keyboard Layout**: Adaptive letter input based on assist mode setting
   - Assist mode: Shows only word letters in random positions
   - Normal mode: Word letters + extra干扰 letters, fully randomized
-- **Audio Pronunciation**: Built-in speech synthesis for English word pronunciation
-- **Interactive Spelling**: Touch-friendly keyboard with visual feedback
+- **Audio Pronunciation**: Built-in speech synthesis for English word pronunciation with dedicated audio service
+- **Interactive Spelling**: Touch-friendly keyboard with visual feedback and phoneme highlighting
 - **Motivational Design**: Encouraging confirmation dialogs with random motivational quotes
 - **Course Management**: Dynamic course selection with search and progress tracking
+- **Step Progress Indicators**: Visual feedback showing learning progress for each word
 
 ### User Interface
 - **Mobile-First Design**: Optimized for touch devices with proper spacing
@@ -95,15 +126,28 @@ src/
 ## Architecture Notes
 
 ### Component Hierarchy
-- **App.vue**: Main layout with navigation and content area
+- **App.vue**: Main layout with navigation and DialogManager
 - **Home.vue**: Tab-based content management (today/courses/profile)
-- **TodayStudy.vue**: Learning interface with multiple states (ready/studying/completed)
+- **TodayStudy.vue**: Learning interface with multi-step workflow
+  - **StepIndicator.vue**: Progress indicator for learning steps
+  - **ListenStep.vue**: Audio comprehension practice
+  - **PhonicsStep.vue**: Phonetic learning with WordCard
+  - **SpellingStep.vue**: Interactive spelling with LetterInputPanel
+  - **TestStep.vue**: Knowledge assessment
+  - **RecordStep.vue**: Voice recording practice
 - **Profile.vue**: User settings with sub-navigation and modal flows
+- **Common Components**:
+  - **AppDialog.vue**: Reusable dialog with multiple types (info/warning/error)
+  - **WordCard.vue**: Word display with phoneme highlighting and audio
+  - **DialogManager.vue**: Multi-dialog state management
 
 ### State Management
 - **Local State**: Vue 3 Composition API for component state
 - **Global Events**: Custom events for cross-component communication
+- **Dialog System**: Centralized dialog management with useDialog composable
+- **Audio Service**: Dedicated service for speech synthesis and audio playback
 - **Persistent Storage**: localStorage utilities in `studyData.js`
+- **Data Management**: JSON-based course data parsing and settings management
 
 ### Styling Strategy
 - **Tailwind CSS**: Utility-first CSS framework
@@ -112,6 +156,19 @@ src/
 - **Custom Animations**: CSS keyframes for smooth interactions
 
 ## Recent Development Focus
+
+### Multi-Step Learning System
+- **5-Step Learning Workflow**: Complete learning process with Listen, Phonics, Spelling, Test, and Record steps
+- **Step Indicator Component**: Visual progress tracking through learning stages
+- **Enhanced WordCard**: Phoneme highlighting, audio integration, and responsive sizing
+- **Specialized Step Components**: Dedicated components for each learning modality
+- **Audio Service Integration**: Centralized audio playback with Web Speech API
+
+### Dialog Management System
+- **AppDialog Component**: Reusable dialog with multiple types (info/warning/error)
+- **DialogManager**: Multi-dialog state management to prevent conflicts
+- **useDialog Composable**: Simplified dialog usage with one-line API calls
+- **Dialog Examples**: Comprehensive usage patterns and best practices
 
 ### UI/UX Improvements
 - **Optimized letter input panel**: Smart keyboard layout based on assist mode
@@ -157,6 +214,9 @@ src/
 - **Keyboard Layout**: Dynamic keyboard generation based on assist mode and word length
 - **Audio Features**: Web Speech API integration with proper browser compatibility checks
 - **Centering Issues**: Use grid layout (`grid place-items-center`) for perfect content centering
+- **Dialog Conflicts**: Use DialogManager for multiple dialogs to avoid key conflicts
+- **Step Navigation**: Use proper step state management in multi-step learning flows
+- **Component Naming**: Maintain clear distinction between step components (ListenStep, PhonicsStep, etc.)
 
 ## Deployment Notes
 
