@@ -164,3 +164,4 @@ src/
 - **Build Output**: Dist folder contains optimized static assets
 - **PWA Ready**: Can be enhanced with service worker for offline usage
 - 不用每次修改完都检查开发服务器状态了，有编译问题我会提示你。
+- 命名变量、方法等要素的时候，要注意当前元素在上下文的区分度，避免命名冲突。
