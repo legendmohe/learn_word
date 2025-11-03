@@ -67,6 +67,19 @@
           </div>
         </div>
 
+        <!-- 激励语句 -->
+        <div class="text-center mt-6 px-4">
+          <div class="glass-effect rounded-xl p-4 inline-block max-w-sm">
+            <div class="flex items-center justify-center gap-2 mb-2">
+              <span class="text-2xl">💡</span>
+              <span class="text-lg font-medium text-gray-700 dark:text-gray-300">今日激励</span>
+            </div>
+            <p class="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+              {{ todayMotivation }}
+            </p>
+          </div>
+        </div>
+
         <!-- 开始学习按钮 -->
         <div class="text-center mt-6">
           <button
@@ -141,6 +154,35 @@ const todayProgress = ref({})
 
 // 学习状态
 const isStudying = ref(false)
+
+// 今日激励语句
+const todayMotivation = computed(() => {
+  const hour = new Date().getHours()
+  let timeGreeting = ''
+
+  if (hour < 6) {
+    timeGreeting = '夜深了，还在坚持学习，真了不起！'
+  } else if (hour < 9) {
+    timeGreeting = '早晨好！一日之计在于晨，开始今天的英语学习吧！'
+  } else if (hour < 12) {
+    timeGreeting = '上午好！抓住黄金学习时间，让英语进步看得见！'
+  } else if (hour < 14) {
+    timeGreeting = '中午好！午休时间学几个单词，充实大脑能量！'
+  } else if (hour < 17) {
+    timeGreeting = '下午好！保持学习状态，每天进步一点点！'
+  } else if (hour < 19) {
+    timeGreeting = '傍晚好！下班放学别忘记，英语学习要坚持！'
+  } else if (hour < 22) {
+    timeGreeting = '晚上好！睡前学英语，记忆效果特别好！'
+  } else {
+    timeGreeting = '夜深了，还在努力学习，你真的很棒！'
+  }
+
+  // 添加一个随机激励语句
+  const randomQuote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)]
+
+  return `${timeGreeting} ${randomQuote}`
+})
 
 // 计算属性
 const dailyGoal = computed(() => {
@@ -220,15 +262,15 @@ const startLearning = async () => {
 
 // 获取开始学习对话框的消息
 const getStartStudyMessage = () => {
-  return `今天的努力是明天成功的基础！<br>
-让我们一起坚持，每一个单词都是进步！<br><br>
+  return `
+今日需要学习 <strong>${dailyGoal.value}</strong> 个单词，准备好挑战了吗？
+<br>
 <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); border-radius: 8px; padding: 12px; margin: 8px 0;">
   <div style="font-size: 14px; font-weight: 500; color: #3b82f6;">
     💪 ${getMotivationalQuote()}
   </div>
 </div>
-<br>
-今日需要学习 <strong>${dailyGoal.value}</strong> 个单词，准备好挑战了吗？`
+`
 }
 
 // 确认开始学习
